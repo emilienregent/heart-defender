@@ -82,38 +82,40 @@ function Game()
 	 **/
 	this.animatePlayer = function() {
 
+		var p = this.player;
+
 		// bas
 		if (input.keyboard.down) {
-			this.player.y += this.player.speed;
-			this.player.sprite.animation.sy = 64 * 2;
-			this.player.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
+			if (p.y + p.h + p.speed < HEIGHT) p.y += p.speed;
+			p.sprite.animation.sy = 64 * 2;
+			p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 		}
 
 		// haut
 		if (input.keyboard.up) {
-			this.player.y -= this.player.speed;
-			this.player.sprite.animation.sy = 0;
-			this.player.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
+			if (p.y - p.speed > 0) p.y -= p.speed;
+			p.sprite.animation.sy = 0;
+			p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 		}
 
 		// gauche
 		if (input.keyboard.left) {
-			this.player.x -= this.player.speed;
-			this.player.sprite.animation.sy = 64 * 3;
-			this.player.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
+			if (p.x - p.speed > 0 ) p.x -= p.speed;
+			p.sprite.animation.sy = 64 * 3;
+			p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 		}
 
 		// droite
 		if (input.keyboard.right) {
-			this.player.x += this.player.speed;
-			this.player.sprite.animation.sy = 64;
-			this.player.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
+			if (p.x + p.w + p.speed < WIDTH) p.x += p.speed;
+			p.sprite.animation.sy = 64;
+			p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 		}
 
 		// Si aucune touche directionnelle n'est activée, la position 'sx' du sprite joueur passe au centre (position arrêt : 48) et on pause l'animation
 		if (!input.keyboard.left && !input.keyboard.up && !input.keyboard.right && !input.keyboard.down) {
-			this.player.sprite.animation.sx = 48;
-			this.player.sprite.pauseAnimation = true;
+			p.sprite.animation.sx = 48;
+			p.sprite.pauseAnimation = true;
 		}
 
 	};
