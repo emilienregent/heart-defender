@@ -13,9 +13,10 @@ function Game()
 	 * Initialization
 	 **/
 
-	this.init = function() {
+	this.init = function() 
+	{
 
-		
+		console.log( "Coucou" );
 
 	};
 	
