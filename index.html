@@ -14,6 +14,7 @@
 	<script src="js/functions.js"></script>
 	<script src="js/Input.js"></script>
 	<script src="lib/ImageInGame/IIG.min.js"></script><!-- DOCUMENTATION : https://github.com/jmpp/ImageInGame.js -->
+	<script src="js/MusicLoader.js"></script>
 	<script src="js/Game.js"></script>
 
 </head>
@@ -35,11 +36,15 @@
 			input, // Input instance
 			game, // instance of Game
 			currentGameObject, // instance of a GameObject
-			IM; // Image Manager instance
-
+			IM, // Image Manager instance
+			soundLoader, // Sound Loader instance
+			isLoadedImages; 
+			
 		canvas = $$('canvas');
 		ctx = canvas.getContext('2d');
 
+		isLoadedImages = false;
+		
 		// Uniquement si le canvas doit faire la taille de l'écran !
 		/*WIDTH = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 		HEIGHT = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;*/
@@ -48,6 +53,24 @@
 		WIDTH = 1024;
 		HEIGHT = 600;
 
+		//demarrage du jeu
+		startGame = function()
+		{
+			currentGameObject.init();
+			
+			//launch heartbeat
+			var heartSlow = soundLoader.cachedSounds[ "heart_slow" ],
+				heartFast = soundLoader.cachedSounds[ "heart_fast" ];
+			
+			heartSlow.loop = true;
+			heartFast.loop = true;
+			
+		//	heartSlow.play();
+			heartFast.play();
+			
+			run();
+		}
+		
 		/****************** GAME LOOP *******************/
 		run = function() {
 			
@@ -71,7 +94,12 @@
         });
 		game = new Game();
 		IM = new IIG.ImageManager();
-
+	
+		var path = { img : "img/", sound : "sound/" };
+		soundLoader = new Loader( { w : canvas.width, h : canvas.height }, path, ctx, startGame );
+	
+		soundLoader.loadAssets();
+	
         // Ajout des sprites du jeu qui doivent être chargés
         IM.add('img/bob.png');
         IM.add('img/target.png');
@@ -80,8 +108,7 @@
 
 		// Sprites loaded ! Lancement du jeu !
 		IM.loadAll(function() {
-			currentGameObject.init();
-			run();
+			isLoadedImages = true;
 		});
 
 	</script>
