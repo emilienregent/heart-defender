@@ -97,20 +97,20 @@ function Input(options)
 
 		document.addEventListener('keydown', function(evt) {
 
-			that.keyboard.up 	= evt.keyCode == 38 ? 1 : that.keyboard.up;
-			that.keyboard.right = evt.keyCode == 39 ? 1 : that.keyboard.right;
-			that.keyboard.down 	= evt.keyCode == 40 ? 1 : that.keyboard.down;
-			that.keyboard.left 	= evt.keyCode == 37 ? 1 : that.keyboard.left;
+			that.keyboard.up 	= evt.keyCode == 38 || evt.keyCode == 90 || evt.keyCode == 87 ? 1 : that.keyboard.up;
+			that.keyboard.right = evt.keyCode == 39 || evt.keyCode == 68 ? 1 : that.keyboard.right;
+			that.keyboard.down 	= evt.keyCode == 40 || evt.keyCode == 83 ? 1 : that.keyboard.down;
+			that.keyboard.left 	= evt.keyCode == 37 || evt.keyCode == 81 || evt.keyCode == 65 ? 1 : that.keyboard.left;
 			that.keyboard.space = evt.keyCode == 32 ? 1 : that.keyboard.space;
 
 		}, false);
 
 		document.addEventListener('keyup', function(evt) {
 
-			that.keyboard.up 	= evt.keyCode == 38 ? 0 : that.keyboard.up;
-			that.keyboard.right = evt.keyCode == 39 ? 0 : that.keyboard.right;
-			that.keyboard.down 	= evt.keyCode == 40 ? 0 : that.keyboard.down;
-			that.keyboard.left 	= evt.keyCode == 37 ? 0 : that.keyboard.left;
+			that.keyboard.up 	= evt.keyCode == 38 || evt.keyCode == 90 || evt.keyCode == 87 ? 0 : that.keyboard.up;
+			that.keyboard.right = evt.keyCode == 39 || evt.keyCode == 68 ? 0 : that.keyboard.right;
+			that.keyboard.down 	= evt.keyCode == 40 || evt.keyCode == 83 ? 0 : that.keyboard.down;
+			that.keyboard.left 	= evt.keyCode == 37 || evt.keyCode == 81 || evt.keyCode == 65  ? 0 : that.keyboard.left;
 			that.keyboard.space = evt.keyCode == 32 ? 0 : that.keyboard.space;
 
 		}, false);
