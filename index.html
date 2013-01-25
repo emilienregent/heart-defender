@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+
+	<title>Heart Defender</title>
+
+	<script src="js/functions.js"></script>
+	<script src="js/Input.js"></script>
+	<script src="lib/ImageInGame/IIG.min.js"></script><!-- DOCUMENTATION : https://github.com/jmpp/ImageInGame.js -->
+	<script src="js/Game.js"></script>
+
+</head>
+<body role="main">
+
+	<canvas width="800" height="600"></canvas>
+
+	<script>
+
+		/**
+		 * Global vars
+		 **/
+
+		var canvas, // Canvas
+			ctx, // 2D context
+			run, // Game Loop
+			WIDTH, // Game area Width
+			HEIGHT, // Game area Height
+			input, // Input instance
+			game, // instance of Game
+			currentGameObject, // instance of a GameObject
+			IM; // Image Manager instance
+
+		canvas = $$('canvas');
+		ctx = canvas.getContext('2d');
+
+		// Uniquement si le canvas doit faire la taille de l'écran !
+		/*WIDTH = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+		HEIGHT = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;*/
+		
+		// Uniquement si le canvas a une taille fixe
+		WIDTH = 800;
+		HEIGHT = 600;
+
+		/****************** GAME LOOP *******************/
+		run = function() {
+			
+			// Sprites update
+			IM.update();
+
+			// Main game object update
+			currentGameObject.update();
+
+			// Reset single mouse click
+			input.mouse.click = false;
+
+			requestAnimationFrame(run);
+
+		};
+		/*************** ENDING GAME LOOP ***************/
+		
+		// INSTANCES
+		input = new Input();
+		game = new Game();
+		IM = new IIG.ImageManager();
+
+		currentGameObject = game;
+
+		// Sprites loaded ! Lancement du jeu !
+		IM.loadAll(function() {
+			currentGameObject.init();
+			run();
+		});
+
+	</script>
+
+</body>
+</html>
