@@ -108,18 +108,36 @@
 			currentGameObject.init();
 			
 			//launch heartbeat
-			var heartSlow = soundLoader.cachedSounds[ "heart_slow2" ],
-				heartFast = soundLoader.cachedSounds[ "heart_fast" ];
-			var theme = soundLoader.cachedSounds[ "theme" ];
+			var heartSlow  = soundLoader.cachedSounds[ "heart_slow2" ],
+				heartFast  = soundLoader.cachedSounds[ "heart_fast2" ],
+				heartShock = soundLoader.cachedSounds[ "heart_shock" ];
+			var theme = soundLoader.cachedSounds[ "theme" ],
+				title = soundLoader.cachedSounds[ "title" ];			
+			var powerup = soundLoader.cachedSounds[ "powerup" ],
+				destroy = soundLoader.cachedSounds[ "destroy" ],
+				damage  = soundLoader.cachedSounds[ "damage" ];
+				
+			heartSlow.loop  = true;
+			heartFast.loop  = true;
+			heartShock.loop = true;
+		//	damage.loop     = true;
 			
-			heartSlow.loop = true;
-			heartFast.loop = true;
+			powerup.loop = true;
+			destroy.loop = true;
+			
 			theme.loop     = true;
+			title.loop     = true;
+		
 			theme.volume   = 0.8;
-			
+		
+		//	damage.play();
+		//	destroy.play();
+		//	powerup.play();
 		//	heartSlow.play();
 		//	heartFast.play();
 		//	theme.play();
+		//	title.play();
+		//	heartShock.play();
 			
 			run();
 		}
