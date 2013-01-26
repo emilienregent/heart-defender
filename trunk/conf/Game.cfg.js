@@ -59,17 +59,17 @@ var GameConf =
 	},
 	bonus : {
 		bonus_1 : {
-			drop_rate : 0.3,
+			drop_rate : 0.1,
 			color: 'rgba(255,255,0,1)',
 			effect : 'arrow'
 		},
 		bonus_2 : {
-			drop_rate : 0.1,
+			drop_rate : 0.05,
 			color: 'rgba(0,0,255,1)',
 			effect : 'explosion'
 		},
 		bonus_3 : {
-			drop_rate : 0.2,
+			drop_rate : 0.05,
 			color: 'rgba(0,255,0,1)',
 			effect : 'lightning'
 		}
