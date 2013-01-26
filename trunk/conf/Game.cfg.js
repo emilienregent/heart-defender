@@ -23,7 +23,7 @@ var GameConf =
 		GAMEOVER_DISPLAY : '<h2>Game Over</h2>'+
 							'<h3>Darkness overkill you !</h3>'+
 							'<p>Your score is %SCORE%.</p>'+
-							'<button onclick="restartGame()">Try to defeat darkness ... again</button>'
+							'<button onclick="restartGame()">Try to defeat darkness ... again</button>',
 		RADIUS : 225	/*Taille du cercle de lumière*/
 	},
 	heart : {
