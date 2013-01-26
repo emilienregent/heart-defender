@@ -26,6 +26,9 @@ function Game()
 
 	// Manager de projectiles
 	this.MProjectile = null;
+
+	// Manager de coeurs
+	this.MHeart = new Heart(this);
 	
 
 
@@ -90,6 +93,8 @@ function Game()
 		this.animateShadow();
 		// On anime la target
 		this.animateTarget();
+		// On anime les ennemis
+		this.MHeart.animate();
 
 		// Ecouteur pour créer un tir ?
 		this.listenProjectiles();
@@ -147,6 +152,8 @@ function Game()
 
 		ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
+		// On affiche les coeurs
+		this.MHeart.render();
 		// On affiche le joueur
 		this.player.render();
 		// On affiche les ennemis
@@ -187,6 +194,12 @@ function Game()
 			this.MEnemy.enemies.length < GameConf.arena.MAX_ENEMY) 
 		{
 			this.generateEnemies();
+		}
+
+		if(interval(this.MHeart.lastPop, GameConf.heart.SPAWN_TIME) === true &&
+			this.MHeart.hearts.length < GameConf.heart.MAX) 
+		{
+			this.MHeart.generate();
 		}
 
 		this.animate();

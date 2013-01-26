@@ -122,4 +122,57 @@ function Player(parentObj)
 		IM.killInstance(this.sprite);
 		this.parentObj.gameover();
 	};
+
+	/**
+	 * Donne le coin le plus proche du joueur selon le découpage choisi (grille de 3x3, grille de 2x2, etc)
+	 **/
+
+	 this.localize = function() {
+	 	// Colonne 
+	 	var cell = {
+	 		w : Math.round(WIDTH/3),
+	 		h : Math.round(HEIGHT/3)
+	 	};
+	 	var h_align = '';
+	 	var v_align = '';
+
+	 	var c = 1;
+	 	while (this.x > (cell.w * c) && this.x < WIDTH)
+	 		c++;
+
+	 	switch (c) {
+	 		case 1 : 	h_align = 'Left';
+	 					break;
+
+	 		case 2 : 	h_align = 'Center';
+	 					break;
+
+	 		case 3 : 	h_align = 'Right';
+	 					break;
+
+	 		default : 	h_align = 'Undefined';
+	 	}
+
+	 	var r = 1;
+	 	while (this.y > (cell.h * r) && this.y < HEIGHT)
+	 		r++;
+
+	 	switch (r) {
+	 		case 1 : 	v_align = 'Top';
+	 					break;
+
+	 		case 2 : 	v_align = 'Middle';
+	 					break;
+
+	 		case 3 : 	v_align = 'Bottom';
+	 					break;
+
+	 		default : 	v_align = 'Undefined';
+	 	}
+
+
+
+	 	return v_align+h_align;
+	 }
+
 }
