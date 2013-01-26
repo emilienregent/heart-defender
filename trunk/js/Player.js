@@ -9,7 +9,7 @@ function Player(parentObj)
 	this.y = 300 - (64/2);
 	this.w = 48;
 	this.h = 64;
-	this.speed = 3;
+	this.speed = 1.5;
 	this.projectileType = 'explosion'; // ('fleche', ...)
 	this.parentObj = parentObj;
 	this.life = GameConf.player.LIFE;
@@ -95,8 +95,8 @@ function Player(parentObj)
 		ctx.closePath();*/
 		IM.drawImage(ctx, this.sprite, this.x, this.y);
 
-		ctx.shadowColor = '';
-		ctx.shadowBlur = 0;
+		/*ctx.shadowColor = '';
+		ctx.shadowBlur = 0;*/
 
 	};
 
@@ -120,7 +120,7 @@ function Player(parentObj)
 	 **/
 	this.damage = function() {
 		if(--this.life <= 0) {
-			this.kill();
+			//this.kill();
 		}
 		this.display();
 	};
