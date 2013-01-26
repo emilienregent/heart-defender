@@ -56,6 +56,8 @@ function distance(a, b){
 // Detect collision between two objects 'a' and 'b'
 // Assuming both 'a' and 'b' have x/y/w/h properties
 function collide(a, b) {
+	if (a == undefined || b == undefined)
+		return false;
 	var acp = a.collidePadding || 0,
 		bcp = b.collidePadding || 0;
 	return !(b.x + bcp >= a.x + a.w - acp // Trop à droite

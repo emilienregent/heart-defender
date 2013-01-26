@@ -14,6 +14,7 @@ function Player(parentObj)
 	this.parentObj = parentObj;
 	this.life = GameConf.player.LIFE;
 	this.score = 0;
+	this.weapon = 'Boule de feu';
 
 	/**
 	 * Initialization
@@ -158,6 +159,13 @@ function Player(parentObj)
 	this.addLife = function() {
 		this.life++;
 		this.display();
+	}
+
+	/**
+	 * Modifie l'arme du joueur
+	 **/
+	this.changeWeapon = function(weapon) {
+		this.weapon = weapon;
 	}
 
 	/**
