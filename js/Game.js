@@ -11,6 +11,13 @@ function Game()
 	// Joueur principal
 	this.player = new Player(this);
 
+	// Ombre d'obscurité très dark sidious stress panic mode
+	this.shadow = {
+		sprite : null,
+		x : 0,
+		y : 0
+	};
+
 	// Tableau d'ennemis
 	this.ennemies = [];
 	this.lastPopEnemy = +new Date();
@@ -45,6 +52,11 @@ function Game()
 		this.sprites['img/target'] = IM.getInstance('img/target');
 		this.cible.sprite = this.sprites['img/target'];
 
+		// ====== SHADOW ======
+		// On stocke une instance unique de la shadow dans le tableau qui référence toutes les instances de sprites du jeu
+		this.sprites['img/shadow'] = IM.getInstance('img/shadow');
+		this.shadow.sprite = this.sprites['img/shadow'];
+
 	};
 	
 	/**
@@ -58,14 +70,17 @@ function Game()
 
 		// On anime le joueur
 		this.player.animate();
+		// On anime la shadow en synchronisation avec les positions du joueur
+		this.animateShadow();
 		// On anime la target
 		this.animateTarget();
 		// Ecouteur pour créer un tir ?
 		this.listenProjectiles();
+		// Animation des projectiles
 		this.projectile.animate();
 
 		// On anime les ennemis
-		for(var i = 0, c = this.ennemies.length; i < c; i++) {
+		for (var i = 0, c = this.ennemies.length; i < c; i++) {
 			this.ennemies[i].animate();
 		}
 
@@ -96,7 +111,17 @@ function Game()
 		this.cible.x = input.mouse.x - (this.cible.w/2);
 		this.cible.y = input.mouse.y - (this.cible.h/2);
 
-	}
+	};
+
+	/**
+	 * Fonction qui anime la shadow en synchronisation avec les positions du joueur
+	 **/
+	this.animateShadow = function() {
+
+		this.shadow.x = (this.player.x + this.player.w/2) - this.shadow.sprite.width/2;
+		this.shadow.y = (this.player.y + this.player.h/2) - this.shadow.sprite.height/2;
+
+	};
 
 	/**
 	 * Drawing Methods
@@ -108,12 +133,14 @@ function Game()
 
 		this.player.render();
 		this.projectile.render();
-		this.renderTarget();
 
 		// On anime les ennemis
 		for(var i = 0, c = this.ennemies.length; i < c; i++) {
 			this.ennemies[i].render();
 		}
+
+		this.renderShadow();
+		this.renderTarget();
 
 	};
 
@@ -125,6 +152,12 @@ function Game()
 	this.renderTarget = function() {
 
 		ctx.drawImage(this.cible.sprite.data, this.cible.x, this.cible.y);
+
+	};
+
+	this.renderShadow = function() {
+
+		ctx.drawImage(this.shadow.sprite.data, this.shadow.x, this.shadow.y);
 
 	};
 
