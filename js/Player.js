@@ -22,8 +22,8 @@ function Player(parentObj)
 	this.init = function() 
 	{
 		// On stocke une instance unique du joueur dans le tableau qui référence toutes les instances de sprites du jeu
-		this.parentObj.sprites['img/bob'] = IM.getInstance('img/bob');
-		this.sprite = this.parentObj.sprites['img/bob'];
+		this.parentObj.sprites['img/player'] = IM.getInstance('img/player');
+		this.sprite = this.parentObj.sprites['img/player'];
 		this.sprite.animation = new IIG.Animation({
 			sWidth : 48,
 			sHeight : 64,
@@ -86,7 +86,18 @@ function Player(parentObj)
 	 **/
 	this.render = function() {
 
+		/*ctx.fillStyle = 'white';
+		ctx.shadowColor = 'white';
+		ctx.shadowBlur = 20;
+		ctx.beginPath();
+		ctx.arc(this.x + this.w/2, this.y + this.h/2, 5, 0, Math.PI*2, true);
+		ctx.fill();
+		ctx.closePath();*/
 		IM.drawImage(ctx, this.sprite, this.x, this.y);
+
+		ctx.shadowColor = '';
+		ctx.shadowBlur = 0;
+
 	};
 
 	/**

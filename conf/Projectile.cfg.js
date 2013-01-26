@@ -9,7 +9,7 @@ var ProjectileConf = {
 	},
 	Explosion : {
 		speed :7,
-		maxDistance : 250,
+		maxDistance : 1024,
 		width : 77,
 		height : 79//,
 		//collidePadding : 1
