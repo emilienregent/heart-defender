@@ -71,7 +71,7 @@ function Projectile(parentObj)
 					sy : 0,
 					sWidth : 57,
 					sHeight : 130,
-					animByFrame : 9,
+					animByFrame : 5,
 					alternate : false
 				});
 				break;
@@ -136,7 +136,7 @@ function Projectile(parentObj)
 				if (collide(pTemp, e)) {
 
 					// Ajout d'une tâche de sang à l'endroit de la collision (pke c gorre, mdrrr)
-					this.parentObj.MTache.add(e.x, e.y);
+					this.parentObj.MTache.add(e);
 
 					if(p.category !== "toTarget") {
 						if (this.kill( i )) --c;

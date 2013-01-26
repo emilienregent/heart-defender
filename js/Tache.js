@@ -17,22 +17,39 @@ function Tache(parentObj)
 	/**
 	 * Fonction qui ajoute une tache dans la liste
 	 **/
-	this.add = function(x, y) {
+	this.add = function(target) {
 
-		var spriteNames = ['img/blood', 'img/blood2'],
-			chosenSprite = spriteNames.pickup(),
+		var spriteNames = [];
+
+		if(target instanceof Player) {
+			spriteNames = ['img/blood-player', 'img/blood-player2'];
+		} else {
+			spriteNames = ['img/blood', 'img/blood2'];
+		}
+
+		var chosenSprite = spriteNames.pickup(),
 			conf = TacheConf[chosenSprite],
 			sprite;
 
 		sprite = IM.getInstance(chosenSprite);
 		sprite.animation = new IIG.Animation(conf.animation);
 
+		var x = target.x;
+		var y = target.y;
+		if(chosenSprite === 'img/blood2') {
+			x -= sprite.animation.sWidth/2;
+			y -= sprite.animation.sHeight/2;
+		} else if(target instanceof Player) {
+			x += target.w/2;
+		}
+
 		this.taches.push({
 			sprite : sprite,
 			x : x,
 			y : y,
 			w : conf.width,
-			h : conf.height
+			h : conf.height,
+			tar : target
 		});
 
 	};
@@ -44,6 +61,11 @@ function Tache(parentObj)
 
 		for (var i = 0, c = this.taches.length; i < c; i++) {
 			var t = this.taches[i];
+
+			if(typeof t.tar !== "undefined" && t.tar instanceof Player) {
+				t.x = t.tar.x + t.tar.w /2;
+				t.y = t.tar.y;
+			}
 
 			if (t.sprite.animation.sx >= t.sprite.width - t.sprite.animation.sWidth)
 				if (this.kill( i ))
