@@ -109,8 +109,8 @@ function Game()
 
 	this.listenProjectiles = function() {
 
-		//this.player.projectileType = ['fleche', 'explosion'].pickup();
-		this.player.projectileType = 'explosion';
+		this.player.projectileType = ['fleche', 'explosion'].pickup();
+		// this.player.projectileType = 'explosion';
 
 		if (input.mouse.click) {
 			// On créé un nouveau projectile aux coordonnées x, y du player, et en direction de x, y de la souris lorsqu'on a cliqué
@@ -197,7 +197,7 @@ function Game()
 
 	this.update = function() {
 
-		if(interval(this.MEnemy.lastPopEnemy, GameConf.arena.SPAWN_TIME) === true && 
+		if(interval(this.MEnemy.lastPop, GameConf.arena.SPAWN_TIME) === true && 
 			this.MEnemy.enemies.length < GameConf.arena.MAX_ENEMY) 
 		{
 			this.generateEnemies();
@@ -252,7 +252,7 @@ function Game()
 		}
 
 		this.MEnemy.add(spawn);
-		this.MEnemy.lastPopEnemy = +new Date();
+		this.MEnemy.lastPop = +new Date();
 
 	}
 
