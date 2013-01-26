@@ -52,8 +52,8 @@ var GameConf =
 	heart : {
 		SPAWN_TIME : 2, /*Délai de génération du bonus*/
 		MAX : 1, /*Nombre maximum de bonus*/
-		WIDTH : 28, /*Largeur du bonus*/
-		HEIGHT : 28, /*Hauteur du bonus*/
+		WIDTH : 48, /*Largeur du bonus*/
+		HEIGHT : 48, /*Hauteur du bonus*/
 		HEALTH : 10, /*Santé du bonus*/
 		LIFE_TIME : 20 /*Durée de vie du bonus*/
 	},

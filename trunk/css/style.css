@@ -25,6 +25,8 @@ body, html {
 }
 #gameArea > #gameover {
     background-color: transparent;
+    left: 23px;
+    top: 17px;
     z-index: 3;
 }
 

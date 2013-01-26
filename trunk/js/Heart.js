@@ -16,8 +16,8 @@ function Heart(parentObj) {
 		sx : 0,
 		sy : 0,
 		animDirection : 'left2right',
-		alternate : false,
-		animByFrame : 8
+		alternate : true,
+		animByFrame : 6
 	});
 
 	this.parentObj = parentObj;
