@@ -67,15 +67,20 @@ function Game()
 	};
 
 	this.listenProjectiles = function() {
+
+		this.player.projectileType = ['fleche', 'explosion'].pickup();
+
 		if (input.mouse.click) {
 			// On créé un nouveau projectile aux coordonnées x, y du player, et en direction de x, y de la souris lorsqu'on a cliqué
 			this.projectile.add(
+				this.player.projectileType, // indique le type de projectile que le joueur a à cet instant
 				this.player.x + this.player.w/2,
 				this.player.y + this.player.h/2,
 				input.mouse.x,
 				input.mouse.y
 			);
 		}
+
 	};
 
 	/**

@@ -10,6 +10,7 @@ function Player(parentObj)
 	this.w = 48;
 	this.h = 64;
 	this.speed = 3;
+	this.projectileType = 'explosion'; // ('fleche', ...)
 	this.parentObj = parentObj;
 
 	/**
