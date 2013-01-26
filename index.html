@@ -14,9 +14,9 @@
 
         	width: 1024px;
         	height: 600px;
-        	margin: -300px 0 0 -512px;
+        	margin: 0 0 0 -512px;
         	position: absolute;
-        	top: 50%;
+        	top: 30px;
         	left: 50%;
         }
 
@@ -25,6 +25,23 @@
         	50% { background-image: url('img/bg_2.jpg'); }
         	100% { background-image: url('img/bg_3.jpg'); }
         }
+
+        .disable-select {
+		  -webkit-user-select: none;  
+		  -moz-user-select: none;    
+		  -ms-user-select: none;      
+		  user-select: none;
+		}
+
+        #header {
+        	width: 1024px;
+        	height: 30px;
+        	position: absolute;
+        	top: 0;
+        	left: 50%;
+        	margin: 0 0 0 -512px;
+        }
+        #header #life{float:right;}
     </style>
 
 	<script src="js/functions.js"></script>
@@ -44,8 +61,11 @@
 
 </head>
 <body role="main">
-
 	<canvas width="1024" height="600"></canvas>
+	<div id="header" class="disable-select">
+		<div id="score"></div>
+		<div id="life"></div>
+	</div>
 
 	<script>
 
