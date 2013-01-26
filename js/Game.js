@@ -21,6 +21,9 @@ function Game()
 		h : 31
 	};
 
+	// Projectiles
+	this.projectile = new Projectile(this);
+
 	// Ce tableau 'associatif' stockera toutes les instances de sprites
 	this.sprites = [];
 
@@ -55,12 +58,25 @@ function Game()
 		this.player.animate();
 		// On anime la target
 		this.animateTarget();
+		// Ecouteur pour créer un tir ?
+		this.listenProjectiles();
+		this.projectile.animate();
 
-		debug(input.mouse.x + ', ' + input.mouse.y);
+		//debug(input.mouse.x + ', ' + input.mouse.y);
 
 	};
 
-	
+	this.listenProjectiles = function() {
+		if (input.mouse.click) {
+			// On créé un nouveau projectile aux coordonnées x, y du player, et en direction de x, y de la souris lorsqu'on a cliqué
+			this.projectile.add(
+				this.player.x + this.player.w/2,
+				this.player.y + this.player.h/2,
+				input.mouse.x,
+				input.mouse.y
+			);
+		}
+	};
 
 	/**
 	 * Fonction qui gère la position de la cible via la position souris
@@ -81,6 +97,7 @@ function Game()
 		ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
 		this.player.render();
+		this.projectile.render();
 		this.renderTarget();
 
 	};

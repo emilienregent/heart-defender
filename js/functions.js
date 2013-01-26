@@ -49,7 +49,7 @@ function rand(a, b) {
 
 // Détermine la distance entre 2 points
 function distance(a, b, x, y){
-	var distance = Math.sqrt((a-x)*(a-x) + (b-y) * (b-y));
+	var distance = Math.sqrt((a-x)*(a-x) + (b-y)*(b-y));
 	return distance;
 }
 
