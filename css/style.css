@@ -1,0 +1,77 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    color: white;
+    cursor: none;
+}
+
+#gameArea {
+    background: url('../img/bg_mur.png') no-repeat;
+    width: 1070px;
+    height: 634px;
+    margin: 0 0 0 -535px;
+    position: absolute;
+    top: 30px;
+    left: 50%;
+}
+
+#gameArea > canvas#gameCanvas {
+	background: url('../img/bg.jpg');
+    z-index: 1;
+    left: 23px;
+    top: 17px;
+	-webkit-animation: bouger 5s infinite alternate;
+}
+#gameArea > #gameover {
+    background-color: transparent;
+    z-index: 3;
+}
+
+#gameArea > canvas#gameCanvas,
+#gameArea > #gameover {	
+    width: 1024px;
+    height: 600px;
+	position: absolute;
+
+}
+
+@-webkit-keyframes bouger {
+	0% { background-image: url('../img/bg.jpg'); }
+	50% { background-image: url('../img/bg_2.jpg'); }
+	100% { background-image: url('../img/bg_3.jpg'); }
+}
+
+.disable-select {
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}
+
+#header {
+	width: 1024px;
+	height: 30px;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	margin: 0 0 0 -512px;
+}
+#header #life {
+    color: cyan;
+    font: normal 2em/1em SilkscreenNormal;
+    float: right;
+}
+#header #score {
+    color: lime;
+    font: normal 2em/1em SilkscreenNormal;
+    float: left;
+}
+
+#gameover {
+	background: black;
+	display: none;
+    color: red;
+    text-align: center;
+    font: normal 2em/1em SilkscreenNormal;
+}

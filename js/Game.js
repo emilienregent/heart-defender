@@ -111,7 +111,7 @@ function Game()
 	this.listenProjectiles = function() {
 
 		this.player.projectileType = ['fleche', 'explosion'].pickup();
-		// this.player.projectileType = 'explosion';
+		//this.player.projectileType = 'explosion';
 
 		if (input.mouse.click) {
 			// On créé un nouveau projectile aux coordonnées x, y du player, et en direction de x, y de la souris lorsqu'on a cliqué
