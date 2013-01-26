@@ -19,7 +19,7 @@ function Tache(parentObj)
 	 **/
 	this.add = function(x, y) {
 
-		var spriteNames = ['img/blood'],
+		var spriteNames = ['img/blood', 'img/blood2'],
 			chosenSprite = spriteNames.pickup(),
 			conf = TacheConf[chosenSprite],
 			sprite;

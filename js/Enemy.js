@@ -44,7 +44,7 @@ function Enemy(parentObj)
 			y : spawn.y - (64/2),
 			w : 48,
 			h : 64,
-			speed : 3,
+			speed : 1,
 			sprite : sprite,
 			score : GameConf.enemy.bob.SCORE_BASE
 		});

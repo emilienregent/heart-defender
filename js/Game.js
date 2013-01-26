@@ -53,10 +53,10 @@ function Game()
 		// Cible souris
 		this.cible = {
 			sprite : null,
-			x : 512 - (31/2),
-			y : 300 - (31/2),
-			w : 31,
-			h : 31
+			x : 512 - (32/2),
+			y : 300 - (32/2),
+			w : 32,
+			h : 32
 		};
 		// On stocke une instance unique de la cible dans le tableau qui référence toutes les instances de sprites du jeu
 		this.sprites['img/target'] = IM.getInstance('img/target');
@@ -142,6 +142,10 @@ function Game()
 
 		this.shadow.x = (this.player.x + this.player.w/2) - this.shadow.sprite.width/2;
 		this.shadow.y = (this.player.y + this.player.h/2) - this.shadow.sprite.height/2;
+
+		// Pour le headtrackr, mais pour l'instant c'est bancal
+		//this.shadow.x = (FACE.x + FACE.w/2) - this.shadow.sprite.width/2;
+		//this.shadow.y = (FACE.y + FACE.h/2) - this.shadow.sprite.height/2;
 
 	};
 
