@@ -19,22 +19,32 @@ function Projectile(parentObj)
 	 **/
 	this.add = function(type, x, y, xDestination, yDestination) {
 
+		if(typeof ProjectileConf[type] === "undefined") {
+			warn("Add Projectile - Type " + type + " isn't a valid projectile");
+			return null;
+		}
+
 		var sprite,
-			conf;
+			conf = ProjectileConf[type];
+
+		// Calcul de la rotation du sprite en fonction de la position d'origine et de la destination
+		var angle = Math.atan2(yDestination - y, xDestination - x);
+		var addDate = +new Date();
+		if(conf.category === "toTarget") {
+			angle = 0;
+		}
 
 		// On vérifie le type de projectile que l'on veut tirer à cet instant
 		switch (type) {
 			
 			// Flèche de base
-			case 'fleche' :
+			case 'arrow' :
 				sprite = IM.getInstance('img/fleche');
-				conf = ProjectileConf.Arrow;
 				break;
 
-			// Explosion
+			// explosion
 			case 'explosion' :
 				sprite = IM.getInstance('img/explosion');
-				conf = ProjectileConf.Explosion;
 				sprite.animation = new IIG.Animation({
 					sx : 0,
 					sy : 0,
@@ -44,16 +54,25 @@ function Projectile(parentObj)
 					alternate : true
 				});
 				break;
+			// lightning
+			case 'lightning' :
+				sprite = IM.getInstance('img/lightning');
+				sprite.animation = new IIG.Animation({
+					sx : 0,
+					sy : 0,
+					sWidth : 57,
+					sHeight : 130,
+					animByFrame : 9,
+					alternate : false
+				});
+				break;
 
 			// (Par défaut :) Flèche de base
 			default :
 				sprite = IM.getInstance('img/fleche');
-				conf = ProjectileConf.Arrow;
+				conf = ProjectileConf.arrow;
 				break;
 		}
-
-		// Calcul de la rotation du sprite en fonction de la position d'origine et de la destination
-		var angle = Math.atan2(yDestination - y, xDestination - x);
 
 		this.projectiles.push({
 			sprite : sprite,
@@ -68,7 +87,9 @@ function Projectile(parentObj)
 			h : conf.height,
 			speed : conf.speed,
 			maxDistance : conf.maxDistance,
-			collidePadding : conf.collidePadding
+			category : conf.category,
+			lifetime : conf.lifetime,
+			addDate : addDate
 		});
 
 	};
@@ -84,9 +105,11 @@ function Projectile(parentObj)
 		for (var i = 0, c = this.projectiles.length; i < c; i++) {
 			var p = this.projectiles[i];
 
-			angle = Math.atan2(p.yDestination - p.yOrigin, p.xDestination - p.xOrigin);
-			p.x += Math.cos(angle) * p.speed;
-			p.y += Math.sin(angle) * p.speed;
+			if(p.category === 'toCoords') {
+				angle = Math.atan2(p.yDestination - p.yOrigin, p.xDestination - p.xOrigin);
+				p.x += Math.cos(angle) * p.speed;
+				p.y += Math.sin(angle) * p.speed;
+			}
 
 			// Si ce projectile touche un ennemi, on supprime l'ennemi et le projectile
 			for (var j = 0, d = this.parentObj.MEnemy.enemies.length; j < d; j++) {
@@ -106,8 +129,10 @@ function Projectile(parentObj)
 					// Ajout d'une tâche de sang à l'endroit de la collision (pke c gorre, mdrrr)
 					this.parentObj.MTache.add(e.x, e.y);
 
-					if (this.kill( i )) --c;
-					if (this.parentObj.MEnemy.kill( j, true )) --d;
+					if(p.category !== "toTarget") {
+						if (this.kill( i )) --c;
+					}
+						if (this.parentObj.MEnemy.kill( j, true )) --d;
 					alreadyKilled = true;
 				}
 			}
@@ -117,8 +142,9 @@ function Projectile(parentObj)
 			{
 				var coords = {x:p.x, y:p.y};
 				var coordsOrigin = {x:p.xOrigin, y:p.yOrigin};
-			   if ((p.x < 0 || p.x >= WIDTH || p.y < 0 || p.y >= HEIGHT) || // Si déjà, le projectile sort de la map, on peut le kill..
-			      (distance(coords, coordsOrigin) > p.maxDistance)) // Sinon s'il atteint sa distance maximum, on le kill
+				if ((p.x < 0 || p.x >= WIDTH || p.y < 0 || p.y >= HEIGHT) || // Si déjà, le projectile sort de la map, on peut le kill..
+			      (distance(coords, coordsOrigin) > p.maxDistance) || // Sinon s'il atteint sa distance maximum, on le kill
+			      (p.category === "toTarget" && interval(p.addDate, p.lifetime) === true) )  
 				{
 					if(this.kill( i )) --c;
 				}
@@ -147,6 +173,10 @@ function Projectile(parentObj)
 	 **/
 	this.kill = function(index) {
 		var projectile = this.projectiles[index];
+		if(typeof projectile === "undefined") {
+			warn("Kill Projectile - Can't kill projectile");
+			return false;
+		}
 		var projectilesLen = this.projectiles.length;
 		// On tue l'instance du sprite pour ne pas surcharger le garbage collector...
 		projectile.sprite = IM.killInstance(projectile.sprite);

@@ -115,22 +115,69 @@ function Game()
 
 	this.listenProjectiles = function() {
 
-		this.player.projectileType = ['fleche', 'explosion'].pickup();
-		//this.player.projectileType = 'explosion';
-
+		this.player.projectileType = ['arrow', 'explosion', 'lightning'].pickup();
+		// this.player.projectileType = 'lightning';
+		var conf = ProjectileConf[this.player.projectileType];
 		if (input.mouse.click) {
+			/*Détermine le type de destination selon la catégorie du projectile*/
+			// Initialise l'origine et la destination au centre du joueur
+			var origine = {x:this.player.x + this.player.w/2, y:this.player.y + this.player.h/2};
+			var destination = {x:this.player.x + this.player.w/2, y:this.player.y + this.player.h/2};
+			// Dans le cas d'un projectile sur coordonnées
+			if(conf.category === "toCoords") {
+				// Récupère les coordonnées de la souris pour le point de destination
+				destination.x = input.mouse.x;
+				destination.y = input.mouse.y;
+			}
+			// Dans le cas d'un projectile sur cible
+			else if(conf.category === "toTarget"){
+				var destinationTmp = null;
+				// Parse le tableau d'ennemis
+				for(var i = 0, c = this.MEnemy.enemies.length; i < c; i++) {
+					// Récupère l'entrée du tableau
+					var e = this.MEnemy.enemies[i];
+					// Passe à l'ennemi suivant si il est hors de portée
+					if(lineDistance({x:this.player.x,y:this.player.y},{x:e.x,y:e.y}) > conf.maxDistance) {
+						continue;
+					}
+					// Récupère la première entrée du tableau à bonne distance pour servir de destination de référence
+					else if(destinationTmp === null) {
+						destinationTmp ={
+							x : e.x + e.w/2,
+							y : e.y
+						} 
+					}
+					// Si la nouvelle entrée est plus proche que celle actuellement sauvegardée
+					if (lineDistance({x:this.player.x,y:this.player.y},{x:e.x,y:e.y}) 
+						< lineDistance({x:this.player.x,y:this.player.y},{x:destinationTmp.x,y:destinationTmp.y})) {
+						// Stocke l'entrée en destination
+                    	destinationTmp ={
+							x : e.x + e.w/2,
+							y : e.y
+						}
+                   	}
+                }
+                // Dans le cas d'un projectile cible la destination est aussi l'origine
+                if(destinationTmp !== null) {
+               		origine = destination = destinationTmp;
+               	}
+               	else {
+               		return false;
+               	}
+			}
+
 			// On créé un nouveau projectile aux coordonnées x, y du player, et en direction de x, y de la souris lorsqu'on a cliqué
 			this.MProjectile.add(
 				this.player.projectileType, // indique le type de projectile que le joueur a à cet instant
-				this.player.x + this.player.w/2,
-				this.player.y + this.player.h/2,
-				input.mouse.x,
-				input.mouse.y
+				origine.x,
+				origine.y,
+				destination.x,
+				destination.y
 			);
 			
 			switch ( this.player.projectileType )
 			{
-				case "fleche" :
+				case "arrow" :
 					//déclancher son fleche	
 					soundLoader.cachedSounds[ "arrow" ].play();
 				break;
