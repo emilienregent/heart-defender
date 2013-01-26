@@ -12,6 +12,7 @@ function Player(parentObj)
 	this.speed = 3;
 	this.projectileType = 'explosion'; // ('fleche', ...)
 	this.parentObj = parentObj;
+	this.life = GameConf.player.LIFE;
 
 	/**
 	 * Initialization
@@ -31,6 +32,9 @@ function Player(parentObj)
 			alternate : true,
 			animByFrame : 7
 		});
+
+		// Affiche le nombre de coeurs
+		this.display();
 	};
 
 	/**
@@ -82,6 +86,36 @@ function Player(parentObj)
 	this.render = function() {
 
 		IM.drawImage(ctx, this.sprite, this.x, this.y);
+	};
 
+	/**
+	 * Affiche les éléments de HUD du joueur
+	 **/
+	this.display = function() {
+		/*Affiche les vies du joueur*/
+		var html = "";
+		for(var i = 0; i < this.life; i++) {
+			html += GameConf.player.LIFE_DISPLAY;
+		}
+		$$('#life').innerHTML = html;
+	}
+
+	/**
+	 * Inflige une perte de point de vie au joueur
+	 **/
+	this.damage = function() {
+		if(--this.life <= 0) {
+			this.kill();
+		}
+		this.display();
+	};
+
+	/**
+	 * Fait mourir le joueur
+	 **/
+	this.kill = function() {
+		// On tue l'instance du sprite pour ne pas surcharger le garbage collector...
+		IM.killInstance(this.sprite);
+		this.parentObj.gameOver();
 	};
 }

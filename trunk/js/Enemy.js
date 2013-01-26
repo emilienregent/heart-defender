@@ -13,9 +13,7 @@ function Enemy(parentObj)
 	this.parentObj = parentObj;
 	// Tableau qui contient tous les ennemis à animer..
 	this.enemies = [];
-	this.lastPopEnemy = +new Date();
-
-	
+	this.lastPopEnemy = +new Date();	
 
 	/**
 	 * Ajoute un ennemi dans la liste
@@ -26,6 +24,7 @@ function Enemy(parentObj)
 
 		if(typeof spawn.x === "undefined" || typeof spawn.y === "undefined") {
 			warn("Add Enemy - Spawn point coords are missing");
+			warn(spawn);
 			return null;
 		}
 
@@ -88,8 +87,10 @@ function Enemy(parentObj)
 				e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 			}
 
+			/*Collision avec le joueur*/
 			if(collide(e, this.parentObj.player)) {
 				if(this.kill(i)) {
+					this.parentObj.player.damage();
 					--c;
 				}
 			}

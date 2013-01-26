@@ -156,7 +156,7 @@ function Game()
 
 	this.renderShadow = function() {
 
-		ctx.drawImage(this.shadow.sprite.data, this.shadow.x, this.shadow.y);
+		// ctx.drawImage(this.shadow.sprite.data, this.shadow.x, this.shadow.y);
 
 	};
 
@@ -166,8 +166,8 @@ function Game()
 
 	this.update = function() {
 
-		if(interval(this.MEnemy.lastPopEnemy, GameConf.ARENA_SPAWN_TIME) === true && 
-			this.MEnemy.enemies.length < GameConf.ARENA_MAX_ENEMY) 
+		if(interval(this.MEnemy.lastPopEnemy, GameConf.arena.SPAWN_TIME) === true && 
+			this.MEnemy.enemies.length < GameConf.arena.MAX_ENEMY) 
 		{
 			this.generateEnemies();
 		}
@@ -185,19 +185,19 @@ function Game()
 		/*Sélectionne le coin opposé au joueur*/
 		var spawn = {
 			x : (this.player.x > WIDTH/2)
-				? GameConf.ARENA_SPAWN_PADDING
-				: WIDTH - GameConf.ARENA_SPAWN_PADDING,
+				? GameConf.arena.SPAWN_PADDING
+				: WIDTH - GameConf.arena.SPAWN_PADDING,
 			y : (this.player.y > HEIGHT/2)
-				? GameConf.ARENA_SPAWN_PADDING
-				: HEIGHT - GameConf.ARENA_SPAWN_PADDING
+				? GameConf.arena.SPAWN_PADDING
+				: HEIGHT - GameConf.arena.SPAWN_PADDING
 		}
 
 		/*Et ajoute un coefficient aléatoire pour décaler le point de spawn des coins*/
 		/*/!\ N'ajoute un coefficient que sur un seul axe pour que le spawn reste près des murs*/
 		/*Horizontal*/
 		if(Math.round(rand(0, 1)) === 0) {
-			randomX = rand(0, WIDTH - GameConf.ARENA_SPAWN_PADDING)
-			if(spawn.x === GameConf.ARENA_SPAWN_PADDING) {
+			randomX = rand(0, WIDTH - GameConf.arena.SPAWN_PADDING)
+			if(spawn.x === GameConf.arena.SPAWN_PADDING) {
 				spawn.x += randomX;
 			}
 			else {
@@ -205,8 +205,8 @@ function Game()
 			}
 		/*Vertical*/
 		} else {
-			randomY = rand(0, HEIGHT - GameConf.ARENA_SPAWN_PADDING);
-			if(spawn.y === GameConf.ARENA_SPAWN_PADDING) {
+			randomY = rand(0, HEIGHT - GameConf.arena.SPAWN_PADDING);
+			if(spawn.y === GameConf.arena.SPAWN_PADDING) {
 				spawn.y += randomY;
 			}
 			else {
@@ -217,5 +217,12 @@ function Game()
 		this.MEnemy.add(spawn);
 		this.MEnemy.lastPopEnemy = +new Date();
 
+	}
+
+	/**
+	 * Déclenche le game over
+	 **/
+	this.gameOver = function() {
+		warn("Game Over");
 	}
 }
