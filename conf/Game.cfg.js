@@ -11,7 +11,8 @@ var GameConf =
 	},
 	player : {
 		LIFE : 3,			/*Points de vie du joueur en début de partie*/
-		LIFE_DISPLAY : '<img src="img/life.png"/>'	/*Balise pour afficher une vie du joueur*/
+		LIFE_DISPLAY : '<img src="img/life.png"/>',	/*Balise pour afficher une vie du joueur*/
+		RADIUS : 132.5	/*Taille du cercle de lumière*/
 	},
 	enemy : {
 		bob : {
@@ -23,8 +24,7 @@ var GameConf =
 		GAMEOVER_DISPLAY : '<h2>Game Over</h2>'+
 							'<h3>Darkness overkill you !</h3>'+
 							'<p>Your score is %SCORE%.</p>'+
-							'<button onclick="restartGame()">Try to defeat darkness ... again</button>',
-		RADIUS : 225	/*Taille du cercle de lumière*/
+							'<button onclick="restartGame()">Try to defeat darkness ... again</button>'
 	},
 	heart : {
 		SPAWN_TIME : 10, /*Délai de génération du bonus*/
@@ -32,6 +32,6 @@ var GameConf =
 		WIDTH : 26, /*Largeur du bonus*/
 		HEIGHT : 26, /*Hauteur du bonus*/
 		HEALTH : 10, /*Santé du bonus*/
-		LIFE_TIME : 10 /*Durée de vie du bonus*/
+		LIFE_TIME : 20 /*Durée de vie du bonus*/
 	}
 }

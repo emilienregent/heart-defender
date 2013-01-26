@@ -127,10 +127,18 @@ function Player(parentObj)
 	 **/
 	this.damage = function() {
 		if(--this.life <= 0) {
-			this.kill();
+			// this.kill();
 		}
 		this.display();
 	};
+
+	/**
+	 * Ajoute une vie au joueur
+	 **/
+	this.addLife = function() {
+		this.life++;
+		this.display();
+	}
 
 	/**
 	 * Fait mourir le joueur
@@ -145,7 +153,7 @@ function Player(parentObj)
 	 * Donne le coin le plus proche du joueur selon le découpage choisi (grille de 3x3, grille de 2x2, etc)
 	 **/
 
-	 this.localize = function() {
+	this.localize = function() {
 	 	// Colonne 
 	 	var cell = {
 	 		w : Math.round(WIDTH/3),

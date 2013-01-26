@@ -11,44 +11,30 @@ function Heart(parentObj) {
 
 	this.parentObj = parentObj;
 	// Tableau qui contient tous les ennemis à animer..
-	this.hearts = [];
 	this.lastPop = +new Date();
 
-	
+	this.w = GameConf.heart.WIDTH;
+	this.h = GameConf.heart.HEIGHT;
 
-	/**
-	 * Ajoute un ennemi dans la liste
-	 **/
+	this.health = '';	
+	this.lifeTime = '';
+	this.x = '';
+	this.y = '';
+	this.protected = false;
+	this.tick = +new Date();
 
-	this.add = function(spawn) 	{
+	this.alive = false;
 
-		if(typeof spawn.x === "undefined" || typeof spawn.y === "undefined") {
-			warn("Add Heart - Spawn point coords are missing");
-			return null;
-		}
-
-		// var sprite = IM.getInstance('img/enemy');
-		// sprite.animation = new IIG.Animation({
-		// 	sWidth : 48,
-		// 	sHeight : 64,
-		// 	sx : 48,
-		// 	sy : 64 * 2,
-		// 	animDirection : 'left2right',
-		// 	alternate : true,
-		// 	animByFrame : 7
-		// });
-
-		this.hearts.push({
-			x : spawn.x - (GameConf.heart.WIDTH/2),
-			y : spawn.y - (GameConf.heart.HEIGHT/2),
-			w : GameConf.heart.WIDTH,
-			h : GameConf.heart.HEIGHT,
-			health : GameConf.heart.HEALTH,
-			protected : false,
-			lifeTime : 	GameConf.heart.LIFE_TIME,
-			tick : new Date().getTime()
-		});
-	};
+	// var sprite = IM.getInstance('img/enemy');
+	// sprite.animation = new IIG.Animation({
+	// 	sWidth : 48,
+	// 	sHeight : 64,
+	// 	sx : 48,
+	// 	sy : 64 * 2,
+	// 	animDirection : 'left2right',
+	// 	alternate : true,
+	// 	animByFrame : 7
+	// });
 
 	this.generate = function() {
 
@@ -73,23 +59,32 @@ function Heart(parentObj) {
 
 		var spawn = availablePosition[pos];		
 
-		this.add(spawn);
+		this.x = spawn.x - (GameConf.heart.WIDTH/2);
+		this.y = spawn.y - (GameConf.heart.HEIGHT/2);
+		this.tick = +new Date();
+		this.health = GameConf.heart.HEALTH;
+		this.lifeTime = GameConf.heart.LIFE_TIME;
+
+		this.alive = true;
 	}
 
 	/**
 	 * Fonction qui s'occupe des déplacements du joueur principal
 	 **/
 	this.animate = function() {
-		for (var i = 0, c = this.hearts.length; i < c; i++) {
-			var h = this.hearts[i];
-			if(interval(h.tick, 1) === true) {
-				h.lifeTime--;
-				h.tick = new Date().getTime();
-			}
 
-			if (h.lifeTime === 0) 
-				this.kill(i);
+		if (distance(this, this.parentObj.player) <= GameConf.player.RADIUS) 
+			this.protected = true;
+		else
+			this.protected = false;
+
+		if(interval(this.tick, 1) === true) {
+			this.lifeTime--;
+			this.tick = new Date().getTime();
 		}
+
+		if (this.lifeTime === 0) 
+			this.kill();
 
 		// for (var i = 0, c = this.enemies.length; i < c; i++) {
 		// 	var e = this.enemies[i];
@@ -136,34 +131,33 @@ function Heart(parentObj) {
 	 * Dessin du coeur
 	 **/
 	this.render = function() {
+		if (this.alive)
+			drawRect(ctx, 'rgba(255,0,0,1)', this.x, this.y, this.w, this.h);
+	};
 
-		for (var i = 0, c = this.hearts.length; i < c; i++) {
-			var e = this.hearts[i];
-			// IM.drawImage(ctx, e.sprite, e.x, e.y);
-			drawRect(ctx, 'rgba(255,0,0,1)', e.x, e.y, e.w, e.h);
+	/**
+	 * Inflige une perte de point de vie au joueur
+	 **/
+	this.damage = function() {
+		if(--this.health <= 0) {
+			this.kill();
 		}
-
+		// this.display();
 	};
 
 	/**
 	 * Détruit l'instance d'ennemi
 	 **/
-	this.kill = function(index) {
-		var hear = this.hearts[index];
-		var heartsLen = this.hearts.length;
-		// On tue l'instance du sprite pour ne pas surcharger le garbage collector...
-		IM.killInstance(hear.sprite);
-		// ... et on splice l'ennemi actuel 'i'
-		this.hearts.splice(index, 1);
+	this.kill = function() {
+		if (this.alive) {
+			// On tue l'instance du sprite pour ne pas surcharger le garbage collector...
+			// IM.killInstance(this.sprite);
 
-		this.lastPop = +new Date();
+			if (this.protected && this.health > 0) 
+				this.parentObj.player.addLife();
 
-		if(heartsLen - 1 === this.hearts.length){
-			return true;
+			this.alive = false;
+			this.lastPop = +new Date();
 		}
-		else {
-			warn("Kill Heart - Can't kill hear");
-			return false;
-		}
-	}
+	};
 }
