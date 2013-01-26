@@ -66,3 +66,8 @@ function collide(a, b) {
 Array.prototype.pickup = Array.prototype.pickup || function() {
 	return this[ Math.floor(Math.random()*this.length) ];
 }
+
+// Teste si un interval est passé
+function interval(time, interval) {
+	return Math.abs(time - new Date().getTime()) / 1000 > interval;
+}
