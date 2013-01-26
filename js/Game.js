@@ -154,8 +154,6 @@ function Game()
 
 		this.cible.x = input.mouse.x - (this.cible.w/2);
 		this.cible.y = input.mouse.y - (this.cible.h/2);
-
-		console.log( input.mouse.x + " " + input.mouse.y );
 	};
 
 	/**
