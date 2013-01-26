@@ -93,7 +93,7 @@ function Projectile(parentObj)
 				var e = this.parentObj.MEnemy.enemies[j];
 
 				// Modification des coordonnées du player pour gérer la rotation
-				// du sprite correctement.
+				// du sprite correctement
 				var pTemp = {
 					x : p.x - p.w/2,
 					y : p.y - p.h/2,
@@ -102,6 +102,10 @@ function Projectile(parentObj)
 				};
 
 				if (collide(pTemp, e)) {
+
+					// Ajout d'une tâche de sang à l'endroit de la collision (pke c gorre, mdrrr)
+					this.parentObj.MTache.add(e.x, e.y + e.h/3);
+
 					if (this.kill( i )) --c;
 					if (this.parentObj.MEnemy.kill( j, true )) --d;
 					alreadyKilled = true;

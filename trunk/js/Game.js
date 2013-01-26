@@ -28,8 +28,7 @@ function Game()
 	this.MProjectile = null;
 
 	// Manager de coeurs
-	this.MHeart = new Heart(this);
-	
+	this.MHeart = null;
 
 
 	// Ce tableau 'associatif' stockera toutes les instances de sprites
@@ -76,6 +75,8 @@ function Game()
 
 		this.MEnemy = new Enemy(this.that);
 		this.MProjectile = new Projectile(this.that);
+		this.MTache = new Tache(this.that);
+		this.MHeart = new Heart(this.that);
 	};
 	
 	/**
@@ -100,16 +101,16 @@ function Game()
 		this.listenProjectiles();
 		// On anime les projectiles
 		this.MProjectile.animate();
-
+		// On anime les taches
+		this.MTache.animate();
 		// On anime les ennemis
 		this.MEnemy.animate();
-
 	};
 
 	this.listenProjectiles = function() {
 
-		this.player.projectileType = ['fleche', 'explosion'].pickup();
-		//this.player.projectileType = 'explosion';
+		//this.player.projectileType = ['fleche', 'explosion'].pickup();
+		this.player.projectileType = 'explosion';
 
 		if (input.mouse.click) {
 			// On créé un nouveau projectile aux coordonnées x, y du player, et en direction de x, y de la souris lorsqu'on a cliqué
@@ -160,6 +161,8 @@ function Game()
 		this.MEnemy.render();
 		// On affiche les projectiles
 		this.MProjectile.render();
+		// On affiche les taches
+		this.MTache.render();
 		// On affiche la shadow box
 		this.renderShadow();
 		// On affiche la cible
@@ -282,6 +285,7 @@ function Game()
 		this.player = undefined;
 		this.MEnemy = undefined;
 		this.MProjectile = undefined;
+		this.MTache = undefined;
 
 		this.shadow = {};
 		this.cible = {};
