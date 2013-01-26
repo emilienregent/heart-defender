@@ -73,3 +73,10 @@ Array.prototype.pickup = Array.prototype.pickup || function() {
 function interval(time, interval) {
 	return Math.abs(time - new Date().getTime()) / 1000 > interval;
 }
+
+/* Graphics */
+// Draw rectangle
+function drawRect(context,color,x,y,width,height) {
+	context.fillStyle = color;
+	context.fillRect(x, y, width, height);
+}

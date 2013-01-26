@@ -8,18 +8,16 @@
 
     <style>
         body, html { margin: 0; padding: 0; background-color: black; color: white; cursor: none; }
-        canvas, #gameover {
+        canvas {
+        	background: url('img/bg.jpg');
+        	-webkit-animation: bouger 5s infinite alternate;
+
         	width: 1024px;
         	height: 600px;
         	margin: 0 0 0 -512px;
         	position: absolute;
         	top: 30px;
         	left: 50%;
-        }
-
-        canvas {
-        	background: url('img/bg.jpg');
-        	-webkit-animation: bouger 5s infinite alternate;
         }
 
         @-webkit-keyframes bouger {
@@ -43,14 +41,7 @@
         	left: 50%;
         	margin: 0 0 0 -512px;
         }
-        #header #score{float:left;}
         #header #life{float:right;}
-
-        #gameover {
-        	background: black;
-        	display: none;
-        }
-
     </style>
 
 	<script src="js/functions.js"></script>
@@ -62,10 +53,13 @@
 	<script src="conf/Game.cfg.js"></script>
 	<script src="conf/Projectile.cfg.js"></script>
 
+	<!-- Fichiers sources -->
 	<script src="js/Player.js"></script>
 	<script src="js/Enemy.js"></script>
+	<script src="js/Heart.js"></script>
 	<script src="js/Projectile.js"></script>
 
+	<!-- Fichier core -->
 	<script src="js/Game.js"></script>
 
 </head>
@@ -75,8 +69,6 @@
 		<div id="score"></div>
 		<div id="life"></div>
 	</div>
-
-	<div id="gameover"></div>
 
 	<script>
 
@@ -94,7 +86,8 @@
 			currentGameObject, // instance of a GameObject
 			IM, // Image Manager instance
 			soundLoader, // Sound Loader instance
-			isLoadedImages; 
+			isLoadedImages,
+			TIME; 
 			
 		canvas = $$('canvas');
 		ctx = canvas.getContext('2d');
@@ -111,10 +104,9 @@
 
 		//demarrage du jeu
 		startGame = function()
-		{			
-
+		{
 			currentGameObject.init();
-
+			
 			//launch heartbeat
 			var heartSlow = soundLoader.cachedSounds[ "heart_slow2" ],
 				heartFast = soundLoader.cachedSounds[ "heart_fast" ];
@@ -131,29 +123,18 @@
 			
 			run();
 		}
-
-		restartGame = function() {
-			currentGameObject.hideGameover();
-
-			currentGameObject.init();
-		}
 		
 		/****************** GAME LOOP *******************/
-		run = function() {
-			if(currentGameObject.stop === false) {
-			
-				// Sprites update
-				IM.update();
+		run = function(_t) {
+			TIME = _t;
+			// Sprites update
+			IM.update();
 
-				// Main game object update
-				currentGameObject.update();
+			// Main game object update
+			currentGameObject.update();
 
-				// Reset single mouse click
-				input.mouse.click = false;
-
-			} else if(currentGameObject.cleared === false) {
-				currentGameObject.clear();
-			}
+			// Reset single mouse click
+			input.mouse.click = false;
 
 			requestAnimationFrame(run);
 

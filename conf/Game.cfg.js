@@ -24,5 +24,14 @@ var GameConf =
 							'<h3>Darkness overkill you !</h3>'+
 							'<p>Your score is %SCORE%.</p>'+
 							'<button onclick="restartGame()">Try to defeat darkness ... again</button>'
+		RADIUS : 225	/*Taille du cercle de lumière*/
+	},
+	heart : {
+		SPAWN_TIME : 10, /*Délai de génération du bonus*/
+		MAX : 1, /*Nombre maximum de bonus*/
+		WIDTH : 26, /*Largeur du bonus*/
+		HEIGHT : 26, /*Hauteur du bonus*/
+		HEALTH : 10, /*Santé du bonus*/
+		LIFE_TIME : 10 /*Durée de vie du bonus*/
 	}
 }
