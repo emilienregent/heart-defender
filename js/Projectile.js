@@ -115,8 +115,10 @@ function Projectile(parentObj)
 			// Si ce projectile a atteint sa destination, on le vire du tableau..
 			if (!alreadyKilled)
 			{
+				var coords = {x:p.x, y:p.y};
+				var coordsOrigin = {x:p.xOrigin, y:p.yOrigin};
 			   if ((p.x < 0 || p.x >= WIDTH || p.y < 0 || p.y >= HEIGHT) || // Si déjà, le projectile sort de la map, on peut le kill..
-			      (distance(p.x, p.y, p.xOrigin, p.yOrigin) > p.maxDistance)) // Sinon s'il atteint sa distance maximum, on le kill
+			      (distance(coords, coordsOrigin) > p.maxDistance)) // Sinon s'il atteint sa distance maximum, on le kill
 				{
 					if(this.kill( i )) --c;
 				}

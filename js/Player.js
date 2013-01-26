@@ -9,7 +9,7 @@ function Player(parentObj)
 	this.y = 300 - (64/2);
 	this.w = 48;
 	this.h = 64;
-	this.speed = 1.5;
+	this.speed = 2;
 	this.projectileType = 'explosion'; // ('fleche', ...)
 	this.parentObj = parentObj;
 	this.life = GameConf.player.LIFE;
@@ -93,6 +93,13 @@ function Player(parentObj)
 		ctx.arc(this.x + this.w/2, this.y + this.h/2, 5, 0, Math.PI*2, true);
 		ctx.fill();
 		ctx.closePath();*/
+
+		// Debug : Show player radius 
+		// ctx.strokeStyle = "#FFF";
+		// ctx.beginPath();
+		// ctx.arc(this.x + this.w/2, this.y + this.h/2, GameConf.player.RADIUS, 0, Math.PI*2, true);
+		// ctx.stroke();
+		// ctx.closePath();
 		IM.drawImage(ctx, this.sprite, this.x, this.y);
 
 		/*ctx.shadowColor = '';
@@ -120,7 +127,7 @@ function Player(parentObj)
 	 **/
 	this.damage = function() {
 		if(--this.life <= 0) {
-			//this.kill();
+			this.kill();
 		}
 		this.display();
 	};
