@@ -34,6 +34,9 @@ function Player(parentObj)
 			animByFrame : 7
 		});
 
+		// On prépare aussi une instance du joueur mort pour le futur game over
+		this.parentObj.sprites['img/player_dead'] = IM.getInstance('img/player_dead');
+
 		// Affiche le nombre de coeurs
 		this.display();
 	};
@@ -101,9 +104,11 @@ function Player(parentObj)
 		// ctx.stroke();
 		// ctx.closePath();
 		IM.drawImage(ctx, this.sprite, this.x, this.y);
-		ctx.strokeStyle = 'lime';
-		ctx.lineWidth = 2;
-		ctx.strokeRect(this.x, this.y, this.w, this.h);
+		
+		// DEBUG : Show player rectangle
+		// ctx.strokeStyle = 'lime';
+		// ctx.lineWidth = 2;
+		// ctx.strokeRect(this.x, this.y, this.w, this.h);
 
 		/*ctx.shadowColor = '';
 		ctx.shadowBlur = 0;*/
@@ -137,6 +142,9 @@ function Player(parentObj)
 	 **/
 	this.damage = function() {
 		if(--this.life <= 0) {
+			// Remplacement du sprite player par le sprite player_killed
+			this.sprite = this.parentObj.sprites['img/player_dead'];
+			// Let's kill it, he deserved to be !
 			this.kill();
 		}
 		this.display();
@@ -154,8 +162,6 @@ function Player(parentObj)
 	 * Fait mourir le joueur
 	 **/
 	this.kill = function() {
-		// On tue l'instance du sprite pour ne pas surcharger le garbage collector...
-		IM.killInstance(this.sprite);
 		this.parentObj.gameover();
 	};
 

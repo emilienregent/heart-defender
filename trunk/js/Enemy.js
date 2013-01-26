@@ -116,10 +116,12 @@ function Enemy(parentObj)
 				ctx.globalAlpha = e.opacity;
 			}
 			IM.drawImage(ctx, e.sprite, e.x, e.y);
-			ctx.strokeStyle = 'pink';
-			ctx.lineWidth = 2;
-			ctx.strokeRect(e.x, e.y, e.w, e.h);
 			ctx.globalAlpha = 1;
+
+			// DEBUG : cadre rectangulaire de l'ennemi
+			// ctx.strokeStyle = 'pink';
+			// ctx.lineWidth = 2;
+			// ctx.strokeRect(e.x, e.y, e.w, e.h);
 		}
 
 	};

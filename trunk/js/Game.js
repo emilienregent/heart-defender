@@ -61,6 +61,11 @@ function Game()
 		// On stocke une instance unique de la cible dans le tableau qui référence toutes les instances de sprites du jeu
 		this.sprites['img/target'] = IM.getInstance('img/target');
 		this.cible.sprite = this.sprites['img/target'];
+		this.cible.sprite.animation = new IIG.Animation({
+			sWidth : 48,
+			sHeight : 48,
+			animByFrame : 3
+		});
 
 		// ====== SHADOW ======
 		// Ombre d'obscurité très dark sidious stress panic mode
@@ -182,7 +187,7 @@ function Game()
 	 **/
 	this.renderTarget = function() {
 
-		ctx.drawImage(this.cible.sprite.data, this.cible.x, this.cible.y);
+		IM.drawImage(ctx, this.cible.sprite, this.cible.x, this.cible.y);
 
 	};
 
