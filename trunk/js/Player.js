@@ -101,6 +101,9 @@ function Player(parentObj)
 		// ctx.stroke();
 		// ctx.closePath();
 		IM.drawImage(ctx, this.sprite, this.x, this.y);
+		ctx.strokeStyle = 'lime';
+		ctx.lineWidth = 2;
+		ctx.strokeRect(this.x, this.y, this.w, this.h);
 
 		/*ctx.shadowColor = '';
 		ctx.shadowBlur = 0;*/
@@ -134,7 +137,7 @@ function Player(parentObj)
 	 **/
 	this.damage = function() {
 		if(--this.life <= 0) {
-			// this.kill();
+			this.kill();
 		}
 		this.display();
 	};

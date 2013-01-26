@@ -28,25 +28,22 @@ function Enemy(parentObj)
 			return null;
 		}
 
-		var sprite = IM.getInstance('img/enemy');
-		sprite.animation = new IIG.Animation({
-			sWidth : 48,
-			sHeight : 64,
-			sx : 48,
-			sy : 64 * 2,
-			animDirection : 'left2right',
-			alternate : true,
-			animByFrame : 7
-		});
+		var spriteNames = ['img/ennemi_vert', 'img/ennemi_marron'],
+			chosenSprite = spriteNames.pickup(),
+			conf = GameConf.enemies[chosenSprite],
+			sprite;
+
+		sprite = IM.getInstance(chosenSprite);
+		sprite.animation = new IIG.Animation(conf.animation);
 
 		this.enemies.push({
-			x : spawn.x - (48/2),
-			y : spawn.y - (64/2),
-			w : 48,
-			h : 64,
-			speed : 1,
 			sprite : sprite,
-			score : GameConf.enemy.bob.SCORE_BASE,
+			x : spawn.x - (conf.width/2),
+			y : spawn.y - (conf.height/2),
+			w : conf.width,
+			h : conf.height,
+			speed : conf.speed,
+			score : conf.SCORE_BASE,
 			opacity : 0.3
 		});
 	};
@@ -78,12 +75,12 @@ function Enemy(parentObj)
 			// Test la direction de l'ennemi
 			if(Math.cos(angle) <= 0) {
 				// gauche
-				e.sprite.animation.sy = 64 * 3;
+				e.sprite.animation.sy = e.h * 3;
 				e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 			}
 			else if(Math.cos(angle) > 0) {
 				// droite
-				e.sprite.animation.sy = 64;
+				e.sprite.animation.sy = e.h;
 				e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 			}
 			else if(Math.sin(angle) <= 0) {
@@ -93,7 +90,7 @@ function Enemy(parentObj)
 			}
 			else if(Math.sin(angle) > 0) {
 				// bas
-				e.sprite.animation.sy = 64 * 2;
+				e.sprite.animation.sy = e.h * 2;
 				e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 			}
 
@@ -119,6 +116,9 @@ function Enemy(parentObj)
 				ctx.globalAlpha = e.opacity;
 			}
 			IM.drawImage(ctx, e.sprite, e.x, e.y);
+			ctx.strokeStyle = 'pink';
+			ctx.lineWidth = 2;
+			ctx.strokeRect(e.x, e.y, e.w, e.h);
 			ctx.globalAlpha = 1;
 		}
 
