@@ -127,6 +127,27 @@ function Enemy(parentObj)
 	};
 
 	/**
+	 * Drop a bonus
+	 **/
+	this.drop = function(e) {
+		var rand = Math.random();
+		var drop = null;
+		var sum = 0;
+
+		for ( i in GameConf.bonus ) {
+			sum += GameConf.bonus[i].drop_rate;
+			if (rand <= sum ) {
+				if (this.parentObj.player.weapon != GameConf.bonus[i].effect) 
+					drop = GameConf.bonus[i];
+				break;
+			}
+		}
+
+		if (drop != null) 
+			this.parentObj.MBonus.add(e,drop);
+	};
+
+	/**
 	 * Détruit l'instance d'ennemi
 	 **/
 	this.kill = function(index, withScore) {
@@ -134,6 +155,7 @@ function Enemy(parentObj)
 		// Si la mort de l'ennemi doit générer du score
 		if(withScore === true) {
 			this.parentObj.score(enemy);
+			this.drop(enemy);
 		}
 		var enemiesLen = this.enemies.length;
 		// On tue l'instance du sprite pour ne pas surcharger le garbage collector...

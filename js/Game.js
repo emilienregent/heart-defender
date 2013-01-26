@@ -27,6 +27,9 @@ function Game()
 	// Manager de projectiles
 	this.MProjectile = null;
 
+	// Manager de projectiles
+	this.MBonus = null;
+
 	// Coeur (bonus)
 	this.heart = null;
 
@@ -81,6 +84,7 @@ function Game()
 
 		this.MEnemy = new Enemy(this.that);
 		this.MProjectile = new Projectile(this.that);
+		this.MBonus = new Bonus(this.that);
 		this.MTache = new Tache(this.that);
 		this.heart = new Heart(this.that);
 	};
@@ -100,7 +104,7 @@ function Game()
 		this.animateShadow();
 		// On anime la target
 		this.animateTarget();
-		// On anime les ennemis
+		// On anime le coeur
 		this.heart.animate();
 
 		// Ecouteur pour créer un tir ?
@@ -111,6 +115,8 @@ function Game()
 		this.MTache.animate();
 		// On anime les ennemis
 		this.MEnemy.animate();
+		// On anime le coeur
+		this.MBonus.animate();
 	};
 
 	this.listenProjectiles = function() {
@@ -225,8 +231,10 @@ function Game()
 
 		ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
-		// On affiche les coeurs
+		// On affiche le coeur
 		this.heart.render();
+		// On affiche les bonus
+		this.MBonus.render();
 		// On affiche le joueur
 		this.player.render();
 		// On affiche les ennemis

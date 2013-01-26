@@ -9,8 +9,18 @@ function Heart(parentObj) {
 		return null;
 	}
 
+	var sprite = IM.getInstance('img/jewel');
+	sprite.animation = new IIG.Animation({
+		sWidth : GameConf.heart.WIDTH,
+		sHeight : GameConf.heart.HEIGHT,
+		sx : 0,
+		sy : 0,
+		animDirection : 'left2right',
+		alternate : false,
+		animByFrame : 8
+	});
+
 	this.parentObj = parentObj;
-	// Tableau qui contient tous les ennemis à animer..
 	this.lastPop = +new Date();
 
 	this.w = GameConf.heart.WIDTH;
@@ -23,19 +33,10 @@ function Heart(parentObj) {
 	this.y = '';
 	this.protected = false;
 	this.tick = +new Date();
+	this.sprite = sprite;
 
 	this.alive = false;
-
-	// var sprite = IM.getInstance('img/enemy');
-	// sprite.animation = new IIG.Animation({
-	// 	sWidth : 48,
-	// 	sHeight : 64,
-	// 	sx : 48,
-	// 	sy : 64 * 2,
-	// 	animDirection : 'left2right',
-	// 	alternate : true,
-	// 	animByFrame : 7
-	// });
+	
 
 	this.generate = function() {
 
@@ -86,46 +87,6 @@ function Heart(parentObj) {
 
 		if (this.lifeTime === 0) 
 			this.kill();
-
-		// for (var i = 0, c = this.enemies.length; i < c; i++) {
-		// 	var e = this.enemies[i];
-
-		// 	var angle,
-		// 		distX = (this.parentObj.player.x + this.parentObj.player.w/2) - (e.x + e.w/2),
-		// 		distY = (this.parentObj.player.y + this.parentObj.player.h/2) - (e.y + e.h/2);
-
-		// 	angle = Math.atan2(distY, distX);
-		// 	e.x += Math.cos(angle) * e.speed;
-		// 	e.y += Math.sin(angle) * e.speed;
-
-		// 	// Test la direction de l'ennemi
-		// 	if(Math.cos(angle) <= 0) {
-		// 		// gauche
-		// 		e.sprite.animation.sy = 64 * 3;
-		// 		e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
-		// 	}
-		// 	else if(Math.cos(angle) > 0) {
-		// 		// droite
-		// 		e.sprite.animation.sy = 64;
-		// 		e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
-		// 	}
-		// 	else if(Math.sin(angle) <= 0) {
-		// 		// haut
-		// 		e.sprite.animation.sy = 0;
-		// 		e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
-		// 	}
-		// 	else if(Math.sin(angle) > 0) {
-		// 		// bas
-		// 		e.sprite.animation.sy = 64 * 2;
-		// 		e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
-		// 	}
-
-		// 	if(collide(e, this.parentObj.player)) {
-		// 		if(this.kill(i)) {
-		// 			--c;
-		// 		}
-		// 	}
-		// }
 	};
 
 	/**
@@ -134,9 +95,10 @@ function Heart(parentObj) {
 	this.render = function() {
 		if (this.alive) {
 			if(this.parentObj.player.isVisible(this) === false) {
-				ctx.globalAlpha = this.opacity;
+				// ctx.globalAlpha = this.opacity;
 			}
-			drawRect(ctx, 'rgba(255,0,0,1)', this.x, this.y, this.w, this.h);
+			// drawRect(ctx, 'rgba(255,0,0,1)', this.x, this.y, this.w, this.h);
+			IM.drawImage(ctx, this.sprite, this.x, this.y);
 			ctx.globalAlpha = 1;
 		}
 	};
