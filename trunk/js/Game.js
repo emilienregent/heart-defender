@@ -121,9 +121,8 @@ function Game()
 
 	this.listenProjectiles = function() {
 
-		this.player.projectileType = ['arrow', 'explosion', 'lightning'].pickup();
-		// this.player.projectileType = 'lightning';
-		var conf = ProjectileConf[this.player.projectileType];
+		// this.player.weapon = 'lightning';
+		var conf = ProjectileConf[this.player.weapon];
 		if (input.mouse.click) {
 			/*Détermine le type de destination selon la catégorie du projectile*/
 			// Initialise l'origine et la destination au centre du joueur
@@ -174,14 +173,14 @@ function Game()
 
 			// On créé un nouveau projectile aux coordonnées x, y du player, et en direction de x, y de la souris lorsqu'on a cliqué
 			this.MProjectile.add(
-				this.player.projectileType, // indique le type de projectile que le joueur a à cet instant
+				this.player.weapon, // indique le type de projectile que le joueur a à cet instant
 				origine.x,
 				origine.y,
 				destination.x,
 				destination.y
 			);
 			
-			switch ( this.player.projectileType )
+			switch ( this.player.weapon )
 			{
 				case "arrow" :
 					//déclancher son fleche	
@@ -244,7 +243,7 @@ function Game()
 		// On affiche les taches
 		this.MTache.render();
 		// On affiche la shadow box
-		// this.renderShadow();
+		this.renderShadow();
 		// On affiche la cible
 		this.renderTarget();
 

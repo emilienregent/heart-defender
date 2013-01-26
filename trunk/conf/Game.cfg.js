@@ -7,7 +7,7 @@ var GameConf =
 	arena : {
 		SPAWN_PADDING : 50,	/*Coefficient pour décaler le point de spawn des murs*/	
 		SPAWN_TIME : 2,		/*Délai de génération des éléments de l'arène*/
-		MAX_ENEMY : 1,		/*Nombre maximum d'ennemis*/
+		MAX_ENEMY : 20,		/*Nombre maximum d'ennemis*/
 	},
 	player : {
 		LIFE : 3,			/*Points de vie du joueur en début de partie*/
@@ -59,24 +59,19 @@ var GameConf =
 	},
 	bonus : {
 		bonus_1 : {
-			drop_rate : 0.1,
-			color: 'rgba(0,255,255,1)',
-			effect : 'Boule de feu'
+			drop_rate : 0.3,
+			color: 'rgba(255,255,0,1)',
+			effect : 'arrow'
 		},
 		bonus_2 : {
 			drop_rate : 0.1,
 			color: 'rgba(0,0,255,1)',
-			effect : 'Flèche'
+			effect : 'explosion'
 		},
 		bonus_3 : {
 			drop_rate : 0.2,
 			color: 'rgba(0,255,0,1)',
-			effect : 'Rayon ultra violet'
-		},
-		bonus_4 : {
-			drop_rate : 0.3,
-			color: 'rgba(255,255,0,1)',
-			effect : 'Bombe nucléoïdale'
+			effect : 'lightning'
 		}
 	}
 }

@@ -39,7 +39,16 @@ function Projectile(parentObj)
 			
 			// Flèche de base
 			case 'arrow' :
-				sprite = IM.getInstance('img/fleche');
+				sprite = IM.getInstance('img/fire_arrow');
+				sprite.animation = new IIG.Animation({
+					sx : 0,
+					sy : 0,
+					sWidth : 72,
+					sHeight : 49,
+					animByFrame : 3,
+					alternate : true
+				});
+				break;
 				break;
 
 			// explosion
