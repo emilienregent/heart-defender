@@ -149,7 +149,7 @@ function Projectile(parentObj)
 		var projectile = this.projectiles[index];
 		var projectilesLen = this.projectiles.length;
 		// On tue l'instance du sprite pour ne pas surcharger le garbage collector...
-		IM.killInstance(projectile.sprite);
+		projectile.sprite = IM.killInstance(projectile.sprite);
 		// ... et on splice le projectil actuel 'i'
 		this.projectiles.splice(index, 1);
 

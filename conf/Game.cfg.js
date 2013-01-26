@@ -14,8 +14,31 @@ var GameConf =
 		LIFE_DISPLAY : '<img src="img/life.png"/>',	/*Balise pour afficher une vie du joueur*/
 		RADIUS : 132.5	/*Taille du cercle de lumière*/
 	},
-	enemy : {
-		bob : {
+	enemies : {
+		'img/ennemi_vert' : {
+			animation : {
+				sWidth : 45,
+				sHeight : 41,
+				sy : 41 * 2,
+				alternate : true,
+				animByFrame : 7
+			},
+			width : 45,
+			height : 41,
+			speed : 1,
+			SCORE_BASE : 20
+		},
+		'img/ennemi_marron' : {
+			animation : {
+				sWidth : 47,
+				sHeight : 52,
+				sy : 52 * 2,
+				alternate : true,
+				animByFrame : 7
+			},
+			width : 47,
+			height : 52,
+			speed : 0.5,
 			SCORE_BASE : 10
 		}
 	},
