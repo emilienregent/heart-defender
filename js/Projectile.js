@@ -11,9 +11,40 @@ function Projectile(parentObj)
 	/**
 	 * Fonction qui ajoute un projectile dans la liste
 	 **/
-	this.add = function(x, y, xDestination, yDestination) {
+	this.add = function(type, x, y, xDestination, yDestination) {
 
-		var sprite = IM.getInstance('img/fleche');
+		var sprite,
+			conf;
+
+		// On vérifie le type de projectile que l'on veut tirer à cet instant
+		switch (type) {
+			
+			// Flèche de base
+			case 'fleche' :
+				sprite = IM.getInstance('img/fleche');
+				conf = ProjectileConf.Arrow;
+				break;
+
+			// Explosion
+			case 'explosion' :
+				sprite = IM.getInstance('img/explosion');
+				conf = ProjectileConf.Explosion;
+				sprite.animation = new IIG.Animation({
+					sx : 0,
+					sy : 0,
+					sWidth : 77,
+					sHeight : 79,
+					animByFrame : 3,
+					alternate : true
+				});
+				break;
+
+			// (Par défaut :) Flèche de base
+			default :
+				sprite = IM.getInstance('img/fleche');
+				conf = ProjectileConf.Arrow;
+				break;
+		}
 
 		// Calcul de la rotation du sprite en fonction de la position d'origine et de la destination
 		var angle = Math.atan2(yDestination - y, xDestination - x);
@@ -29,8 +60,8 @@ function Projectile(parentObj)
 			rotation : angle,
 			w : sprite.width,
 			h : sprite.height,
-			speed : ProjectileConf.Arrow.speed,
-			maxDistance : ProjectileConf.Arrow.maxDistance
+			speed : conf.speed,
+			maxDistance : conf.maxDistance
 		});
 
 	};
@@ -78,7 +109,7 @@ function Projectile(parentObj)
 			ctx.save();
 			ctx.translate(p.x, p.y);
 			ctx.rotate(p.rotation);
-			ctx.drawImage(p.sprite.data, 0, 0);
+			IM.drawImage(ctx, p.sprite, 0, 0);
 			ctx.restore();
 		}
 
