@@ -8,16 +8,18 @@
 
     <style>
         body, html { margin: 0; padding: 0; background-color: black; color: white; cursor: none; }
-        canvas {
-        	background: url('img/bg.jpg');
-        	-webkit-animation: bouger 5s infinite alternate;
-
+        canvas, #gameover {
         	width: 1024px;
         	height: 600px;
         	margin: 0 0 0 -512px;
         	position: absolute;
         	top: 30px;
         	left: 50%;
+        }
+
+        canvas {
+        	background: url('img/bg.jpg');
+        	-webkit-animation: bouger 5s infinite alternate;
         }
 
         @-webkit-keyframes bouger {
@@ -41,7 +43,14 @@
         	left: 50%;
         	margin: 0 0 0 -512px;
         }
+        #header #score{float:left;}
         #header #life{float:right;}
+
+        #gameover {
+        	background: black;
+        	display: none;
+        }
+
     </style>
 
 	<script src="js/functions.js"></script>
@@ -66,6 +75,8 @@
 		<div id="score"></div>
 		<div id="life"></div>
 	</div>
+
+	<div id="gameover"></div>
 
 	<script>
 
@@ -100,9 +111,10 @@
 
 		//demarrage du jeu
 		startGame = function()
-		{
+		{			
+
 			currentGameObject.init();
-			
+
 			//launch heartbeat
 			var heartSlow = soundLoader.cachedSounds[ "heart_slow2" ],
 				heartFast = soundLoader.cachedSounds[ "heart_fast" ];
@@ -119,18 +131,29 @@
 			
 			run();
 		}
+
+		restartGame = function() {
+			currentGameObject.hideGameover();
+
+			currentGameObject.init();
+		}
 		
 		/****************** GAME LOOP *******************/
 		run = function() {
+			if(currentGameObject.stop === false) {
 			
-			// Sprites update
-			IM.update();
+				// Sprites update
+				IM.update();
 
-			// Main game object update
-			currentGameObject.update();
+				// Main game object update
+				currentGameObject.update();
 
-			// Reset single mouse click
-			input.mouse.click = false;
+				// Reset single mouse click
+				input.mouse.click = false;
+
+			} else if(currentGameObject.cleared === false) {
+				currentGameObject.clear();
+			}
 
 			requestAnimationFrame(run);
 

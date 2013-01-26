@@ -13,6 +13,7 @@ function Player(parentObj)
 	this.projectileType = 'explosion'; // ('fleche', ...)
 	this.parentObj = parentObj;
 	this.life = GameConf.player.LIFE;
+	this.score = 0;
 
 	/**
 	 * Initialization
@@ -98,6 +99,9 @@ function Player(parentObj)
 			html += GameConf.player.LIFE_DISPLAY;
 		}
 		$$('#life').innerHTML = html;
+
+		/*Affiche le score du joueur*/
+		$$('#score').innerHTML = this.score;
 	}
 
 	/**
@@ -116,6 +120,6 @@ function Player(parentObj)
 	this.kill = function() {
 		// On tue l'instance du sprite pour ne pas surcharger le garbage collector...
 		IM.killInstance(this.sprite);
-		this.parentObj.gameOver();
+		this.parentObj.gameover();
 	};
 }

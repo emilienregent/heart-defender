@@ -8,30 +8,24 @@ function Game()
 	 * Properties
 	**/
 
+	this.that = this;
+
 	// Joueur principal
-	this.player = new Player(this);
+	this.player = null;
 
 	// Ombre d'obscurité très dark sidious stress panic mode
-	this.shadow = {
-		sprite : null,
-		x : 0,
-		y : 0
-	};
+	this.shadow = {};
 
 	// Cible souris
-	this.cible = {
-		sprite : null,
-		x : 512 - (31/2),
-		y : 300 - (31/2),
-		w : 31,
-		h : 31
-	};
+	this.cible = {};
+	this.stop = true;
+	this.cleared = true;
 
 	// Manager d'ennemis
-	this.MEnemy = new Enemy(this);
+	this.MEnemy = null;
 
 	// Manager de projectiles
-	this.MProjectile = new Projectile(this);
+	this.MProjectile = null;
 	
 
 
@@ -44,20 +38,41 @@ function Game()
 
 	this.init = function() 
 	{
+
+		this.stop = false;
+		this.cleared = false;
+
 		// ====== JOUEUR ======
+		this.player = new Player(this.that);
 		// On stocke une instance unique du joueur dans le tableau qui référence toutes les instances de sprites du jeu
 		this.player.init();
 
 		// ====== CIBLE ======
+		// Cible souris
+		this.cible = {
+			sprite : null,
+			x : 512 - (31/2),
+			y : 300 - (31/2),
+			w : 31,
+			h : 31
+		};
 		// On stocke une instance unique de la cible dans le tableau qui référence toutes les instances de sprites du jeu
 		this.sprites['img/target'] = IM.getInstance('img/target');
 		this.cible.sprite = this.sprites['img/target'];
 
 		// ====== SHADOW ======
+		// Ombre d'obscurité très dark sidious stress panic mode
+		this.shadow = {
+			sprite : null,
+			x : 0,
+			y : 0
+		};
 		// On stocke une instance unique de la shadow dans le tableau qui référence toutes les instances de sprites du jeu
 		this.sprites['img/shadow'] = IM.getInstance('img/shadow');
 		this.shadow.sprite = this.sprites['img/shadow'];
 
+		this.MEnemy = new Enemy(this.that);
+		this.MProjectile = new Projectile(this.that);
 	};
 	
 	/**
@@ -75,13 +90,14 @@ function Game()
 		this.animateShadow();
 		// On anime la target
 		this.animateTarget();
-		// On anime les ennemis
-		this.MEnemy.animate();
 
 		// Ecouteur pour créer un tir ?
 		this.listenProjectiles();
 		// On anime les projectiles
 		this.MProjectile.animate();
+
+		// On anime les ennemis
+		this.MEnemy.animate();
 
 	};
 
@@ -138,7 +154,7 @@ function Game()
 		// On affiche les projectiles
 		this.MProjectile.render();
 		// On affiche la shadow box
-		//this.renderShadow();
+		this.renderShadow();
 		// On affiche la cible
 		this.renderTarget();
 
@@ -157,7 +173,7 @@ function Game()
 
 	this.renderShadow = function() {
 
-		// ctx.drawImage(this.shadow.sprite.data, this.shadow.x, this.shadow.y);
+		ctx.drawImage(this.shadow.sprite.data, this.shadow.x, this.shadow.y);
 
 	};
 
@@ -220,10 +236,44 @@ function Game()
 
 	}
 
+	this.score = function(enemy) {
+		this.player.score += Math.ceil(enemy.score * (this.MEnemy.enemies.length / this.player.life));
+		this.player.display();
+	}
+
 	/**
 	 * Déclenche le game over
 	 **/
-	this.gameOver = function() {
-		warn("Game Over");
+	this.gameover = function() {
+		this.showGameover();
+		this.stop = true;
+	}
+
+	this.showGameover = function() {
+		$$("#gameover").innerHTML = GameConf.menu.GAMEOVER_DISPLAY.replace(/%SCORE%/, this.player.score);
+		$$("#gameover").style.display = "block";
+		$$('#score').style.display = 'none';
+		$$('body').style.cursor = 'default';
+	}
+
+	this.hideGameover = function() {
+		$$('#gameover').style.display = 'none';
+		$$('#score').style.display = 'block';
+		$$('body').style.cursor = 'none';
+	}
+
+	/**
+	 * Clear properties of current game
+	 **/
+	this.clear = function() {
+		this.player = undefined;
+		this.MEnemy = undefined;
+		this.MProjectile = undefined;
+
+		this.shadow = {};
+		this.cible = {};
+		this.sprites = [];
+
+		this.cleared = true;
 	}
 }

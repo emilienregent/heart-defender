@@ -11,6 +11,18 @@ var GameConf =
 	},
 	player : {
 		LIFE : 3,			/*Points de vie du joueur en début de partie*/
-		LIFE_DISPLAY : '<img src="img/life.png"/>',	/*Balise pour afficher une vie du joueur*/
+		LIFE_DISPLAY : '<img src="img/life.png"/>'	/*Balise pour afficher une vie du joueur*/
+	},
+	enemy : {
+		bob : {
+			SCORE_BASE : 10
+		}
+	},
+	menu : {
+		/*Bloc HTML de gameover*/
+		GAMEOVER_DISPLAY : '<h2>Game Over</h2>'+
+							'<h3>Darkness overkill you !</h3>'+
+							'<p>Your score is %SCORE%.</p>'+
+							'<button onclick="restartGame()">Try to defeat darkness ... again</button>'
 	}
 }
