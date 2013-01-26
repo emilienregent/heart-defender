@@ -1,17 +1,25 @@
 
 var ProjectileConf = {
-	Arrow : {
-		speed : 5, // vitesse des flèches
+	arrow : {
+		speed : 10, // vitesse des flèches
 		maxDistance : 1024, // distance maximale où peuvent aller les flèches
 		width : 72,
-		height : 22//,
-		//collidePadding : 0
+		height : 22,
+		category : 'toCoords'
 	},
-	Explosion : {
-		speed : 3,
+	explosion : {
+		speed :8,
 		maxDistance : 200,
 		width : 77,
-		height : 79//,
-		//collidePadding : 1
+		height : 79,
+		category : 'toCoords'
+	},
+	lightning : {
+		speed :5,
+		maxDistance : 132.5,
+		lifetime : .5,
+		width : 57,
+		height : 130,
+		category : 'toTarget'
 	}
 };
