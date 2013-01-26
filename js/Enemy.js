@@ -141,7 +141,11 @@ function Enemy(parentObj)
 		// ... et on splice l'ennemi actuel 'i'
 		this.enemies.splice(index, 1);
 
-		if(enemiesLen - 1 === this.enemies.length){
+		if(enemiesLen - 1 === this.enemies.length)
+		{
+			//if enemy mort déclanche son destruction 
+			soundLoader.cachedSounds[ "destroy" ].play();
+			
 			return true;
 		}
 		else {
