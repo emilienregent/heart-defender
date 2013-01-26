@@ -23,6 +23,7 @@
 	<!-- Fichiers sources -->
 	<script src="js/Player.js"></script>
 	<script src="js/Enemy.js"></script>
+	<script src="js/Message.js"></script>
 	<script src="js/Heart.js"></script>
 	<script src="js/Bonus.js"></script>
 	<script src="js/Projectile.js"></script>
@@ -177,7 +178,7 @@
 		
 		// INSTANCES
 		input = new Input({
-            target : window
+            target : $$('#gameArea')
         });
 		game = new Game();
 		IM = new IIG.ImageManager();

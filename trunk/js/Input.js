@@ -54,7 +54,7 @@ function Input(options)
 	this.setMouseEvents = function() {
 
 		var that = this;
-
+		
 		this.target.addEventListener('mousemove', function(evt) {
 			that.updateMouse(evt);
 		}, false);
@@ -77,7 +77,7 @@ function Input(options)
 			evt.preventDefault();
 		}, false);
 
-		this.eventsSet = true;
+		this.mouseEventsSet = true;
 
 	};
 
@@ -114,6 +114,8 @@ function Input(options)
 			that.keyboard.space = evt.keyCode == 32 ? 0 : that.keyboard.space;
 
 		}, false);
+
+		this.keyboardEventsSet = true;
 
 	};
 

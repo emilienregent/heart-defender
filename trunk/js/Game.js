@@ -30,6 +30,9 @@ function Game()
 	// Manager de projectiles
 	this.MBonus = null;
 
+	// Manager de messages
+	this.MMessage = null;
+
 	// Coeur (bonus)
 	this.heart = null;
 
@@ -86,6 +89,7 @@ function Game()
 		this.MProjectile = new Projectile(this.that);
 		this.MBonus = new Bonus(this.that);
 		this.MTache = new Tache(this.that);
+		this.MMessage = new Message(this.that);
 		this.heart = new Heart(this.that);
 	};
 	
@@ -117,6 +121,9 @@ function Game()
 		this.MEnemy.animate();
 		// On anime le coeur
 		this.MBonus.animate();
+		// On anime les messages
+		this.MMessage.animate();
+
 	};
 
 	this.listenProjectiles = function() {
@@ -124,6 +131,17 @@ function Game()
 		// this.player.weapon = 'lightning';
 		var conf = ProjectileConf[this.player.weapon];
 		if (input.mouse.click) {
+			
+			this.MMessage.add({
+				message : 'Salut',
+				x : input.mouse.x,
+				y : input.mouse.y,
+				speed : rand(1, 3),
+				decrementOpacity : .01,
+				fontSize : rand(25,50),
+				color : ['red', 'blue', 'orange', 'pink'].pickup()
+			});
+
 			/*Détermine le type de destination selon la catégorie du projectile*/
 			// Initialise l'origine et la destination au centre du joueur
 			var origine = {x:this.player.x + this.player.w/2, y:this.player.y + this.player.h/2};
@@ -244,6 +262,8 @@ function Game()
 		this.MTache.render();
 		// On affiche la shadow box
 		this.renderShadow();
+		// On affiche les messages
+		this.MMessage.render();
 		// On affiche la cible
 		this.renderTarget();
 

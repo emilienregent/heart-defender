@@ -18,7 +18,6 @@ body, html {
 
 #gameArea > canvas#gameCanvas {
 	background: url('../img/bg.jpg');
-    z-index: 1;
     left: 23px;
     top: 17px;
 	-webkit-animation: bouger 5s infinite alternate;
@@ -27,7 +26,6 @@ body, html {
     background-color: transparent;
     left: 23px;
     top: 17px;
-    z-index: 3;
 }
 
 #gameArea > canvas#gameCanvas,
