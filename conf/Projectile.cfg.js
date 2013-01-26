@@ -4,7 +4,7 @@ var ProjectileConf = {
 		speed : 10, // vitesse des flèches
 		maxDistance : 1024, // distance maximale où peuvent aller les flèches
 		width : 72,
-		height : 22,
+		height : 49,
 		category : 'toCoords'
 	},
 	explosion : {

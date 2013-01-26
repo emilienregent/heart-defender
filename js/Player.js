@@ -14,7 +14,7 @@ function Player(parentObj)
 	this.parentObj = parentObj;
 	this.life = GameConf.player.LIFE;
 	this.score = 0;
-	this.weapon = 'Boule de feu';
+	this.weapon = 'arrow';
 
 	/**
 	 * Initialization
