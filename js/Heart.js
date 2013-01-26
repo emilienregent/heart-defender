@@ -15,6 +15,7 @@ function Heart(parentObj) {
 
 	this.w = GameConf.heart.WIDTH;
 	this.h = GameConf.heart.HEIGHT;
+	this.opacity = 0.3;
 
 	this.health = '';	
 	this.lifeTime = '';
@@ -131,8 +132,13 @@ function Heart(parentObj) {
 	 * Dessin du coeur
 	 **/
 	this.render = function() {
-		if (this.alive)
+		if (this.alive) {
+			if(this.parentObj.player.isVisible(this) === false) {
+				ctx.globalAlpha = this.opacity;
+			}
 			drawRect(ctx, 'rgba(255,0,0,1)', this.x, this.y, this.w, this.h);
+			ctx.globalAlpha = 1;
+		}
 	};
 
 	/**
