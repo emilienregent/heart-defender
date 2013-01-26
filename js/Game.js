@@ -69,6 +69,7 @@ function Game()
 			x : 0,
 			y : 0
 		};
+		
 		// On stocke une instance unique de la shadow dans le tableau qui référence toutes les instances de sprites du jeu
 		this.sprites['img/shadow'] = IM.getInstance('img/shadow');
 		this.shadow.sprite = this.sprites['img/shadow'];
