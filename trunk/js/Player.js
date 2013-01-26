@@ -123,6 +123,13 @@ function Player(parentObj)
 	}
 
 	/**
+	 * Test si l'ennemi doit être visible ou non
+	 **/
+	this.isVisible = function(e) {
+		return distance(e, this) <= GameConf.player.RADIUS;
+	}
+
+	/**
 	 * Inflige une perte de point de vie au joueur
 	 **/
 	this.damage = function() {

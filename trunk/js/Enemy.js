@@ -104,7 +104,7 @@ function Enemy(parentObj)
 					--c;
 				}
 			}
-			
+
 		}
 	};
 
@@ -115,7 +115,7 @@ function Enemy(parentObj)
 
 		for (var i = 0, c = this.enemies.length; i < c; i++) {
 			var e = this.enemies[i];
-			if(this.isVisible(e) === false) {
+			if(this.parentObj.player.isVisible(e) === false) {
 				ctx.globalAlpha = e.opacity;
 			}
 			IM.drawImage(ctx, e.sprite, e.x, e.y);
@@ -123,13 +123,6 @@ function Enemy(parentObj)
 		}
 
 	};
-
-	/**
-	 * Test si l'ennemi doit être visible ou non
-	 **/
-	this.isVisible = function(e) {
-		return distance(e, this.parentObj.player) <= GameConf.player.RADIUS;
-	}
 
 	/**
 	 * Détruit l'instance d'ennemi
