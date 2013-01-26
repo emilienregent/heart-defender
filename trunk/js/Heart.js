@@ -87,6 +87,33 @@ function Heart(parentObj) {
 
 		if (this.lifeTime === 0) 
 			this.kill();
+			
+		//if en vie déclanche le battement
+		if ( this.alive )
+		{		
+			//met tout les sons en pause 
+			soundLoader.cachedSounds[ "heart_slow2" ].pause();
+			soundLoader.cachedSounds[ "heart_fast2" ].pause();
+			soundLoader.cachedSounds[ "heart_fast3" ].pause();
+		
+			var dist  = distance( this, this.parentObj.player );
+			var sound = ( dist < 400 ) ? soundLoader.cachedSounds[ "heart_fast2" ] : soundLoader.cachedSounds[ "heart_slow2" ]; 
+			
+			if ( dist < 80 )
+				sound = soundLoader.cachedSounds[ "heart_fast3" ];
+				
+			var diag = Math.sqrt( Math.pow( canvas.width, 2 ) + Math.pow( canvas.height, 2 ) );
+			sound.volume = 0.4 + 0.6 * ( 1 - dist/diag );
+			
+			sound.play();
+		}
+		else
+		{
+			//met tout les sons en pause 
+			soundLoader.cachedSounds[ "heart_slow2" ].pause();
+			soundLoader.cachedSounds[ "heart_fast2" ].pause();
+			soundLoader.cachedSounds[ "heart_fast3" ].pause();
+		}
 	};
 
 	/**
@@ -127,5 +154,8 @@ function Heart(parentObj) {
 			this.alive = false;
 			this.lastPop = +new Date();
 		}
+		
+		//déclanche la collection du coeur 
+		soundLoader.cachedSounds[ "heart_fade" ];
 	};
 }
