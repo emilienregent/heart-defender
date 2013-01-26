@@ -4,13 +4,16 @@
 
 function Game()
 {
-	
 	/**
 	 * Properties
 	**/
 
 	// Joueur principal
 	this.player = new Player(this);
+
+	// Tableau d'ennemis
+	this.ennemies = [];
+	this.lastPopEnemy = +new Date();
 
 	// Cible souris
 	this.cible = {
@@ -33,7 +36,6 @@ function Game()
 
 	this.init = function() 
 	{
-		
 		// ====== JOUEUR ======
 		// On stocke une instance unique du joueur dans le tableau qui référence toutes les instances de sprites du jeu
 		this.player.init();
@@ -62,7 +64,10 @@ function Game()
 		this.listenProjectiles();
 		this.projectile.animate();
 
-		//debug(input.mouse.x + ', ' + input.mouse.y);
+		// On anime les ennemis
+		for(var i = 0, c = this.ennemies.length; i < c; i++) {
+			this.ennemies[i].animate();
+		}
 
 	};
 
@@ -105,6 +110,11 @@ function Game()
 		this.projectile.render();
 		this.renderTarget();
 
+		// On anime les ennemis
+		for(var i = 0, c = this.ennemies.length; i < c; i++) {
+			this.ennemies[i].render();
+		}
+
 	};
 
 	
@@ -124,8 +134,60 @@ function Game()
 
 	this.update = function() {
 
+		if(interval(this.lastPopEnemy, GameConf.ARENA_SPAWN_TIME) === true && 
+			this.ennemies.length < GameConf.ARENA_MAX_ENEMY) 
+		{
+			this.generateEnemies();
+		}
+
 		this.animate();
 		this.render();
-
 	};
+
+	/**
+	 * Generation aléatoire des ennemis
+	 **/
+
+	this.generateEnemies = function() {
+
+		/*Sélectionne le coin opposé au joueur*/
+		var spawn = {
+			x : (this.player.x > WIDTH/2)
+				? GameConf.ARENA_SPAWN_PADDING
+				: WIDTH - GameConf.ARENA_SPAWN_PADDING,
+			y : (this.player.y > HEIGHT/2)
+				? GameConf.ARENA_SPAWN_PADDING
+				: HEIGHT - GameConf.ARENA_SPAWN_PADDING
+		}
+
+		/*Et ajoute un coefficient aléatoire pour décaler le point de spawn des coins*/
+		/*/!\ N'ajoute un coefficient que sur un seul axe pour que le spawn reste près des murs*/
+		/*Horizontal*/
+		if(Math.round(rand(0, 1)) === 0) {
+			randomX = rand(0, WIDTH - GameConf.ARENA_SPAWN_PADDING)
+			if(spawn.x === GameConf.ARENA_SPAWN_PADDING) {
+				spawn.x += randomX;
+			}
+			else {
+				spawn.x -= randomX
+			}
+		/*Vertical*/
+		} else {
+			randomY = rand(0, HEIGHT - GameConf.ARENA_SPAWN_PADDING);
+			if(spawn.y === GameConf.ARENA_SPAWN_PADDING) {
+				spawn.y += randomY;
+			}
+			else {
+				spawn.y -= randomY
+			}
+		}
+
+		var enemy = new Enemy(this, spawn);
+
+		if(enemy !== null) {
+			this.ennemies.push(enemy.init());
+			this.lastPopEnemy = +new Date();
+		}
+
+	}
 }
