@@ -176,6 +176,11 @@ function Player(parentObj)
 		//arrête son thème
 		soundLoader.cachedSounds[ "theme" ].pause();
 		
+		//met tout les sons de coeur en pause 
+		soundLoader.cachedSounds[ "heart_slow2" ].pause();
+		soundLoader.cachedSounds[ "heart_fast2" ].pause();
+		soundLoader.cachedSounds[ "heart_fast3" ].pause();
+			
 		//déclanche son de mort
 		soundLoader.cachedSounds[ "death" ].play();
 		soundLoader.cachedSounds[ "heart_stop" ].play();

@@ -14,7 +14,7 @@ function Enemy(parentObj)
 	// Tableau qui contient tous les ennemis à animer..
 	this.enemies = [];
 	this.lastPop = +new Date();	
-
+	
 	/**
 	 * Ajoute un ennemi dans la liste
 	 **/
@@ -44,7 +44,8 @@ function Enemy(parentObj)
 			h : conf.height,
 			speed : conf.speed,
 			score : conf.SCORE_BASE,
-			opacity : 0.3
+			opacity : 0.3,
+			isSpotted : false //test si l'ennemi à déjà été repéré
 		});
 	};
 
@@ -119,7 +120,19 @@ function Enemy(parentObj)
 			var e = this.enemies[i];
 			if(this.parentObj.player.isVisible(e) === false) {
 				ctx.globalAlpha = e.opacity;
+				
 			}
+			else
+			{
+				//declanche son de shock si on voit l'ennemi pour la première fois
+				if ( !e.isSpotted && Math.random() < 0.2 )
+				{
+					e.isSpotted = true;
+					soundLoader.cachedSounds[ "heart_shock" ].play();
+				}
+							
+			}
+			
 			IM.drawImage(ctx, e.sprite, e.x, e.y);
 			ctx.globalAlpha = 1;
 
