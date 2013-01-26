@@ -18,10 +18,6 @@ function Game()
 		y : 0
 	};
 
-	// Tableau d'ennemis
-	this.ennemies = [];
-	this.lastPopEnemy = +new Date();
-
 	// Cible souris
 	this.cible = {
 		sprite : null,
@@ -31,8 +27,13 @@ function Game()
 		h : 31
 	};
 
-	// Projectiles
-	this.projectile = new Projectile(this);
+	// Manager d'ennemis
+	this.MEnemy = new Enemy(this);
+
+	// Manager de projectiles
+	this.MProjectile = new Projectile(this);
+	
+
 
 	// Ce tableau 'associatif' stockera toutes les instances de sprites
 	this.sprites = [];
@@ -74,15 +75,13 @@ function Game()
 		this.animateShadow();
 		// On anime la target
 		this.animateTarget();
+		// On anime les ennemis
+		this.MEnemy.animate();
+
 		// Ecouteur pour créer un tir ?
 		this.listenProjectiles();
-		// Animation des projectiles
-		this.projectile.animate();
-
-		// On anime les ennemis
-		for (var i = 0, c = this.ennemies.length; i < c; i++) {
-			this.ennemies[i].animate();
-		}
+		// On anime les projectiles
+		this.MProjectile.animate();
 
 	};
 
@@ -92,7 +91,7 @@ function Game()
 
 		if (input.mouse.click) {
 			// On créé un nouveau projectile aux coordonnées x, y du player, et en direction de x, y de la souris lorsqu'on a cliqué
-			this.projectile.add(
+			this.MProjectile.add(
 				this.player.projectileType, // indique le type de projectile que le joueur a à cet instant
 				this.player.x + this.player.w/2,
 				this.player.y + this.player.h/2,
@@ -131,15 +130,15 @@ function Game()
 
 		ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
+		// On affiche le joueur
 		this.player.render();
-		this.projectile.render();
-
-		// On anime les ennemis
-		for(var i = 0, c = this.ennemies.length; i < c; i++) {
-			this.ennemies[i].render();
-		}
-
+		// On affiche les ennemis
+		this.MEnemy.render();
+		// On affiche les projectiles
+		this.MProjectile.render();
+		// On affiche la shadow box
 		this.renderShadow();
+		// On affiche la cible
 		this.renderTarget();
 
 	};
@@ -167,8 +166,8 @@ function Game()
 
 	this.update = function() {
 
-		if(interval(this.lastPopEnemy, GameConf.ARENA_SPAWN_TIME) === true && 
-			this.ennemies.length < GameConf.ARENA_MAX_ENEMY) 
+		if(interval(this.MEnemy.lastPopEnemy, GameConf.ARENA_SPAWN_TIME) === true && 
+			this.MEnemy.enemies.length < GameConf.ARENA_MAX_ENEMY) 
 		{
 			this.generateEnemies();
 		}
@@ -215,12 +214,8 @@ function Game()
 			}
 		}
 
-		var enemy = new Enemy(this, spawn);
-
-		if(enemy !== null) {
-			this.ennemies.push(enemy.init());
-			this.lastPopEnemy = +new Date();
-		}
+		this.MEnemy.add(spawn);
+		this.MEnemy.lastPopEnemy = +new Date();
 
 	}
 }

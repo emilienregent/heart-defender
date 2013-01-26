@@ -4,8 +4,14 @@
 
 function Projectile(parentObj)
 {
+
+	if(!(parentObj instanceof Game)) {
+		warn("Construct Projectile - Projectile parent isn't instance of Game");
+		return null;
+	}
+
 	this.parentObj = parentObj;
-	// Tableaux qui contient tous les projectiles tirés à animer..
+	// Tableau qui contient tous les projectiles tirés à animer..
 	this.projectiles = [];
 
 	/**
@@ -83,19 +89,13 @@ function Projectile(parentObj)
 			p.y += Math.sin(angle) * p.speed;
 
 			// Si ce projectile a atteint sa destination, on le vire du tableau..
-			kill = (p.x < 0 || p.x >= WIDTH || p.y < 0 || p.y >= HEIGHT) || // Si déjà, le projectile sort de la map, on peut le kill..
-				   (distance(p.x, p.y, p.xOrigin, p.yOrigin) > p.maxDistance);
-
-			if (kill) {
-				// On tue l'instance du sprite pour ne pas surcharger le garbage collector...
-				p.sprite = IM.killInstance(p.sprite);
-				// ... et on splice le projectile actuel 'i'
-				this.projectiles.splice(i, 1);
-				// ... sans oublier de décrémenter 'c'
-				--c;
+			if((p.x < 0 || p.x >= WIDTH || p.y < 0 || p.y >= HEIGHT) || // Si déjà, le projectile sort de la map, on peut le kill..
+				   (distance(p.x, p.y, p.xOrigin, p.yOrigin) > p.maxDistance)){
+				if(this.kill(i)) {
+					--c;
+				}
 			}
 		}
-
 	};
 
 	/**
@@ -112,6 +112,25 @@ function Projectile(parentObj)
 			IM.drawImage(ctx, p.sprite, 0, 0);
 			ctx.restore();
 		}
-
 	};
+
+	/**
+	 * Détruit l'instance de projectile
+	 **/
+	this.kill = function(index) {
+		var projectile = this.projectiles[index];
+		var projectilesLen = this.projectiles.length;
+		// On tue l'instance du sprite pour ne pas surcharger le garbage collector...
+		IM.killInstance(projectile.sprite);
+		// ... et on splice le projectil actuel 'i'
+		this.projectiles.splice(index, 1);
+
+		if(projectilesLen - 1 === this.projectiles.length){
+			return true;
+		}
+		else {
+			warn("Kill Projectile - Can't kill projectile");
+			return false;
+		}
+	}
 }
