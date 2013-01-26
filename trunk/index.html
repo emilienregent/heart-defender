@@ -6,50 +6,8 @@
 
 	<title>Heart Defender</title>
 
-    <style>
-        body, html { margin: 0; padding: 0; background-color: black; color: white; cursor: none; }
-        canvas#gameCanvas {
-        	background: url('img/bg.jpg');
-        	-webkit-animation: bouger 5s infinite alternate;
-        }
-        canvas#gameCanvas, #gameover{	
-        	width: 1024px;
-        	height: 600px;
-        	margin: 0 0 0 -512px;
-        	position: absolute;
-        	top: 30px;
-        	left: 50%;
-        }
-
-        @-webkit-keyframes bouger {
-        	0% { background-image: url('img/bg.jpg'); }
-        	50% { background-image: url('img/bg_2.jpg'); }
-        	100% { background-image: url('img/bg_3.jpg'); }
-        }
-
-        .disable-select {
-		  -webkit-user-select: none;  
-		  -moz-user-select: none;    
-		  -ms-user-select: none;      
-		  user-select: none;
-		}
-
-        #header {
-        	width: 1024px;
-        	height: 30px;
-        	position: absolute;
-        	top: 0;
-        	left: 50%;
-        	margin: 0 0 0 -512px;
-        }
-        #header #life{float:right;}
-        #header #score{float:left;}
-
-        #gameover {
-        	background: black;
-        	display: none;
-        }
-    </style>
+	<link rel="stylesheet" href="css/fonts.css" />
+	<link rel="stylesheet" href="css/style.css" />
 
 	<script src="js/functions.js"></script>
 	<script src="js/Input.js"></script>
@@ -74,7 +32,12 @@
 
 </head>
 <body role="main">
-	<canvas id="gameCanvas" width="1024" height="600"></canvas>
+	
+	<div id="gameArea">
+		<canvas id="gameCanvas" width="1024" height="600"></canvas>
+
+		<div id="gameover"></div>
+	</div>
 
 	<!--<video id="inputVideo" autoplay loop></video>
 	<canvas id="inputCanvas" width="200" height="150"></canvas>-->
@@ -83,7 +46,6 @@
 		<div id="score"></div>
 		<div id="life"></div>
 	</div>
-	<div id="gameover"></div>
 
 	<script>
 
