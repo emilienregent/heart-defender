@@ -45,9 +45,9 @@ var GameConf =
 	menu : {
 		/*Bloc HTML de gameover*/
 		GAMEOVER_DISPLAY : '<h2>Game Over</h2>'+
-							'<h3>Darkness overkill you !</h3>'+
+							'<h3>Darkness overkilled you !</h3>'+
 							'<p>Your score is %SCORE%.</p>'+
-							'<button onclick="restartGame()">Try to defeat darkness ... again</button>'
+							'<button onclick="restartGame()">Try to defeat the darkness ... again</button>'
 	},
 	heart : {
 		SPAWN_TIME : 2, /*Délai de génération du bonus*/

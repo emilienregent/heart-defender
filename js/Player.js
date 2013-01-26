@@ -52,28 +52,28 @@ function Player(parentObj)
 
 		// bas
 		if (input.keyboard.down) {
-			if (p.y + p.h + p.speed < HEIGHT) p.y += p.speed * deltaTime;
+			if (p.y + p.h + p.speed * deltaTime < HEIGHT) p.y += p.speed * deltaTime;
 			p.sprite.animation.sy = 64 * 2;
 			p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 		}
 
 		// haut
 		if (input.keyboard.up) {
-			if (p.y - p.speed > 0) p.y -= p.speed * deltaTime;
+			if (p.y - p.speed * deltaTime > 0) p.y -= p.speed * deltaTime;
 			p.sprite.animation.sy = 0;
 			p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 		}
 
 		// gauche
 		if (input.keyboard.left) {
-			if (p.x - p.speed > 0 ) p.x -= p.speed * deltaTime;
+			if (p.x - p.speed * deltaTime > 0 ) p.x -= p.speed * deltaTime;
 			p.sprite.animation.sy = 64 * 3;
 			p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 		}
 
 		// droite
 		if (input.keyboard.right) {
-			if (p.x + p.w + p.speed < WIDTH) p.x += p.speed * deltaTime;
+			if (p.x + p.w + p.speed * deltaTime < WIDTH) p.x += p.speed * deltaTime;
 			p.sprite.animation.sy = 64;
 			p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 		}
