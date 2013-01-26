@@ -2,38 +2,35 @@
  * Enemy.js
  **/
 
-function Enemy(parentObj, spawn)
+function Enemy(parentObj)
 {
 
 	if(!(parentObj instanceof Game)) {
-		warn("Enemy.js - Enemy parent isn't instance of Game");
+		warn("Construct Enemy - Enemy parent isn't instance of Game");
 		return null;
 	}
 
-	if(typeof spawn.x === "undefined" || typeof spawn.y === "undefined") {
-		warn("Enemy.js - Spawn point coords are missing");
-		return null;
-	}	
-
-	this.sprite = null;
-	this.x = spawn.x - (48/2);
-	this.y = spawn.y - (64/2);
-	this.w = 48;
-	this.h = 64;
-	this.speed = 3;
 	this.parentObj = parentObj;
-	this.moveDirection = 'idle';
+	// Tableau qui contient tous les ennemis à animer..
+	this.enemies = [];
+	this.lastPopEnemy = +new Date();
+
+	
 
 	/**
-	 * Initialization
+	 * Ajoute un ennemi dans la liste
 	 **/
 
-	this.init = function() 
+	this.add = function(spawn) 
 	{
-		// On stocke une instance unique du joueur dans le tableau qui référence toutes les instances de sprites du jeu
-		this.parentObj.sprites['img/enemy'] = IM.getInstance('img/enemy');
-		this.sprite = this.parentObj.sprites['img/enemy'];
-		this.sprite.animation = new IIG.Animation({
+
+		if(typeof spawn.x === "undefined" || typeof spawn.y === "undefined") {
+			warn("Add Enemy - Spawn point coords are missing");
+			return null;
+		}
+
+		var sprite = IM.getInstance('img/enemy');
+		sprite.animation = new IIG.Animation({
 			sWidth : 48,
 			sHeight : 64,
 			sx : 48,
@@ -43,7 +40,14 @@ function Enemy(parentObj, spawn)
 			animByFrame : 7
 		});
 
-		return this;
+		this.enemies.push({
+			x : spawn.x - (48/2),
+			y : spawn.y - (64/2),
+			w : 48,
+			h : 64,
+			speed : 3,
+			sprite : sprite			
+		});
 	};
 
 	/**
@@ -51,39 +55,44 @@ function Enemy(parentObj, spawn)
 	 **/
 	this.animate = function() {
 
-		var p = this;
+		for (var i = 0, c = this.enemies.length; i < c; i++) {
+			var e = this.enemies[i];
 
-		// Test la direction de l'ennemi
-		switch(this.moveDirection) {
-			// bas
-			case 'bottom' : 
-				if (p.y + p.h + p.speed < HEIGHT) p.y += p.speed;
-				p.sprite.animation.sy = 64 * 2;
-				p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
-			break;
-			// haut
-			case 'top' :
-				if (p.y - p.speed > 0) p.y -= p.speed;
-				p.sprite.animation.sy = 0;
-				p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
-			break;
-			// gauche
-			case 'left' :
-				if (p.x - p.speed > 0 ) p.x -= p.speed;
-				p.sprite.animation.sy = 64 * 3;
-				p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
-			break;
-			// droite
-			case 'right' :
-				if (p.x + p.w + p.speed < WIDTH) p.x += p.speed;
-				p.sprite.animation.sy = 64;
-				p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
-			break;
-			// Si aucune touche directionnelle n'est activée, la position 'sx' du sprite joueur passe au centre (position arrêt : 48) et on pause l'animation
-			default : 
-				p.sprite.animation.sx = 48;
-				p.sprite.pauseAnimation = true;
-			break;
+			var angle,
+				distX = (this.parentObj.player.x + this.parentObj.player.w/2) - (e.x + e.w/2),
+				distY = (this.parentObj.player.y + this.parentObj.player.h/2) - (e.y + e.h/2);
+
+			angle = Math.atan2(distY, distX);
+			e.x += Math.cos(angle) * e.speed;
+			e.y += Math.sin(angle) * e.speed;
+
+			// Test la direction de l'ennemi
+			if(Math.cos(angle) <= 0) {
+				// gauche
+				e.sprite.animation.sy = 64 * 3;
+				e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
+			}
+			else if(Math.cos(angle) > 0) {
+				// droite
+				e.sprite.animation.sy = 64;
+				e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
+			}
+			else if(Math.sin(angle) <= 0) {
+				// haut
+				e.sprite.animation.sy = 0;
+				e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
+			}
+			else if(Math.sin(angle) > 0) {
+				// bas
+				e.sprite.animation.sy = 64 * 2;
+				e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
+			}
+
+			if(collide(e, this.parentObj.player)) {
+				if(this.kill(i)) {
+					--c;
+				}
+			}
 		}
 	};
 
@@ -92,7 +101,30 @@ function Enemy(parentObj, spawn)
 	 **/
 	this.render = function() {
 
-		IM.drawImage(ctx, this.sprite, this.x, this.y);
+		for (var i = 0, c = this.enemies.length; i < c; i++) {
+			var e = this.enemies[i];
+			IM.drawImage(ctx, e.sprite, e.x, e.y);
+		}
 
 	};
+
+	/**
+	 * Détruit l'instance d'ennemi
+	 **/
+	this.kill = function(index) {
+		var enemy = this.enemies[index];
+		var enemiesLen = this.enemies.length;
+		// On tue l'instance du sprite pour ne pas surcharger le garbage collector...
+		IM.killInstance(enemy.sprite);
+		// ... et on splice l'ennemi actuel 'i'
+		this.enemies.splice(index, 1);
+
+		if(enemiesLen - 1 === this.enemies.length){
+			return true;
+		}
+		else {
+			warn("Kill Enemy - Can't kill enemy");
+			return false;
+		}
+	}
 }
