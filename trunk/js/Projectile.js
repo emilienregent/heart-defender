@@ -64,10 +64,11 @@ function Projectile(parentObj)
 			xDestination : xDestination,
 			yDestination : yDestination,
 			rotation : angle,
-			w : sprite.width,
-			h : sprite.height,
+			w : conf.width,
+			h : conf.height,
 			speed : conf.speed,
-			maxDistance : conf.maxDistance
+			maxDistance : conf.maxDistance,
+			collidePadding : conf.collidePadding
 		});
 
 	};
@@ -78,8 +79,7 @@ function Projectile(parentObj)
 	this.animate = function() {
 
 		var angle,
-			dist,
-			kill;
+			alreadyKilled = false;
 
 		for (var i = 0, c = this.projectiles.length; i < c; i++) {
 			var p = this.projectiles[i];
@@ -88,11 +88,33 @@ function Projectile(parentObj)
 			p.x += Math.cos(angle) * p.speed;
 			p.y += Math.sin(angle) * p.speed;
 
+			// Si ce projectile touche un ennemi, on supprime l'ennemi et le projectile
+			for (var j = 0, d = this.parentObj.MEnemy.enemies.length; j < d; j++) {
+				var e = this.parentObj.MEnemy.enemies[j];
+
+				// Modification des coordonnées du player pour gérer la rotation
+				// du sprite correctement.
+				var pTemp = {
+					x : p.x - p.w/2,
+					y : p.y - p.h/2,
+					w : p.w,
+					h : p.h
+				};
+
+				if (collide(pTemp, e)) {
+					if (this.kill( i )) --c;
+					if (this.parentObj.MEnemy.kill( j )) --d;
+					alreadyKilled = true;
+				}
+			}
+			
 			// Si ce projectile a atteint sa destination, on le vire du tableau..
-			if((p.x < 0 || p.x >= WIDTH || p.y < 0 || p.y >= HEIGHT) || // Si déjà, le projectile sort de la map, on peut le kill..
-				   (distance(p.x, p.y, p.xOrigin, p.yOrigin) > p.maxDistance)){
-				if(this.kill(i)) {
-					--c;
+			if (!alreadyKilled)
+			{
+			   if ((p.x < 0 || p.x >= WIDTH || p.y < 0 || p.y >= HEIGHT) || // Si déjà, le projectile sort de la map, on peut le kill..
+			      (distance(p.x, p.y, p.xOrigin, p.yOrigin) > p.maxDistance)) // Sinon s'il atteint sa distance maximum, on le kill
+				{
+					if(this.kill( i )) --c;
 				}
 			}
 		}
@@ -109,7 +131,7 @@ function Projectile(parentObj)
 			ctx.save();
 			ctx.translate(p.x, p.y);
 			ctx.rotate(p.rotation);
-			IM.drawImage(ctx, p.sprite, 0, 0);
+			IM.drawImage(ctx, p.sprite, -p.w/2, -p.h/2);
 			ctx.restore();
 		}
 	};
