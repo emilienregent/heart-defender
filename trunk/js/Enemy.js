@@ -104,6 +104,7 @@ function Enemy(parentObj)
 					--c;
 				}
 			}
+			
 		}
 	};
 
