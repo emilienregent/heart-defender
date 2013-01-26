@@ -96,35 +96,46 @@
 			//launch heartbeat
 			var heartSlow  = soundLoader.cachedSounds[ "heart_slow2" ],
 				heartFast  = soundLoader.cachedSounds[ "heart_fast2" ],
-				heartShock = soundLoader.cachedSounds[ "heart_shock" ];
+				heartShock = soundLoader.cachedSounds[ "heart_shock" ],
+				heartFade  = soundLoader.cachedSounds[ "heart_fade" ],
+				heartStop  = soundLoader.cachedSounds[ "heart_stop" ];
+				
 			var theme = soundLoader.cachedSounds[ "theme" ],
 				title = soundLoader.cachedSounds[ "title" ];			
 			var powerup = soundLoader.cachedSounds[ "powerup" ],
 				destroy = soundLoader.cachedSounds[ "destroy" ],
-				damage  = soundLoader.cachedSounds[ "damage" ];
+				damage  = soundLoader.cachedSounds[ "damage" ],
+				fire    = soundLoader.cachedSounds[ "fire" ],
+				death   = soundLoader.cachedSounds[ "death" ];
 				
 			heartSlow.loop  = true;
 			heartFast.loop  = true;
 			heartShock.loop = true;
+			
 		//	damage.loop     = true;
 			
 
 			powerup.loop = true;
 			destroy.loop = true;
+			death.loop   = true;
 			
 			theme.loop     = true;
 			title.loop     = true;
 		
-			theme.volume   = 0.8;
+			theme.volume   = 0.5;
 		
+		//	death.play();
+		//	heartStop.play();
+		//	fire.play();
 		//	damage.play();
 		//	destroy.play();
 		//	powerup.play();
 		//	heartSlow.play();
 		//	heartFast.play();
-		 theme.play();
+			theme.play();
 		//	title.play();
 		//	heartShock.play();
+		//	heartFade.play();
 			
 			run();
 		}
@@ -156,7 +167,7 @@
 		
 		// INSTANCES
 		input = new Input({
-            target : canvas
+            target : window
         });
 		game = new Game();
 		IM = new IIG.ImageManager();

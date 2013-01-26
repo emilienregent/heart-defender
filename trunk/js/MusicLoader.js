@@ -29,7 +29,8 @@ function Loader( canvasSize, path, ctx, callback )
 	
 	this.soundDirectories = [ { name : "", files : [ "heart_fast.ogg", "heart_slow.ogg", "game.ogg", "theme.ogg", "title.ogg", 
 	                                                 "heart_slow2.ogg", "heart_fast2.ogg", "heart_fast3.ogg", "heart_shock.ogg",
-													 "powerup.ogg", "destroy.ogg", "damage.ogg" ] } ];
+													 "powerup.ogg", "destroy.ogg", "damage.ogg", "arrow.ogg", "heart_fade.ogg",
+													 "fire.ogg", "heart_stop.ogg", "death.ogg" ] } ];
 			
 	this.callbackFunc = callback;
 	
