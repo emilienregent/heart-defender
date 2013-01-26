@@ -86,8 +86,8 @@ function Input(options)
 		this.mouse.prevX = this.mouse.x;
 		this.mouse.prevY = this.mouse.y;
 
-		this.mouse.x = evt.clientX - this.target.offsetLeft;
-		this.mouse.y = evt.clientY - this.target.offsetTop;
+		this.mouse.x = evt.clientX - ( this.target.offsetLeft || 0 );
+		this.mouse.y = evt.clientY - ( this.target.offsetTop || 0 );
 
 	};
 

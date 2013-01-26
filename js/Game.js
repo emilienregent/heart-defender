@@ -127,6 +127,22 @@ function Game()
 				input.mouse.x,
 				input.mouse.y
 			);
+			
+			switch ( this.player.projectileType )
+			{
+				case "fleche" :
+					//déclancher son fleche	
+					soundLoader.cachedSounds[ "arrow" ].play();
+				break;
+				
+				case "explosion" :
+					//déclancher son feu
+					var fire = soundLoader.cachedSounds[ "fire" ];
+					fire.currentTime = 0.15;
+					fire.play();
+				break;
+			}
+			
 		}
 
 	};
@@ -139,6 +155,7 @@ function Game()
 		this.cible.x = input.mouse.x - (this.cible.w/2);
 		this.cible.y = input.mouse.y - (this.cible.h/2);
 
+		console.log( input.mouse.x + " " + input.mouse.y );
 	};
 
 	/**
