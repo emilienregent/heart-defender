@@ -27,7 +27,7 @@ function Loader( canvasSize, path, ctx, callback )
 	
 	this.imageDirectories = [ { name : "", files : [ "" ] } ];
 	
-	this.soundDirectories = [ { name : "", files : [ "heart_fast.ogg", "heart_slow.ogg", "game.ogg" ] } ];
+	this.soundDirectories = [ { name : "", files : [ "heart_fast.ogg", "heart_slow.ogg", "game.ogg", "theme.ogg", "heart_slow2.ogg" ] } ];
 			
 	this.callbackFunc = callback;
 	

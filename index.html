@@ -62,14 +62,18 @@
 			currentGameObject.init();
 			
 			//launch heartbeat
-			var heartSlow = soundLoader.cachedSounds[ "heart_slow" ],
+			var heartSlow = soundLoader.cachedSounds[ "heart_slow2" ],
 				heartFast = soundLoader.cachedSounds[ "heart_fast" ];
+			var theme = soundLoader.cachedSounds[ "theme" ];
 			
 			heartSlow.loop = true;
 			heartFast.loop = true;
+			theme.loop     = true;
+			theme.volume   = 0.8;
 			
 		//	heartSlow.play();
-			heartFast.play();
+		//	heartFast.play();
+			theme.play();
 			
 			run();
 		}
