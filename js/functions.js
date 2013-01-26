@@ -56,10 +56,12 @@ function distance(a, b, x, y){
 // Detect collision between two objects 'a' and 'b'
 // Assuming both 'a' and 'b' have x/y/w/h properties
 function collide(a, b) {
-	return !(b.x >= a.x + a.w // Trop à droite
-			|| b.x + b.w <= a.x // Trop à gauche
-			|| b.y >= a.y + a.h // Trop en bas
-			|| b.y + b.h <= a.y) // Trop en haut
+	var acp = a.collidePadding || 0,
+		bcp = b.collidePadding || 0;
+	return !(b.x + bcp >= a.x + a.w - acp // Trop à droite
+			|| b.x + b.w - bcp <= a.x + acp // Trop à gauche
+			|| b.y + bcp >= a.y + a.h - acp // Trop en bas
+			|| b.y + b.h - bcp <= a.y + acp) // Trop en haut
 }
 
 // Pickup a random value into an Array
