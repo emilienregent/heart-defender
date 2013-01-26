@@ -7,7 +7,7 @@ var GameConf =
 	arena : {
 		SPAWN_PADDING : 50,	/*Coefficient pour décaler le point de spawn des murs*/	
 		SPAWN_TIME : 2,		/*Délai de génération des éléments de l'arène*/
-		MAX_ENEMY : 20,		/*Nombre maximum d'ennemis*/
+		MAX_ENEMY : 1,		/*Nombre maximum d'ennemis*/
 	},
 	player : {
 		LIFE : 3,			/*Points de vie du joueur en début de partie*/

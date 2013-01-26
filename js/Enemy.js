@@ -72,26 +72,31 @@ function Enemy(parentObj)
 			e.x += Math.cos(angle) * e.speed;
 			e.y += Math.sin(angle) * e.speed;
 
-			// Test la direction de l'ennemi
-			if(Math.cos(angle) <= 0) {
-				// gauche
-				e.sprite.animation.sy = e.h * 3;
-				e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
+
+			if (Math.abs(Math.cos(angle)) > Math.abs(Math.sin(angle))) {
+				// Test la direction de l'ennemi
+				if(Math.cos(angle) <= 0) {
+					// gauche
+					e.sprite.animation.sy = e.h * 3;
+					e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
+				}
+				else if(Math.cos(angle) > 0) {
+					// droite
+					e.sprite.animation.sy = e.h;
+					e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
+				}
 			}
-			else if(Math.cos(angle) > 0) {
-				// droite
-				e.sprite.animation.sy = e.h;
-				e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
-			}
-			else if(Math.sin(angle) <= 0) {
-				// haut
-				e.sprite.animation.sy = 0;
-				e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
-			}
-			else if(Math.sin(angle) > 0) {
-				// bas
-				e.sprite.animation.sy = e.h * 2;
-				e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
+			else {
+				if(Math.sin(angle) <= 0) {
+					// haut
+					e.sprite.animation.sy = 0;
+					e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
+				}
+				else if(Math.sin(angle) > 0) {
+					// bas
+					e.sprite.animation.sy = e.h * 2;
+					e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
+				}
 			}
 
 			/*Collision avec le joueur*/

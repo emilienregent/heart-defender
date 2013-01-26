@@ -244,7 +244,7 @@ function Game()
 		// On affiche les taches
 		this.MTache.render();
 		// On affiche la shadow box
-		this.renderShadow();
+		// this.renderShadow();
 		// On affiche la cible
 		this.renderTarget();
 
