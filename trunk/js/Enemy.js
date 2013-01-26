@@ -59,9 +59,17 @@ function Enemy(parentObj)
 		for (var i = 0, c = this.enemies.length; i < c; i++) {
 			var e = this.enemies[i];
 
+			var target = this.parentObj.player;
+
+			var heart = this.parentObj.heart;
+			if (heart.alive) {
+				if (lineDistance({x:e.x,y:e.y},{x:heart.x,y:heart.y}) < lineDistance({x:e.x,y:e.y},{x:target.x,y:target.y}))
+					target = heart;
+			}
+
 			var angle,
-				distX = (this.parentObj.player.x + this.parentObj.player.w/2) - (e.x + e.w/2),
-				distY = (this.parentObj.player.y + this.parentObj.player.h/2) - (e.y + e.h/2);
+				distX = (target.x + target.w/2) - (e.x + e.w/2),
+				distY = (target.y + target.h/2) - (e.y + e.h/2);
 
 			angle = Math.atan2(distY, distX);
 			e.x += Math.cos(angle) * e.speed;
@@ -90,9 +98,9 @@ function Enemy(parentObj)
 			}
 
 			/*Collision avec le joueur*/
-			if(collide(e, this.parentObj.player)) {
+			if(collide(e, target)) {
 				if(this.kill(i, false)) {
-					this.parentObj.player.damage();
+					target.damage();
 					--c;
 				}
 			}

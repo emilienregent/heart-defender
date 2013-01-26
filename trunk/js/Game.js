@@ -27,8 +27,8 @@ function Game()
 	// Manager de projectiles
 	this.MProjectile = null;
 
-	// Manager de coeurs
-	this.MHeart = null;
+	// Coeur (bonus)
+	this.heart = null;
 
 
 	// Ce tableau 'associatif' stockera toutes les instances de sprites
@@ -76,7 +76,7 @@ function Game()
 		this.MEnemy = new Enemy(this.that);
 		this.MProjectile = new Projectile(this.that);
 		this.MTache = new Tache(this.that);
-		this.MHeart = new Heart(this.that);
+		this.heart = new Heart(this.that);
 	};
 	
 	/**
@@ -95,7 +95,7 @@ function Game()
 		// On anime la target
 		this.animateTarget();
 		// On anime les ennemis
-		this.MHeart.animate();
+		this.heart.animate();
 
 		// Ecouteur pour créer un tir ?
 		this.listenProjectiles();
@@ -158,7 +158,7 @@ function Game()
 		ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
 		// On affiche les coeurs
-		this.MHeart.render();
+		this.heart.render();
 		// On affiche le joueur
 		this.player.render();
 		// On affiche les ennemis
@@ -203,10 +203,10 @@ function Game()
 			this.generateEnemies();
 		}
 
-		if(interval(this.MHeart.lastPop, GameConf.heart.SPAWN_TIME) === true &&
-			this.MHeart.hearts.length < GameConf.heart.MAX) 
+		if(interval(this.heart.lastPop, GameConf.heart.SPAWN_TIME) === true &&
+			!this.heart.alive )
 		{
-			this.MHeart.generate();
+			this.heart.generate();
 		}
 
 		this.animate();
