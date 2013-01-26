@@ -261,8 +261,8 @@ function Game()
 	 * Déclenche le game over
 	 **/
 	this.gameover = function() {
-		this.showGameover();
 		this.stop = true;
+		this.showGameover();
 	}
 
 	this.showGameover = function() {
@@ -282,8 +282,11 @@ function Game()
 	 * Clear properties of current game
 	 **/
 	this.clear = function() {
+		// this.player.clear();
 		this.player = undefined;
+		// this.MEnemy.clear();
 		this.MEnemy = undefined;
+		// this.MProjectile.clear();
 		this.MProjectile = undefined;
 		this.MTache = undefined;
 

@@ -11,7 +11,8 @@
         canvas {
         	background: url('img/bg.jpg');
         	-webkit-animation: bouger 5s infinite alternate;
-
+        }
+        canvas, #gameover{	
         	width: 1024px;
         	height: 600px;
         	margin: 0 0 0 -512px;
@@ -42,6 +43,12 @@
         	margin: 0 0 0 -512px;
         }
         #header #life{float:right;}
+        #header #score{float:left;}
+
+        #gameover {
+        	background: black;
+        	display: none;
+        }
     </style>
 
 	<script src="js/functions.js"></script>
@@ -71,6 +78,7 @@
 		<div id="score"></div>
 		<div id="life"></div>
 	</div>
+	<div id="gameover"></div>
 
 	<script>
 
@@ -145,20 +153,28 @@
 			run();
 		}
 		
+		restartGame = function() {
+			currentGameObject.hideGameover();
+			currentGameObject.init();
+		}
+
 		/****************** GAME LOOP *******************/
 		run = function(_t) {
 			TIME = _t;
-			// Sprites update
-			IM.update();
+			if(currentGameObject.stop === false) {
+				// Sprites update
+				IM.update();
 
-			// Main game object update
-			currentGameObject.update();
+				// Main game object update
+				currentGameObject.update();
 
-			// Reset single mouse click
-			input.mouse.click = false;
-
+				// Reset single mouse click
+				input.mouse.click = false;
+			}
+			else if(currentGameObject.cleared === true) {
+				currentGameObject.clear();
+			}
 			requestAnimationFrame(run);
-
 		};
 		/*************** ENDING GAME LOOP ***************/
 		
