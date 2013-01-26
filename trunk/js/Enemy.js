@@ -45,7 +45,8 @@ function Enemy(parentObj)
 			w : 48,
 			h : 64,
 			speed : 3,
-			sprite : sprite			
+			sprite : sprite,
+			score : GameConf.enemy.bob.SCORE_BASE
 		});
 	};
 
@@ -89,7 +90,7 @@ function Enemy(parentObj)
 
 			/*Collision avec le joueur*/
 			if(collide(e, this.parentObj.player)) {
-				if(this.kill(i)) {
+				if(this.kill(i, false)) {
 					this.parentObj.player.damage();
 					--c;
 				}
@@ -112,8 +113,12 @@ function Enemy(parentObj)
 	/**
 	 * Détruit l'instance d'ennemi
 	 **/
-	this.kill = function(index) {
+	this.kill = function(index, withScore) {
 		var enemy = this.enemies[index];
+		// Si la mort de l'ennemi doit générer du score
+		if(withScore === true) {
+			this.parentObj.score(enemy);
+		}
 		var enemiesLen = this.enemies.length;
 		// On tue l'instance du sprite pour ne pas surcharger le garbage collector...
 		IM.killInstance(enemy.sprite);

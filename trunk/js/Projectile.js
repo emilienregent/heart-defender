@@ -103,7 +103,7 @@ function Projectile(parentObj)
 
 				if (collide(pTemp, e)) {
 					if (this.kill( i )) --c;
-					if (this.parentObj.MEnemy.kill( j )) --d;
+					if (this.parentObj.MEnemy.kill( j, true )) --d;
 					alreadyKilled = true;
 				}
 			}
