@@ -64,6 +64,7 @@
 			IM, // Image Manager instance
 			soundLoader, // Sound Loader instance
 			isLoadedImages,
+			deltaTime, //independance framerate
 			TIME; 
 			
 		canvas = $$('#gameCanvas');
@@ -71,6 +72,7 @@
 
 		isLoadedImages = false;
 		
+		deltaTime = Date.now();
 		// Uniquement si le canvas doit faire la taille de l'écran !
 		/*WIDTH = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 		HEIGHT = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;*/
@@ -92,7 +94,19 @@
 		startGame = function()
 		{
 			currentGameObject.init();
+			initSounds();
 			
+			run();
+		}
+		
+		restartGame = function() {
+			currentGameObject.hideGameover();
+			initSounds();
+			currentGameObject.init();
+		}
+
+		initSounds = function()
+		{
 			//launch heartbeat
 			var heartSlow  = soundLoader.cachedSounds[ "heart_slow2" ],
 				heartFast  = soundLoader.cachedSounds[ "heart_fast2" ],
@@ -114,7 +128,6 @@
 			
 		//	damage.loop     = true;
 			
-
 			powerup.loop = true;
 		//	destroy.loop = true;
 			death.loop   = true;
@@ -124,7 +137,10 @@
 		
 			theme.volume   = 0.5;
 		
-		//	death.play();
+			//arrête son de la mort le cas où il est activé
+			death.pause();
+			heartStop.pause();
+			
 		//	heartStop.play();
 		//	fire.play();
 		//	damage.play();
@@ -136,15 +152,8 @@
 		//	title.play();
 		//	heartShock.play();
 		//	heartFade.play();
-			
-			run();
 		}
 		
-		restartGame = function() {
-			currentGameObject.hideGameover();
-			currentGameObject.init();
-		}
-
 		/****************** GAME LOOP *******************/
 		run = function(_t) {
 			TIME = _t;

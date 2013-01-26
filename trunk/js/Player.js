@@ -9,7 +9,7 @@ function Player(parentObj)
 	this.y = 300 - (64/2);
 	this.w = 48;
 	this.h = 64;
-	this.speed = 2;
+	this.speed = 80;
 	this.projectileType = 'explosion'; // ('fleche', ...)
 	this.parentObj = parentObj;
 	this.life = GameConf.player.LIFE;
@@ -46,32 +46,33 @@ function Player(parentObj)
 	 **/
 	this.animate = function() {
 
+		deltaTime = ( Date.now() - deltaTime ) / 1000;
 		var p = this;
 
 		// bas
 		if (input.keyboard.down) {
-			if (p.y + p.h + p.speed < HEIGHT) p.y += p.speed;
+			if (p.y + p.h + p.speed < HEIGHT) p.y += p.speed * deltaTime;
 			p.sprite.animation.sy = 64 * 2;
 			p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 		}
 
 		// haut
 		if (input.keyboard.up) {
-			if (p.y - p.speed > 0) p.y -= p.speed;
+			if (p.y - p.speed > 0) p.y -= p.speed * deltaTime;
 			p.sprite.animation.sy = 0;
 			p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 		}
 
 		// gauche
 		if (input.keyboard.left) {
-			if (p.x - p.speed > 0 ) p.x -= p.speed;
+			if (p.x - p.speed > 0 ) p.x -= p.speed * deltaTime;
 			p.sprite.animation.sy = 64 * 3;
 			p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 		}
 
 		// droite
 		if (input.keyboard.right) {
-			if (p.x + p.w + p.speed < WIDTH) p.x += p.speed;
+			if (p.x + p.w + p.speed < WIDTH) p.x += p.speed * deltaTime;
 			p.sprite.animation.sy = 64;
 			p.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 		}
@@ -82,6 +83,7 @@ function Player(parentObj)
 			p.sprite.pauseAnimation = true;
 		}
 
+		deltaTime = Date.now();
 	};
 
 	/**
@@ -162,6 +164,14 @@ function Player(parentObj)
 	 * Fait mourir le joueur
 	 **/
 	this.kill = function() {
+		
+		//arrête son thème
+		soundLoader.cachedSounds[ "theme" ].pause();
+		
+		//déclanche son de mort
+		soundLoader.cachedSounds[ "death" ].play();
+		soundLoader.cachedSounds[ "heart_stop" ].play();
+		
 		this.parentObj.gameover();
 	};
 
