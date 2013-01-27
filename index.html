@@ -35,6 +35,9 @@
 	<script src="js/Projectile.js"></script>
 	<script src="js/Tache.js"></script>
 
+	<!-- Fichiers écrans -->
+	<script src="js/Achievement.js"></script>
+	
 	<!-- Fichier core -->
 	<script src="js/Game.js"></script>
 
@@ -72,6 +75,7 @@
 			input, // Input instance
 			game, // instance of Game
 			tuto, // instance of Tuto
+			achievement, //instance of Achievement
 			currentGameObject, // instance of a GameObject
 			IM, // Image Manager instance
 			soundLoader, // Sound Loader instance
@@ -134,8 +138,6 @@
 		
 		restartGame = function() {
 			currentGameObject.hideGameover();
-			
-			initSounds();
 			currentGameObject.init();
 		}
 
@@ -193,7 +195,6 @@
 				if (input.keyboard.keypressed || input.mouse.click) {
 					input.mouse.click = false;
 					$$('#gameArea').className += " loaded";
-					initSounds();
 					currentGameObject.init();
 				}
 				else
@@ -221,6 +222,7 @@
             target : $$('#gameArea')
         });
 		game = new Game();
+		achievement = new Achievement();
 		IM = new IIG.ImageManager();
 	
 		var path = { img : "img/", sound : "sound/" };
@@ -254,6 +256,10 @@
         IM.add('img/parchemin_fire_arrow.png');
         IM.add('img/parchemin_lightning.png');
         IM.add('img/board-bg.png');
+		IM.add('img/logo.png');
+		IM.add('img/tuto_bg.jpg');
+		IM.add('img/parchemin.png');
+		IM.add('img/jewel_ico.png');
 
 		currentGameObject = game;
 

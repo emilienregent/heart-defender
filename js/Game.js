@@ -111,6 +111,9 @@ function Game()
 		this.MScore = new Score(this.that);
 		this.MBoard = new Board(this.that);
 		this.heart = new Heart(this.that);
+		
+		//MUSIC
+		initSounds();
 	};
 	
 	/**
