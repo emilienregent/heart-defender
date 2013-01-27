@@ -11,7 +11,7 @@ var GameConf =
 		INTERVAL_MAX : 3, /*Délai maximum de génération de base pour les ennemis*/
 	},
 	player : {
-		LIFE : 5,			/*Points de vie du joueur en début de partie*/
+		LIFE : 3,			/*Points de vie du joueur en début de partie*/
 		LIFE_DISPLAY : '<img src="img/jewel_ico.png"/>',	/*Balise pour afficher une vie du joueur*/
 		RADIUS : 132.5		/*Rayon du cercle de lumière*/
 	},
