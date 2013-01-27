@@ -45,7 +45,8 @@ function Bonus(parentObj)
 			opacity : 0.3,
 			color: bonus.color,
 			effect: bonus.effect,
-			sprite : IM.getInstance(bonus.sprite)
+			sprite : IM.getInstance(bonus.sprite),
+			message : bonus.message
 		});
 	};
 
@@ -85,6 +86,25 @@ function Bonus(parentObj)
 	 **/
 	this.disappear = function(index) {
 		var bonus = this.bonus[index];
+
+		var that = this;
+
+		if (!this.parentObj.player.haveSaySomething) {
+			this.parentObj.MMessage.add({
+				message : bonus.message,
+				x : this.parentObj.player.x + ( this.parentObj.player.w/2 ),
+				y : this.parentObj.player.y - 30,
+				speed : 2,
+				decrementOpacity : .02,
+				fontSize : 18,
+				color :'f3b32f',
+				direction : 'up',
+				callback : function() {
+							that.parentObj.player.haveSaySomething = false;
+						}
+			});
+			this.parentObj.player.haveSaySomething = true;
+		}
 		
 		var bonusLen = this.bonus.length;
 		// On tue l'instance du sprite pour ne pas surcharger le garbage collector...

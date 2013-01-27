@@ -19,15 +19,21 @@ function Message(parentObj)
 	 **/
 	this.add = function(options) {
 
+		var c = options.callback === undefined ? function() {} : options.callback;
+		log(c);
+
 		this.messages.push({
 			message : options.message,
-			x : options.x,
-			y : options.y,
-			speed : options.speed,
-			decrementOpacity : options.decrementOpacity,
-			fontSize : options.fontSize,
-			color : options.color,
-			opacity : .75
+			x : options.x || false,
+			y : options.y || false,
+			speed : options.speed || 1,
+			decrementOpacity : options.decrementOpacity || false,
+			fontSize : options.fontSize || false,
+			color : options.color || false,
+			opacity : 1,
+			direction : options.direction || false,
+			callback : c,
+			blur : options.blur || false
 		});
 
 	};
@@ -40,10 +46,15 @@ function Message(parentObj)
 		for (var i = 0, c = this.messages.length; i < c; i++) {
 			var m = this.messages[i];
 
-			m.y -= m.speed;
+			if (m.direction == 'down')
+				m.y += m.speed;
+			else
+				m.y -= m.speed;
+
 			m.opacity -= m.decrementOpacity;
 
 			if (m.opacity <= 0) {
+				m.callback();
 				this.messages.splice(i, 1);
 				--c;
 			}
@@ -60,10 +71,16 @@ function Message(parentObj)
 			var m = this.messages[i];
 
 			ctx.fillStyle = m.color;
-			ctx.font = m.fontSize + 'px SilkscreenNormal';
+			ctx.font = m.fontSize + 'px lucida_handwritingitalic';
 			ctx.globalAlpha = m.opacity;
-			ctx.fillText(m.message, m.x, m.y);
+			if (m.blur && m.color) {
+				ctx.shadowBlur = m.blur;
+				ctx.shadowColor = m.color;
+			}
+			var size = ctx.measureText(m.message).width;
+			ctx.fillText(m.message, m.x - size/2, m.y);
 			ctx.globalAlpha = 1;
+			ctx.shadowBlur = 0;
 		}
 	};
 

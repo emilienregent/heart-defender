@@ -63,19 +63,22 @@ var GameConf =
 			drop_rate : 0.1,
 			color: 'rgba(255,255,0,1)',
 			effect : 'arrow',
-			sprite : 'img/parchemin_fire_arrow'
+			sprite : 'img/parchemin_fire_arrow',
+			message : 'Unlish the power of sun !'
 		},
 		bonus_2 : {
 			drop_rate : 0.2,
 			color: 'rgba(0,0,255,1)',
 			effect : 'explosion',
-			sprite : 'img/parchemin_explosion'
+			sprite : 'img/parchemin_explosion',
+			message : 'Burn them all !'
 		},
 		bonus_3 : {
 			drop_rate : 0.4,
 			color: 'rgba(0,255,0,1)',
 			effect : 'lightning',
-			sprite : 'img/parchemin_lightning'
+			sprite : 'img/parchemin_lightning',
+			message : 'Ta-zzzzz-eeeer !'
 		}
 	},
 	DIFFICULTY_COEF : 1, // Coefficient pour calculer les courbes de difficultés
