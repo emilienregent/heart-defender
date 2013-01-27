@@ -44,7 +44,8 @@ function Bonus(parentObj)
 			h : 26,
 			opacity : 0.3,
 			color: bonus.color,
-			effect: bonus.effect
+			effect: bonus.effect,
+			sprite : IM.getInstance(bonus.sprite)
 		});
 	};
 
@@ -63,7 +64,7 @@ function Bonus(parentObj)
 	};
 
 	/**
-	 * Dessin de l'ennemi
+	 * Dessin de l'objet
 	 **/
 	this.render = function() {
 
@@ -72,8 +73,8 @@ function Bonus(parentObj)
 			if(this.parentObj.player.isVisible(e) === false) {
 				ctx.globalAlpha = e.opacity;
 			}
-			// IM.drawImage(ctx, e.sprite, e.x, e.y);
-			drawRect(ctx, e.color, e.x, e.y, e.w, e.h);
+			IM.drawImage(ctx, e.sprite, e.x, e.y);
+			// drawRect(ctx, e.color, e.x, e.y, e.w, e.h);
 			ctx.globalAlpha = 1;
 		}
 
