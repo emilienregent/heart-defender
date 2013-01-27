@@ -147,20 +147,15 @@ function Enemy(parentObj)
 				}
 
 				//déclanche son monstre hit
-				soundLoader.cachedSounds[ "growl" ].play();
+				if ( ( typeof ( this.parentObj.bossMode ) === "undefied" ) )
+					soundLoader.cachedSounds[ "growl" ].play();
+				else
+					soundLoader.cachedSounds[ "growl2" ].play();
+				
 			} else if((e.x + e.w < 0 || e.x > WIDTH || e.y + e.h < 0 || e.y > HEIGHT) && game.bossMode === undefined) {
 				this.kill(i, false);
 				--c;
 			}
-
-			// Déclanche son de shock si on voit l'ennemi pour la première fois.
-			if (this.parentObj.player.isVisible(e)) {
-				if (!e.isSpotted && Math.random() < 0.2) {
-					e.isSpotted = true;
-					//soundLoader.cachedSounds[ "heart_shock" ].play();
-				}
-			}
-
 		}
 
 		// Comportements du mode boss
@@ -187,7 +182,7 @@ function Enemy(parentObj)
 			else
 			{
 				//declanche son de shock si on voit l'ennemi pour la première fois
-				if ( !e.isSpotted && Math.random() < 0.2 )
+				if ( !e.isSpotted && Math.random() < 0.2 && ( typeof ( this.parentObj.bossMode ) === "undefied" ) )
 					soundLoader.cachedSounds[ "heart_shock" ].play();
 			
 				e.isSpotted = true;
