@@ -17,6 +17,8 @@ var GameConf =
 	},
 	boss : {
 		LIFE : 10, /*Points de vie du boss (correspond aux nb de fois qu'il peut être touché avt de crever)*/
+		SPAWN : 5,
+		SPAWN_MIN : 5
 	},
 	enemies : {
 		'img/ennemi_vert' : {
@@ -42,6 +44,18 @@ var GameConf =
 			},
 			width : 47,
 			height : 52,
+			speed : 0.5,
+			SCORE_BASE : 10
+		},
+		'img/boss_projectile' : {
+			animation : {
+				sWidth : 64,
+				sHeight : 64,
+				alternate : true,
+				animByFrame : 4
+			},
+			width : 64,
+			height : 64,
 			speed : 0.5,
 			SCORE_BASE : 10
 		}
@@ -109,4 +123,5 @@ var GameConf =
 		}
 	},
 	DIFFICULTY_COEF : 10, // Coefficient pour calculer les courbes de difficultés
+	DIFFICULTY_COEF_MIN : 10
 }

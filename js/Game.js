@@ -65,6 +65,8 @@ function Game()
 
 		this.cleared = false;
 
+		this.bossMode = undefined;
+
 		// ====== JOUEUR ======
 		this.player = new Player(this.that);
 		// On stocke une instance unique du joueur dans le tableau qui référence toutes les instances de sprites du jeu
@@ -124,9 +126,17 @@ function Game()
 		// On anime le joueur
 		this.player.animate();
 
-		if (!this.bossMode) {
+		if(this.player.life >= GameConf.boss.SPAWN && this.bossMode === undefined) {
+			this.MEnemy.vanishBeforeTenia();
+		}
+
+		if (this.bossMode !== true) {
 			// On anime la shadow en synchronisation avec les positions du joueur
 			this.animateShadow();
+		} 
+
+		if(this.bossMode === undefined) {
+			this.clearBoss();
 		}
 
 		// On anime la target
@@ -151,7 +161,7 @@ function Game()
 		// On anime les ennemis
 		this.MEnemy.animate();
 
-		if(this.boss !== null) {
+		if(this.boss !== undefined && this.boss !== null) {
 			// On anime le boss
 			this.boss.animate();
 		}
@@ -274,6 +284,9 @@ function Game()
 		if(this.bossMode === false) {
 			// Si on passe en bossMode, activer cette ligne :
 			this.shadow.alpha = (this.shadow.alpha > 0) ? this.shadow.alpha - .02 : 0;
+		} else if(this.bossMode === undefined) {
+			// Si on passe en bossMode, activer cette ligne :
+			this.shadow.alpha = (this.shadow.alpha < 1) ? this.shadow.alpha + .02 : 1;
 		}
 
 		// Pour le headtrackr, mais pour l'instant c'est bancal
@@ -299,7 +312,7 @@ function Game()
 		// On affiche les ennemis
 		this.MEnemy.render();
 
-		if(this.boss !== null) {
+		if(this.boss !== undefined && this.boss !== null) {
 			// On affiche le boss
 			this.boss.render();
 		}
@@ -353,7 +366,7 @@ function Game()
 		var spawnInterval = this.MEnemy.getSpawnInterval();
 
 		if(interval(this.MEnemy.lastPop, spawnInterval) === true && 
-			this.MEnemy.enemies.length < maximumInGame && this.bossMode === undefined) 
+			this.MEnemy.enemies.length < maximumInGame && this.bossMode !== false ) 
 		{
 			this.generateEnemies();
 		}
@@ -460,6 +473,7 @@ function Game()
 	this.clear = function() {
 		// this.player.clear();
 		this.player = undefined;
+		this.clearBoss();
 		// this.MEnemy.clear();
 		this.MEnemy = undefined;
 		// this.MProjectile.clear();
@@ -471,5 +485,13 @@ function Game()
 		this.sprites = [];
 
 		this.cleared = true;
+
+		GameConf.DIFFICULTY_COEF = GameConf.DIFFICULTY_COEF_MIN;
+		GameConf.boss.SPAWN = GameConf.boss.SPAWN_MIN;
+	}
+
+	this.clearBoss = function() {
+		this.boss = undefined;
+		this.bossMode = undefined;
 	}
 }

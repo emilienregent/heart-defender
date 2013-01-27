@@ -145,6 +145,31 @@ function Projectile(parentObj)
 					alreadyKilled = true;
 				}
 			}
+
+			if(this.parentObj.bossMode === true) {
+				var e = this.parentObj.boss;
+				// Modification des coordonnées du player pour gérer la rotation
+				// du sprite correctement
+				var pTemp = {
+					x : p.x - p.w/2,
+					y : p.y - p.h/2,
+					w : p.w,
+					h : p.h
+				};
+
+				if (collide(pTemp, e)) {
+
+					// Ajout d'une tâche de sang à l'endroit de la collision (pke c gorre, mdrrr)
+					this.parentObj.MTache.add(e);
+
+					if(typeof p.lifetime === "undefined" || p.lifetime <= 0) {
+						if (this.kill( i )) --c;
+					}
+					this.parentObj.boss.damage( j, true );
+
+					if(this.kill( i )) --c;
+				}
+			}
 			
 			// Si ce projectile a atteint sa destination, on le vire du tableau..
 			if (!alreadyKilled)
