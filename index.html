@@ -38,6 +38,9 @@
 	<!-- Fichier core -->
 	<script src="js/Game.js"></script>
 
+	<!-- Tutorial -->
+	<script src="js/Tuto.js"></script>
+
 </head>
 <body role="main">
 	
@@ -68,6 +71,7 @@
 			HEIGHT, // Game area Height
 			input, // Input instance
 			game, // instance of Game
+			tuto, // instance of Tuto
 			currentGameObject, // instance of a GameObject
 			IM, // Image Manager instance
 			soundLoader, // Sound Loader instance
@@ -91,10 +95,10 @@
 
 		// Title Screens
 		clean_bg = new Image();
-		clean_bg.src = 'img/title-screen.jpg';
+		clean_bg.src = 'img/title-screen-2.jpg';
 		wait_bg = new Image();
-		wait_bg.src = 'img/title-screen-wait.jpg';
-		active_bg = 'clean';
+		wait_bg.src = 'img/title-screen-wait-2.jpg';
+		active_bg = 'wait';
 
 
 		// ========== HEADTRACKR ============
@@ -118,6 +122,7 @@
 				if (active_bg == 'clean') {
 					ctx.drawImage(clean_bg,0,0);
 					active_bg = 'wait';
+
 				}
 				else {
 					ctx.drawImage(wait_bg,0,0);
@@ -226,6 +231,7 @@
         // Ajout des sprites du jeu qui doivent être chargés
         IM.add('img/shadow.png');
         IM.add('img/full_shadow.png');
+        IM.add('img/logo.png');
         IM.add('img/player.png');
         IM.add('img/player_dead.png');
         IM.add('img/target.png');
@@ -253,7 +259,9 @@
 
 		// Sprites loaded ! Lancement du jeu !
 		IM.loadAll(function() {
-			isLoadedImages = true;
+			setTimeout(function() {
+				isLoadedImages = true;
+			}, 4000);
 		});
 
 		// Pour headtrackr.js
