@@ -148,9 +148,9 @@ function Player(parentObj)
 	this.damage = function() {
 		if(--this.life <= 0) {
 			// Remplacement du sprite player par le sprite player_killed
-			// this.sprite = this.parentObj.sprites['img/player_dead'];
-			// Let's kill it, he deserved to be !
-			// this.kill();
+			this.sprite = this.parentObj.sprites['img/player_dead'];
+			//Let's kill it, he deserved to be !
+			this.kill();
 		}
 		else {
 			// Ajout d'une tâche de sang à l'endroit de la collision (pke c gorre, mdrrr)
