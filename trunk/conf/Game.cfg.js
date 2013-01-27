@@ -15,6 +15,9 @@ var GameConf =
 		LIFE_DISPLAY : '<img src="img/jewel_ico.png"/>',	/*Balise pour afficher une vie du joueur*/
 		RADIUS : 132.5		/*Rayon du cercle de lumière*/
 	},
+	boss : {
+		LIFE : 10, /*Points de vie du boss (correspond aux nb de fois qu'il peut être touché avt de crever)*/
+	},
 	enemies : {
 		'img/ennemi_vert' : {
 			animation : {

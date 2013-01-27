@@ -42,6 +42,10 @@ function Game()
 	// Coeur (bonus)
 	this.heart = null;
 
+	// BOSS
+	this.boss = null;
+	this.bossMode = undefined; // Boolean : En mode fight boss ?
+
 
 	// Ce tableau 'associatif' stockera toutes les instances de sprites
 	this.sprites = [];
@@ -86,7 +90,8 @@ function Game()
 		this.shadow = {
 			sprite : null,
 			x : 0,
-			y : 0
+			y : 0,
+			alpha : 1
 		};
 		
 		// On stocke une instance unique de la shadow dans le tableau qui référence toutes les instances de sprites du jeu
@@ -101,6 +106,11 @@ function Game()
 		this.MMessage = new Message(this.that);
 		this.MScore = new Score(this.that);
 		this.heart = new Heart(this.that);
+
+		// BOSS
+		this.boss = new Boss(this.that);
+		this.boss.init();
+		this.bossMode = false;
 	};
 	
 	/**
@@ -114,8 +124,12 @@ function Game()
 
 		// On anime le joueur
 		this.player.animate();
-		// On anime la shadow en synchronisation avec les positions du joueur
-		this.animateShadow();
+
+		if (!this.bossMode) {
+			// On anime la shadow en synchronisation avec les positions du joueur
+			this.animateShadow();
+		}
+
 		// On anime la target
 		this.animateTarget();
 		// On anime le coeur
@@ -129,6 +143,8 @@ function Game()
 		this.MTache.animate();
 		// On anime les ennemis
 		this.MEnemy.animate();
+		// On anime le boss
+		this.boss.animate();
 		// On anime le coeur
 		this.MBonus.animate();
 		// On anime les messages
@@ -246,6 +262,11 @@ function Game()
 		this.shadow.x = (this.player.x + this.player.w/2) - this.shadow.sprite.width/2;
 		this.shadow.y = (this.player.y + this.player.h/2) - this.shadow.sprite.height/2;
 
+		// Si on passe en bossMode, activer cette ligne :
+		this.shadow.alpha = (this.shadow.alpha > 0) ? this.shadow.alpha - .02 : 0;
+
+		console.log(this.shadow.alpha);
+
 		// Pour le headtrackr, mais pour l'instant c'est bancal
 		//this.shadow.x = (FACE.x + FACE.w/2) - this.shadow.sprite.width/2;
 		//this.shadow.y = (FACE.y + FACE.h/2) - this.shadow.sprite.height/2;
@@ -268,12 +289,18 @@ function Game()
 		this.player.render();
 		// On affiche les ennemis
 		this.MEnemy.render();
+		// On affiche le boss
+		this.boss.render();
 		// On affiche les projectiles
 		this.MProjectile.render();
 		// On affiche les taches
 		this.MTache.render();
-		// On affiche la shadow box
-		this.renderShadow();
+
+		if (!this.bossMode) {
+			// On affiche la shadow box
+			this.renderShadow();
+		}
+
 		// On affiche les messages
 		this.MMessage.render();
 		// On affiche les scores
@@ -296,7 +323,10 @@ function Game()
 
 	this.renderShadow = function() {
 
+		ctx.globalAlpha = this.shadow.alpha;
 		ctx.drawImage(this.shadow.sprite.data, this.shadow.x, this.shadow.y);
+
+		ctx.globalAlpha = 1;
 
 	};
 
