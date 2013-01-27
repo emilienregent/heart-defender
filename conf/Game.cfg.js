@@ -17,8 +17,8 @@ var GameConf =
 	},
 	boss : {
 		LIFE : 10, /*Points de vie du boss (correspond aux nb de fois qu'il peut être touché avt de crever)*/
-		SPAWN : 5,
-		SPAWN_MIN : 5,
+		SPAWN : 4,
+		SPAWN_MIN : 4,
 		SCORE_BASE : 250
 	},
 	enemies : {
@@ -123,6 +123,6 @@ var GameConf =
 			interval : 5
 		}
 	},
-	DIFFICULTY_COEF : 10, // Coefficient pour calculer les courbes de difficultés
-	DIFFICULTY_COEF_MIN : 10
+	DIFFICULTY_COEF : 5, // Coefficient pour calculer les courbes de difficultés
+	DIFFICULTY_COEF_MIN : 5
 }
