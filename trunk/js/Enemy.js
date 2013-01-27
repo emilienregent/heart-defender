@@ -14,6 +14,8 @@ function Enemy(parentObj)
 	// Tableau qui contient tous les ennemis à animer..
 	this.enemies = [];
 	this.lastPop = +new Date();	
+
+	this.vanishMode = false;
 	
 	/**
 	 * Ajoute un ennemi dans la liste
@@ -35,8 +37,7 @@ function Enemy(parentObj)
 
 		sprite = IM.getInstance(chosenSprite);
 		sprite.animation = new IIG.Animation(conf.animation);
-
-		this.enemies.push({
+		var enemy = {
 			sprite : sprite,
 			x : spawn.x - (conf.width/2),
 			y : spawn.y - (conf.height/2),
@@ -47,7 +48,10 @@ function Enemy(parentObj)
 			opacity : 0.3,
 			isSpotted : false, //test si l'ennemi à déjà été repéré
 			spriteName: chosenSprite
-		});
+		};
+		this.enemies.push(enemy);
+
+		return enemy;
 	};
 
 	/**
@@ -60,11 +64,16 @@ function Enemy(parentObj)
 
 			var target = this.parentObj.player;
 
-			var heart = this.parentObj.heart;
-			if (heart.alive) {
-				if (lineDistance({x:e.x,y:e.y},{x:heart.x,y:heart.y}) < lineDistance({x:e.x,y:e.y},{x:target.x,y:target.y}))
-					target = heart;
+			if(typeof e.target === "undefined") {
+				var heart = this.parentObj.heart;
+				if (heart.alive) {
+					if (lineDistance({x:e.x,y:e.y},{x:heart.x,y:heart.y}) < lineDistance({x:e.x,y:e.y},{x:target.x,y:target.y}))
+						target = heart;
+				}
+			} else {
+				target = e.target;
 			}
+
 
 			var angle,
 				distX = (target.x + target.w/2) - (e.x + e.w/2),
@@ -104,12 +113,18 @@ function Enemy(parentObj)
 			// Collision avec le joueur
 			if(collide(e, target)) {
 				if(this.kill(i, false)) {
-					target.damage();
+					if(typeof target.damage !== "undefined") {
+						target.damage();
+					}
+					this.parentObj.MTache.add(e);
 					--c;
 				}
-				
+
 				//déclanche son monstre hit
 				soundLoader.cachedSounds[ "growl" ].play();
+			} else if((e.x + e.w < 0 || e.x > WIDTH || e.y + e.h < 0 || e.y > HEIGHT) && game.bossMode === undefined) {
+				this.kill(i, false);
+				--c;
 			}
 
 			// Déclanche son de shock si on voit l'ennemi pour la première fois.
@@ -121,6 +136,15 @@ function Enemy(parentObj)
 			}
 
 		}
+
+		// Comportements du mode boss
+		if(this.vanishMode === true && this.enemies.length === 0) {
+			this.unlishTenia();
+		} else if(game.bossMode === false && this.enemies.length === 0) {
+			game.boss = new Boss(game);
+			game.boss.init();
+		}
+
 	};
 
 	/**
@@ -179,6 +203,7 @@ function Enemy(parentObj)
 	 **/
 	this.kill = function(index, withScore) {
 		var enemy = this.enemies[index];
+
 		// Si la mort de l'ennemi doit générer du score
 		if(withScore === true && this.parentObj.player.life > 0) {
 			var score = this.parentObj.score(enemy);
@@ -245,6 +270,10 @@ function Enemy(parentObj)
 		// PV => points de vie du joueur
 		// I => intervalle initial
 
+		if(this.vanishMode === true) {
+			return 0;
+		}
+
 		return Math.ceil(((this.parentObj.player.score + GameConf.DIFFICULTY_COEF) / (TIME / 1000)) / 2) * 
 			(this.parentObj.player.life * GameConf.arena.INTERVAL_MAX);
 	}
@@ -263,6 +292,79 @@ function Enemy(parentObj)
 			return interval;
 		} else {
 			return Math.floor(rand(GameConf.arena.INTERVAL_MIN, GameConf.arena.INTERVAL_MAX));
+		}
+	}
+
+	this.vanishBeforeTenia = function() {
+
+		this.vanishMode = true;
+
+		// Parse les ennemis
+		for (var i = 0, c = this.enemies.length; i < c; i++) {
+			var e = this.enemies[i];
+			/*Sélectionne le coin opposé à l'ennemi*/
+			var leavePoint = {
+				x : (e.x < WIDTH/2)
+					? -e.w
+					: WIDTH + e.w,
+				y : (e.y < HEIGHT/2)
+					? -e.h
+					: HEIGHT + e.h,
+				w : e.w,
+				h : e.h
+			}
+			// Augmente la vitesse des ennemis
+			this.enemies[i].speed = GameConf.enemies['img/ennemi_vert'].speed * 3;
+			// Fais quitter la zone aux ennemis en modifiant leur cible
+			this.enemies[i].target = leavePoint;
+		}
+	}
+
+
+	this.unlishTenia = function() {
+		this.vanishMode = false;
+		// BOSS
+		game.bossMode = false;
+
+		this.enemies = [];
+
+		
+		// Crée 8 ennemis
+		for (var i = 0, c = 12, iSpawn = 0, iPaddingSpawn = 0; i < c; i++) {
+
+			if(iSpawn >= 4) {
+				iSpawn = 0;
+				iPaddingSpawn ++;
+			}
+
+			// Définis un point de spawn
+			var spawn = {};
+			// Définis une nouvelle cible de déplacement
+			var target = {};
+			switch(iSpawn) {
+				case 0 : spawn = {x: (-GameConf.arena.SPAWN_PADDING/2)*iPaddingSpawn, y:HEIGHT/2};
+						target = {x: (WIDTH/2) + 45/2, y: (HEIGHT / 2)-45};
+				break;
+				case 1 : spawn = {x: WIDTH/2 - 45, y:(-GameConf.arena.SPAWN_PADDING/2)*iPaddingSpawn - 200};
+						target = {x: (WIDTH/2) - (45*2), y: (HEIGHT / 2)};
+				break;
+				case 2 : spawn = {x: WIDTH + (GameConf.arena.SPAWN_PADDING/2)*iPaddingSpawn, y:HEIGHT/2 - 45};
+						target = {x: (WIDTH/2) - (45*2), y: (HEIGHT / 2) - 45};
+				break;
+				case 3 : spawn = {x: WIDTH/2, y:HEIGHT + (GameConf.arena.SPAWN_PADDING/2)*iPaddingSpawn + 200};
+						target = {x: (WIDTH/2) - (45*2), y: (HEIGHT / 2)-(45*3)};
+				break;
+			}
+
+			target.w = 128;
+			target.h = 128;
+
+			var enemy = this.add(spawn);
+			// Modifie leur cible
+			enemy.target = target;
+			enemy.speed = GameConf.enemies['img/ennemi_vert'].speed * 6;
+
+			iSpawn++;
 		}
 	}
 

@@ -58,12 +58,14 @@ function distance(a, b){
 function collide(a, b) {
 	if (a == undefined || b == undefined)
 		return false;
-	var acp = a.collidePadding || 0,
-		bcp = b.collidePadding || 0;
-	return !(b.x + bcp >= a.x + a.w - acp // Trop à droite
-			|| b.x + b.w - bcp <= a.x + acp // Trop à gauche
-			|| b.y + bcp >= a.y + a.h - acp // Trop en bas
-			|| b.y + b.h - bcp <= a.y + acp) // Trop en haut
+
+	if(typeof a.w === "undefined" || typeof a.h === "undefined" || typeof b.w === "undefined" || typeof b.h === "undefined")
+		return false;
+
+	return !(b.x >= a.x + a.w // Trop à droite
+			|| b.x + b.w <= a.x // Trop à gauche
+			|| b.y >= a.y + a.h // Trop en bas
+			|| b.y + b.h <= a.y) // Trop en haut
 }
 
 // Pickup a random value into an Array

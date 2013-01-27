@@ -140,6 +140,9 @@ function Player(parentObj)
 	 * Test si l'ennemi doit être visible ou non
 	 **/
 	this.isVisible = function(e) {
+		if(game.bossMode !== undefined) {
+			return true;
+		}
 		return distance(e, this) <= GameConf.player.RADIUS;
 	}
 

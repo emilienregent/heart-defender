@@ -106,11 +106,6 @@ function Game()
 		this.MMessage = new Message(this.that);
 		this.MScore = new Score(this.that);
 		this.heart = new Heart(this.that);
-
-		// BOSS
-		// this.boss = new Boss(this.that);
-		// this.boss.init();
-		// this.bossMode = false;
 	};
 	
 	/**
@@ -151,8 +146,11 @@ function Game()
 		this.MTache.animate();
 		// On anime les ennemis
 		this.MEnemy.animate();
-		// On anime le boss
-		// this.boss.animate();
+
+		if(this.boss !== null) {
+			// On anime le boss
+			this.boss.animate();
+		}
 		// On anime le coeur
 		this.MBonus.animate();
 		// On anime les messages
@@ -267,11 +265,11 @@ function Game()
 		this.shadow.x = (this.player.x + this.player.w/2) - this.shadow.sprite.width/2;
 		this.shadow.y = (this.player.y + this.player.h/2) - this.shadow.sprite.height/2;
 
-		// Si on passe en bossMode, activer cette ligne :
-		if (this.bossMode)
-			this.shadow.alpha = (this.shadow.alpha > 0) ? this.shadow.alpha - .02 : 0;
 
-		console.log(this.shadow.alpha);
+		if(this.bossMode === false) {
+			// Si on passe en bossMode, activer cette ligne :
+			this.shadow.alpha = (this.shadow.alpha > 0) ? this.shadow.alpha - .02 : 0;
+		}
 
 		// Pour le headtrackr, mais pour l'instant c'est bancal
 		//this.shadow.x = (FACE.x + FACE.w/2) - this.shadow.sprite.width/2;
@@ -295,14 +293,17 @@ function Game()
 		this.player.render();
 		// On affiche les ennemis
 		this.MEnemy.render();
-		// On affiche le boss
-		// this.boss.render();
+
+		if(this.boss !== null) {
+			// On affiche le boss
+			this.boss.render();
+		}
 		// On affiche les projectiles
 		this.MProjectile.render();
 		// On affiche les taches
 		this.MTache.render();
 
-		if (!this.bossMode) {
+		if (this.bossMode !== true) {
 			// On affiche la shadow box
 			this.renderShadow();
 		}
@@ -346,11 +347,10 @@ function Game()
 		var spawnInterval = this.MEnemy.getSpawnInterval();
 
 		if(interval(this.MEnemy.lastPop, spawnInterval) === true && 
-			this.MEnemy.enemies.length < maximumInGame) 
+			this.MEnemy.enemies.length < maximumInGame && this.bossMode === undefined) 
 		{
 			this.generateEnemies();
 		}
-		// debug(spawnInterval + " - " + maximumInGame);
 
 		if(interval(this.heart.lastPop, GameConf.heart.SPAWN_TIME) === true &&
 			!this.heart.alive )
