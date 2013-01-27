@@ -26,17 +26,6 @@ function Bonus(parentObj)
 			return null;
 		}
 
-		// var sprite = IM.getInstance('img/enemy');
-		// sprite.animation = new IIG.Animation({
-		// 	sWidth : 48,
-		// 	sHeight : 64,
-		// 	sx : 48,
-		// 	sy : 64 * 2,
-		// 	animDirection : 'left2right',
-		// 	alternate : true,
-		// 	animByFrame : 7
-		// });
-
 		this.bonus.push({
 			x : spawn.x - (26/2),
 			y : spawn.y - (26/2),
@@ -46,7 +35,9 @@ function Bonus(parentObj)
 			color: bonus.color,
 			effect: bonus.effect,
 			sprite : IM.getInstance(bonus.sprite),
-			message : bonus.message
+			message : bonus.message,
+			interval : bonus.interval,
+			pop : new Date().getTime()
 		});
 	};
 
@@ -57,6 +48,9 @@ function Bonus(parentObj)
 		/*Collision avec le joueur*/
 		for (var i = 0, c = this.bonus.length; i < c; i++) {
 			var e = this.bonus[i];
+			if (interval(e.pop,e.interval)) {
+				this.disappear(i,true);
+			}
 			if(collide(e, this.parentObj.player)) {
 				this.parentObj.player.changeWeapon(e.effect);
 				this.disappear(i);
@@ -87,12 +81,14 @@ function Bonus(parentObj)
 	/**
 	 * Détruit l'instance de l'objet
 	 **/
-	this.disappear = function(index) {
+	this.disappear = function(index,noTalk) {
 		var bonus = this.bonus[index];
+
+		noTalk = noTalk == undefined ? false : noTalk;
 
 		var that = this;
 
-		if (!this.parentObj.player.haveSaySomething) {
+		if (!this.parentObj.player.haveSaySomething && !noTalk) {
 			this.parentObj.MMessage.add({
 				message : bonus.message,
 				x : this.parentObj.player.x + ( this.parentObj.player.w/2 ),
