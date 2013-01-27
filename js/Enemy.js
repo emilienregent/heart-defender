@@ -147,7 +147,7 @@ function Enemy(parentObj)
 				}
 
 				//déclanche son monstre hit
-				if ( ( typeof ( this.parentObj.bossMode ) === "undefied" ) )
+				if ( ( typeof ( this.parentObj.bossMode ) === "undefined" ) )
 					soundLoader.cachedSounds[ "growl" ].play();
 				else
 					soundLoader.cachedSounds[ "growl2" ].play();
