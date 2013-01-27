@@ -62,7 +62,6 @@ function Game()
 
 		this.waiting = false;
 		this.stop = false;
-
 		this.cleared = false;
 
 		this.bossMode = undefined;

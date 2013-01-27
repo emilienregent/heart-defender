@@ -76,7 +76,7 @@ function Board(parentObj)
 			// ctx.font = m.fontSize + 'px SilkscreenNormal';
 			IM.drawImage(ctx, this.sprite, e.x, e.y);
 			ctx.globalAlpha = 1;
-			ctx.fillStyle = '#ffaf00';
+			ctx.fillStyle = 'black';//'#ffaf00';
 			ctx.font = '16px lucida_handwritingitalic';
 			var w = ctx.measureText(e.message).width;
 			var h = ctx.measureText(e.message).height;
