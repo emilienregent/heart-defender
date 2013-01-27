@@ -21,6 +21,9 @@ function Game()
 	this.stop = true;
 	this.cleared = true;
 
+	// Etat du jeu
+	this.waiting = true;
+
 	// Manager d'ennemis
 	this.MEnemy = null;
 
@@ -50,7 +53,9 @@ function Game()
 	this.init = function() 
 	{
 
+		this.waiting = false;
 		this.stop = false;
+
 		this.cleared = false;
 
 		// ====== JOUEUR ======

@@ -53,6 +53,7 @@
 
 	<script>
 
+
 		/**
 		 * Global vars
 		 **/
@@ -85,6 +86,14 @@
 		WIDTH = 1024;
 		HEIGHT = 600;
 
+		// Title Screens
+		clean_bg = new Image();
+		clean_bg.src = 'img/title-screen.jpg';
+		wait_bg = new Image();
+		wait_bg.src = 'img/title-screen-wait.jpg';
+		active_bg = 'wait';
+
+
 		// ========== HEADTRACKR ============
 		/*var videoInput = $$('#inputVideo');
 		var canvasInput = $$('#inputCanvas');
@@ -97,10 +106,22 @@
 		//demarrage du jeu
 		startGame = function()
 		{
-			currentGameObject.init();
-			initSounds();
-			
 			run();
+		}
+
+		waitingGame = function() {
+			// Waiting for press any key
+			if (interval(deltaTime, 2)) {
+				if (active_bg == 'clean') {
+					ctx.drawImage(clean_bg,0,0);
+					active_bg = 'wait';
+				}
+				else {
+					ctx.drawImage(wait_bg,0,0);
+					active_bg = 'clean';
+				}
+				deltaTime = +new Date();
+			}
 		}
 		
 		restartGame = function() {
@@ -161,7 +182,18 @@
 		/****************** GAME LOOP *******************/
 		run = function(_t) {
 			TIME = _t;
-			if(currentGameObject.stop === false) {
+			if (currentGameObject.waiting === true) {
+				input.listen();
+				if (input.keyboard.keypressed) {
+					
+					$$('#gameArea').className += " loaded";
+					initSounds();
+					currentGameObject.init();
+				}
+				else
+					waitingGame();
+			}
+			else if(currentGameObject.stop === false) {
 				// Sprites update
 				IM.update();
 

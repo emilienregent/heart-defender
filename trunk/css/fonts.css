@@ -47,3 +47,15 @@
     font-style: normal;
 
 }
+
+@font-face {
+    font-family: 'lucida_handwritingitalic';
+    src: url('../fonts/lhandw-webfont.eot');
+    src: url('../fonts/lhandw-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/lhandw-webfont.woff') format('woff'),
+         url('../fonts/lhandw-webfont.ttf') format('truetype'),
+         url('../fonts/lhandw-webfont.svg#lucida_handwritingitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}

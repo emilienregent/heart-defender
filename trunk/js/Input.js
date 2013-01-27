@@ -17,7 +17,8 @@ function Input(options)
 		right : false,
 		down : false,
 		left : false,
-		space : false
+		space : false,
+		keypressed : false
 	};
 
 	this.mouse = {
@@ -106,6 +107,8 @@ function Input(options)
 		}, false);
 
 		document.addEventListener('keyup', function(evt) {
+
+			that.keyboard.keypressed = true;
 
 			that.keyboard.up 	= evt.keyCode == 38 || evt.keyCode == 90 || evt.keyCode == 87 ? 0 : that.keyboard.up;
 			that.keyboard.right = evt.keyCode == 39 || evt.keyCode == 68 ? 0 : that.keyboard.right;

@@ -135,33 +135,34 @@ Loader.prototype.loading = function()
 	var width   = this.canvas.width,
 		height  = this.canvas.height;
 			
-	var textY = .4 * height;
-	var lingrad = context.createLinearGradient( 0, 0, 0, height );
+	var textY = .75 * height;
+	// var lingrad = context.createLinearGradient( 0, 0, 0, height );
+	var bg = new Image();
+	bg.src = 'img/title-screen.jpg';
+	context.drawImage(bg,0,0);
 
-	lingrad.addColorStop(0, '#157493');
-	lingrad.addColorStop(1, '#64b6cb');
+
+	// lingrad.addColorStop(0, '#157493');
+	// lingrad.addColorStop(1, '#64b6cb');
 
 	// assign gradients to fill and stroke styles
-	context.fillStyle = lingrad;
 	// draw shapes
-	context.fillRect( 0, 0, width, height );
-	  	
-	context.fillStyle = "#072447";
-	context.font = "40px Arial";
+	
+	context.fillStyle = "#f3b32f";
+	context.font = "30px lucida_handwritingitalic";
 	context.textAlign = "center";
 	  	
 	context.fillText( "Loading Assets", width/2, textY );
-	context.fillText( "Please Wait", width/2, textY + 50 ); 
+	context.fillText( "Please Wait", width/2, textY + 50 );
 		
-	context.font = "60px Arial";
+	context.font = "30px lucida_handwritingitalic";
 	for ( var i = 0; i < this.loadCircle; i++ )
-		context.fillText( ".", (width/2 + 150) + i * 10, textY + 50 );
+		context.fillText( ".", (width/2 + 120) + i * 10, textY + 50 );
 		
 	if ( this.currentFrame == 0 )
 		this.loadCircle = ( this.loadCircle + 1 ) % 4;
 		
 	this.currentFrame = ( this.currentFrame + 1 ) % this.frameCount;
-	
 }
 
 Loader.prototype.loadAssets = function()
