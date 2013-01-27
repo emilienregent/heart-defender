@@ -16,6 +16,8 @@ function Player(parentObj)
 	this.score = 0;
 	this.weapon = 'arrow';
 
+	this.haveSaySomething = false;
+
 	/**
 	 * Initialization
 	 **/
@@ -153,6 +155,36 @@ function Player(parentObj)
 		else {
 			// Ajout d'une tâche de sang à l'endroit de la collision (pke c gorre, mdrrr)
 			this.parentObj.MTache.add(this);
+			// Feedback sur la perte d'une vie
+			this.parentObj.MMessage.add({
+				message : '-1 UP',
+				x : this.x + (this.w/2),
+				y : this.y - 30,
+				speed : 2,
+				decrementOpacity : .02,
+				fontSize : 30,
+				color :'red',
+				direction : 'down',
+				blur : 5
+			});
+			if (!this.haveSaySomething) {
+				var rand_msg = ['Heaven doors are almost there !','Damn ! I Hate monsters …','These creatures are angry !'].pickup();
+				var that = this;
+				this.parentObj.MMessage.add({
+					message : rand_msg,
+					x : (this.x + (this.w/2)),
+					y : this.y - 30,
+					speed : 4,
+					decrementOpacity : .02,
+					fontSize : 18,
+					color :'#f3b32f',
+					direction : 'up',
+					callback : function() {
+						that.haveSaySomething = false;
+					}
+				});
+				this.haveSaySomething = true;
+			}
 		}
 		this.display();
 	};
@@ -162,6 +194,18 @@ function Player(parentObj)
 	 **/
 	this.addLife = function() {
 		this.life++;
+		// Feedback sur la perte d'une vie
+		this.parentObj.MMessage.add({
+			message : '+1 UP',
+			x : this.x + (this.w/2),
+			y : this.y - 30,
+			speed : 2,
+			decrementOpacity : .02,
+			fontSize : 30,
+			color :'red',
+			direction : 'up',
+			blur : 5
+		});
 		this.display();
 	}
 
