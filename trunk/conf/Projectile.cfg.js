@@ -6,7 +6,7 @@ var ProjectileConf = {
 		width : 72,
 		height : 49,
 		category : 'toCoords',
-		interval : 0.00001
+		interval : 0
 	},
 	explosion : {
 		speed :8,
