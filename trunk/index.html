@@ -128,7 +128,8 @@
 		
 		restartGame = function() {
 			currentGameObject.hideGameover();
-			// initSounds();
+			
+			initSounds();
 			currentGameObject.init();
 		}
 
@@ -154,14 +155,11 @@
 		//	heartShock.loop = true;
 			
 		//	damage.loop     = true;
-			
-			powerup.loop = true;
+		
 		//	destroy.loop = true;
 			death.loop   = true;
 			
 			theme.loop     = true;
-			title.loop     = true;
-		
 			theme.volume   = 0.5;
 		
 			//arrête son de la mort le cas où il est activé
@@ -176,8 +174,8 @@
 		//	heartSlow.play();
 		//	heartFast.play();
 			theme.play();
-		//	title.play();
-		//	heartShock.play();
+			title.pause(); //arrêt musique titre quand le jeu démarre
+ 		//	heartShock.play();
 		//	heartFade.play();
 		}
 		

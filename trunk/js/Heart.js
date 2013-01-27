@@ -97,9 +97,9 @@ function Heart(parentObj) {
 			soundLoader.cachedSounds[ "heart_fast3" ].pause();
 		
 			var dist  = distance( this, this.parentObj.player );
-			var sound = ( dist < 400 ) ? soundLoader.cachedSounds[ "heart_fast2" ] : soundLoader.cachedSounds[ "heart_slow2" ]; 
+			var sound = ( dist < 450 ) ? soundLoader.cachedSounds[ "heart_fast2" ] : soundLoader.cachedSounds[ "heart_slow2" ]; 
 			
-			if ( dist < 80 )
+			if ( dist < 130 )
 				sound = soundLoader.cachedSounds[ "heart_fast3" ];
 				
 			var diag = Math.sqrt( Math.pow( canvas.width, 2 ) + Math.pow( canvas.height, 2 ) );

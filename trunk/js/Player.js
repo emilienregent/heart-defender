@@ -185,6 +185,9 @@ function Player(parentObj)
 				});
 				this.haveSaySomething = true;
 			}
+			
+			//déclanche son hit 
+			soundLoader.cachedSounds[ "cut" ].play();
 		}
 		this.display();
 	};

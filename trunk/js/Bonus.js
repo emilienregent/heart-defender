@@ -60,6 +60,9 @@ function Bonus(parentObj)
 			if(collide(e, this.parentObj.player)) {
 				this.parentObj.player.changeWeapon(e.effect);
 				this.disappear(i);
+				
+				//déclanche son collection bonus
+				soundLoader.cachedSounds[ "powerup" ].play();
 			}
 		}
 	};
