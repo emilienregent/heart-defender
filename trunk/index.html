@@ -93,7 +93,7 @@
 		clean_bg.src = 'img/title-screen.jpg';
 		wait_bg = new Image();
 		wait_bg.src = 'img/title-screen-wait.jpg';
-		active_bg = 'wait';
+		active_bg = 'clean';
 
 
 		// ========== HEADTRACKR ============
@@ -113,7 +113,7 @@
 
 		waitingGame = function() {
 			// Waiting for press any key
-			if (interval(deltaTime, 2)) {
+			if (interval(deltaTime, 1)) {
 				if (active_bg == 'clean') {
 					ctx.drawImage(clean_bg,0,0);
 					active_bg = 'wait';
@@ -184,8 +184,8 @@
 			TIME = _t;
 			if (currentGameObject.waiting === true) {
 				input.listen();
-				if (input.keyboard.keypressed) {
-					
+				if (input.keyboard.keypressed || input.mouse.click) {
+					input.mouse.click = false;
 					$$('#gameArea').className += " loaded";
 					initSounds();
 					currentGameObject.init();

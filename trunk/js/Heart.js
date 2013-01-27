@@ -85,7 +85,7 @@ function Heart(parentObj) {
 			this.tick = new Date().getTime();
 		}
 
-		if (this.lifeTime === 0) 
+		if (this.lifeTime === 0)
 			this.kill();
 			
 		//if en vie déclanche le battement

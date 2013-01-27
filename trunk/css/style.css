@@ -12,7 +12,7 @@ body, html {
     height: 634px;
     margin: 0 0 0 -535px;
     position: absolute;
-    top: 30px;
+    top: 50px;
     left: 50%;
 }
 
@@ -31,18 +31,110 @@ body, html {
     -webkit-animation: bouger 5s infinite alternate;
 }
 
+#gameArea.gameover {
+    background : none;
+}
+
 #gameArea > #gameover {
-    background-color: transparent;
+    background : url('../img/gameover-screen.jpg') transparent no-repeat;
     left: 23px;
+    text-transform: uppercase;
     top: 17px;
 }
+
+    #gameover h2 {
+        color: #ffae00;
+        font-size: 30px;
+        margin-top: 195px;
+    }
+
+        #gameover h3 {
+            color: #ffae00;
+            font-size: 18px;
+            font-weight: normal;
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+
+            #gameover .left {
+                float: left;
+                margin-left: 184px;
+                text-align: left;
+                width: 290px;
+            }
+
+            #gameover .right {
+                float: left;
+                margin-left: 64px;
+                text-align: left;
+                width: 350px;
+            }
+
+                #gameover .right .art {
+                    margin-left: 22px;
+                }
+
+                #gameover .right .sound ul {
+                    margin-bottom: 0;
+                }
+
+            #gameover ul {
+                margin-top: 0;
+                margin-left: 0;
+                padding-left: 0;
+                margin-bottom: 20px;
+            }
+
+                #gameover li {
+                    color: #FFF;
+                    font-size: 14px;
+                    list-style: none;
+                }
+
+                    #gameover .devs .first {
+                        margin-left: 28px;
+                    }
+
+                    #gameover .devs .second {
+                        margin-left: 67px; a
+                    }
+
+                    #gameover .devs .third {
+                        margin-left: 97px;
+                    }
+
+                    #gameover .sound .first {
+                        margin-left: 46px;
+                    }
+
+                    #gameover .art .first {
+                        margin-left: 35px;
+                    }
+
+            #gameover .score {
+                clear: both;
+                color: #FFF;
+                font-size: 30px;
+                padding-top: 20px;
+            }
+
+            #button_retry {
+                background: url('../img/button_retry.png') no-repeat transparent;
+            }
+
+            #gameover a,
+            #gameover a:visited {
+                display: block;
+                height: 111px;
+                margin: auto;
+                width: 127px;
+            }
 
 #gameArea > canvas#gameCanvas,
 #gameArea > #gameover {	
     width: 1024px;
     height: 600px;
 	position: absolute;
-
 }
 
 @-webkit-keyframes bouger {
@@ -62,18 +154,18 @@ body, html {
 	width: 1024px;
 	height: 30px;
 	position: absolute;
-	top: 0;
+	top: 10px;
 	left: 50%;
 	margin: 0 0 0 -512px;
 }
 #header #life {
     color: cyan;
-    font: normal 2em/1em SilkscreenNormal;
+    font: normal 2em/1em lucida_handwritingitalic;
     float: right;
 }
 #header #score {
-    color: lime;
-    font: normal 2em/1em SilkscreenNormal;
+    color: #f54a2e;
+    font: normal 2em/1em lucida_handwritingitalic;
     float: left;
 }
 
@@ -82,5 +174,5 @@ body, html {
 	display: none;
     color: red;
     text-align: center;
-    font: normal 2em/1em SilkscreenNormal;
+    font: normal 2em/1em lucida_handwritingitalic;
 }

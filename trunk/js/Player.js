@@ -15,6 +15,7 @@ function Player(parentObj)
 	this.life = GameConf.player.LIFE;
 	this.score = 0;
 	this.weapon = 'arrow';
+	this.shot = false;
 
 	this.haveSaySomething = false;
 
@@ -146,6 +147,8 @@ function Player(parentObj)
 	 * Inflige une perte de point de vie au joueur
 	 **/
 	this.damage = function() {
+		// Ajout d'une tâche de sang à l'endroit de la collision (pke c gorre, mdrrr)
+		this.parentObj.MTache.add(this);
 		if(--this.life <= 0) {
 			// Remplacement du sprite player par le sprite player_killed
 			this.sprite = this.parentObj.sprites['img/player_dead'];
@@ -153,8 +156,6 @@ function Player(parentObj)
 			this.kill();
 		}
 		else {
-			// Ajout d'une tâche de sang à l'endroit de la collision (pke c gorre, mdrrr)
-			this.parentObj.MTache.add(this);
 			// Feedback sur la perte d'une vie
 			this.parentObj.MMessage.add({
 				message : '-1 UP',

@@ -20,7 +20,6 @@ function Message(parentObj)
 	this.add = function(options) {
 
 		var c = options.callback === undefined ? function() {} : options.callback;
-		log(c);
 
 		this.messages.push({
 			message : options.message,

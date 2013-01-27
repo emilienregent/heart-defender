@@ -73,6 +73,7 @@ Array.prototype.pickup = Array.prototype.pickup || function() {
 
 // Teste si un interval est passé
 function interval(time, interval) {
+	log(Math.abs(time - new Date().getTime()) / 1000);
 	return Math.abs(time - new Date().getTime()) / 1000 > interval;
 }
 
