@@ -144,13 +144,7 @@ function Enemy(parentObj)
 					}
 					this.parentObj.MTache.add(e);
 					--c;
-				}
-				//déclanche son monstre hit
-				if ( ( typeof ( this.parentObj.bossMode ) === "undefined" ) )
-					soundLoader.cachedSounds[ "growl" ].play();
-				else
-					soundLoader.cachedSounds[ "growl2" ].play();
-				
+				}				
 			} else if((e.x + e.w < 0 || e.x > WIDTH || e.y + e.h < 0 || e.y > HEIGHT) && game.bossMode === undefined) {
 				this.kill(i, false);
 				--c;
@@ -181,7 +175,7 @@ function Enemy(parentObj)
 			else
 			{
 				//declanche son de shock si on voit l'ennemi pour la première fois
-				if ( !e.isSpotted && Math.random() < 0.2 && ( typeof ( this.parentObj.bossMode ) === "undefied" ) )
+				if ( !e.isSpotted && Math.random() < 0.2 && ( typeof ( this.parentObj.bossMode ) === "undefined" ) )
 					soundLoader.cachedSounds[ "heart_shock" ].play();
 			
 				e.isSpotted = true;
