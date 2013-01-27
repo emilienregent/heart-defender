@@ -68,6 +68,11 @@ function Heart(parentObj) {
 		this.lifeTime = GameConf.heart.LIFE_TIME;
 
 		this.alive = true;
+
+		this.parentObj.MBoard.add({
+			message : 'A crystal heart appears. Protect it !',
+			interval : 3
+		});
 	}
 
 	/**
@@ -137,6 +142,12 @@ function Heart(parentObj) {
 		if(--this.health <= 0) {
 			this.kill();
 		}
+		else if (!this.protected) {
+			this.parentObj.MBoard.add({
+				message : 'The crystal heart is under attack ! Protect it !',
+				interval : 2
+			});
+		}
 		// this.display();
 	};
 
@@ -148,8 +159,19 @@ function Heart(parentObj) {
 			// On tue l'instance du sprite pour ne pas surcharger le garbage collector...
 			// IM.killInstance(this.sprite);
 
-			if (this.protected && this.health > 0) 
+			if (this.protected && this.health > 0) {
 				this.parentObj.player.addLife();
+				this.parentObj.MBoard.add({
+					message : 'The crystal heart survived and become yours.',
+					interval : 2
+				});
+			}
+			else {
+				this.parentObj.MBoard.add({
+					message : 'The crystal heart has been destroyed.',
+					interval : 2
+				});
+			}
 
 			this.alive = false;
 			this.lastPop = +new Date();
