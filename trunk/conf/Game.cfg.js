@@ -6,8 +6,9 @@ var GameConf =
 {
 	arena : {
 		SPAWN_PADDING : 50,	/*Coefficient pour décaler le point de spawn des murs*/	
-		SPAWN_TIME : 2,		/*Délai de génération des éléments de l'arène*/
-		MAX_ENEMY : 20,		/*Nombre maximum d'ennemis*/
+		SPAWN_TIME : 3,	/*Délai de génération des éléments de l'arène*/
+		INTERVAL_MIN : 1, /*Délai minimum de génération de base pour les ennemis*/
+		INTERVAL_MAX : 3, /*Délai maximum de génération de base pour les ennemis*/
 	},
 	player : {
 		LIFE : 3,			/*Points de vie du joueur en début de partie*/
@@ -76,5 +77,6 @@ var GameConf =
 			effect : 'lightning',
 			sprite : 'img/parchemin_lightning'
 		}
-	}
+	},
+	DIFFICULTY_COEF : 1, // Coefficient pour calculer les courbes de difficultés
 }
