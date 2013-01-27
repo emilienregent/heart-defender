@@ -36,6 +36,9 @@ function Game()
 	// Manager de messages
 	this.MMessage = null;
 
+	// Manager de board
+	this.MBoard = null;
+
 	// Manager de scores
 	this.MScore = null;
 
@@ -105,6 +108,7 @@ function Game()
 		this.MTache = new Tache(this.that);
 		this.MMessage = new Message(this.that);
 		this.MScore = new Score(this.that);
+		this.MBoard = new Board(this.that);
 		this.heart = new Heart(this.that);
 	};
 	
@@ -157,6 +161,7 @@ function Game()
 		this.MMessage.animate();
 		// On anime les scores
 		this.MScore.animate();
+		this.MBoard.animate();
 
 	};
 
@@ -312,6 +317,7 @@ function Game()
 		this.MMessage.render();
 		// On affiche les scores
 		this.MScore.render();
+		this.MBoard.render();
 		// On affiche la cible
 		this.renderTarget();
 
