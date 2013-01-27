@@ -98,7 +98,9 @@ function Score(parentObj)
 		for (var i = 0; i < s.length; i++) {
 			var c = s[i];
 			result.push( IM.getInstance('img/numbers') );
-			result[i].animation = new IIG.Animation(ScoreConf.numbers[c].animation);
+			if(typeof ScoreConf.numbers[c] !== "undefined") {
+				result[i].animation = new IIG.Animation(ScoreConf.numbers[c].animation);
+			}
 		}
 
 		result.reverse();

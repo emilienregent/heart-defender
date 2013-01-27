@@ -10,6 +10,7 @@ var ProjectileConf = {
 	explosion : {
 		speed :8,
 		maxDistance : 200,
+		lifetime : .5,
 		width : 77,
 		height : 79,
 		category : 'toCoords'

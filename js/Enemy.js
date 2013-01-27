@@ -45,7 +45,8 @@ function Enemy(parentObj)
 			speed : conf.speed,
 			score : conf.SCORE_BASE,
 			opacity : 0.3,
-			isSpotted : false //test si l'ennemi à déjà été repéré
+			isSpotted : false, //test si l'ennemi à déjà été repéré
+			spriteName: chosenSprite
 		});
 	};
 
@@ -171,14 +172,17 @@ function Enemy(parentObj)
 	this.kill = function(index, withScore) {
 		var enemy = this.enemies[index];
 		// Si la mort de l'ennemi doit générer du score
-		if(withScore === true) {
-			this.parentObj.MScore.add({
-					score : this.parentObj.score(enemy),
-					x : enemy.x + enemy.w/2,
-					y : enemy.y,
-					speed : 3,
-					decrementOpacity : 0.04
-			});
+		if(withScore === true && this.parentObj.player.life > 0) {
+			var score = this.parentObj.score(enemy);
+			if(score > 0) {
+				this.parentObj.MScore.add({
+						score : score,
+						x : enemy.x + enemy.w/2,
+						y : enemy.y,
+						speed : 3,
+						decrementOpacity : 0.04
+				});
+			}
 			this.drop(enemy);
 		}
 		var enemiesLen = this.enemies.length;
@@ -199,4 +203,59 @@ function Enemy(parentObj)
 			return false;
 		}
 	}
+
+	/**
+	 * Fait la moyenne des ennemis présents en arène
+	 **/
+	this.averageInGame = function() {
+		var enemiesInGame = {};
+		for (var i = 0, c = this.enemies.length; i < c; i++) {
+			var e = this.enemies[i];
+
+			if(typeof enemiesInGame[e.spriteName] === "undefined") {
+				enemiesInGame[e.spriteName] = 1;				
+			} else {
+				enemiesInGame[e.spriteName] ++;
+			}
+		}
+
+		var averageInGame = 0;
+		var enemiesInGameLen = 0;
+		for(e in enemiesInGame) {
+			averageInGame += enemiesInGame[e];
+			enemiesInGameLen ++;
+		}
+
+		return Math.ceil(averageInGame / enemiesInGameLen);
+	}
+
+	this.maximumInGame = function() {
+		// FORMULA => ((S+C)/T)/2+(PV*I)
+		// S => score
+		// C => coefficient de difficulté
+		// T => durée de la partie
+		// PV => points de vie du joueur
+		// I => intervalle initial
+
+		return Math.ceil(((this.parentObj.player.score + GameConf.DIFFICULTY_COEF) / (TIME / 1000)) / 2) * 
+			(this.parentObj.player.life * GameConf.arena.INTERVAL_MAX);
+	}
+
+	this.getSpawnInterval = function() {
+		// FORMULA => I - (((M-NC)+B3)/(10-B4))
+		// I => intevalle initial
+		// M => nombre maximum de créatures en arène
+		// NC => nombre de créature dans l'arène
+
+		var diviseur = (10 - this.parentObj.player.life) || 1;
+		var interval = Math.floor(GameConf.arena.INTERVAL_MAX - 
+			((this.maximumInGame() - this.enemies.length) + GameConf.DIFFICULTY_COEF) / diviseur);
+
+		if(interval > GameConf.arena.INTERVAL_MIN && interval < GameConf.arena.INTERVAL_MAX) {
+			return interval;
+		} else {
+			return Math.floor(rand(GameConf.arena.INTERVAL_MIN, GameConf.arena.INTERVAL_MAX));
+		}
+	}
+
 }

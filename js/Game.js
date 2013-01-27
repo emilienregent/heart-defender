@@ -306,11 +306,15 @@ function Game()
 
 	this.update = function() {
 
-		if(interval(this.MEnemy.lastPop, GameConf.arena.SPAWN_TIME) === true && 
-			this.MEnemy.enemies.length < GameConf.arena.MAX_ENEMY) 
+		var maximumInGame = this.MEnemy.maximumInGame();
+		var spawnInterval = this.MEnemy.getSpawnInterval();
+
+		if(interval(this.MEnemy.lastPop, spawnInterval) === true && 
+			this.MEnemy.enemies.length < maximumInGame) 
 		{
 			this.generateEnemies();
 		}
+		debug(spawnInterval + " - " + maximumInGame);
 
 		if(interval(this.heart.lastPop, GameConf.heart.SPAWN_TIME) === true &&
 			!this.heart.alive )
@@ -366,7 +370,12 @@ function Game()
 	}
 
 	this.score = function(enemy) {
-		var score = Math.ceil(enemy.score * (this.MEnemy.enemies.length / this.player.life))
+		// FORMULA => ES*((NV+NM)/2)/PV)
+		// ES => score de base d'un type d'ennemi
+		// NV => nombre d'ennemis verts présents dans l'arène
+		// NM => nombre d'ennemis marrons présents dans l'arène
+		// PV => points de vie du joueur
+		var score = Math.ceil(enemy.score * (this.MEnemy.averageInGame() / this.player.life));
 		this.player.score += score;
 		this.player.display();
 

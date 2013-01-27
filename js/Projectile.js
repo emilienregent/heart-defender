@@ -138,7 +138,7 @@ function Projectile(parentObj)
 					// Ajout d'une tâche de sang à l'endroit de la collision (pke c gorre, mdrrr)
 					this.parentObj.MTache.add(e);
 
-					if(p.category !== "toTarget") {
+					if(typeof p.lifetime === "undefined" || p.lifetime <= 0) {
 						if (this.kill( i )) --c;
 					}
 						if (this.parentObj.MEnemy.kill( j, true )) --d;
