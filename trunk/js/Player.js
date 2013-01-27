@@ -192,6 +192,7 @@ function Player(parentObj)
 			
 			//déclanche son hit 
 			soundLoader.cachedSounds[ "cut" ].play();
+			soundLoader.cachedSounds[ "growl" ].play();
 		}
 		this.display();
 	};
