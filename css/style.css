@@ -7,7 +7,7 @@ body, html {
 }
 
 #gameArea {
-    background: url('../img/bg_mur.png') no-repeat;
+    background: none;
     width: 1070px;
     height: 634px;
     margin: 0 0 0 -535px;
@@ -17,11 +17,20 @@ body, html {
 }
 
 #gameArea > canvas#gameCanvas {
-	background: url('../img/bg.jpg');
+	background: none;
     left: 23px;
     top: 17px;
-	-webkit-animation: bouger 5s infinite alternate;
 }
+
+#gameArea.loaded {
+    background : url('../img/bg_mur.png') no-repeat;
+}
+
+#gameArea.loaded > canvas#gameCanvas {
+    background : url('../img/bg.jpg');
+    -webkit-animation: bouger 5s infinite alternate;
+}
+
 #gameArea > #gameover {
     background-color: transparent;
     left: 23px;
