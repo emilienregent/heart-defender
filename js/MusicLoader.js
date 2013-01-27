@@ -30,7 +30,7 @@ function Loader( canvasSize, path, ctx, callback )
 	this.soundDirectories = [ { name : "", files : [ "heart_fast.ogg", "heart_slow.ogg", "game.ogg", "theme.ogg", "title.ogg", 
 	                                                 "heart_slow2.ogg", "heart_fast2.ogg", "heart_fast3.ogg", "heart_shock.ogg",
 													 "powerup.ogg", "destroy.ogg", "damage.ogg", "arrow.ogg", "heart_fade.ogg",
-													 "fire.ogg", "heart_stop.ogg", "death.ogg" ] } ];
+													 "fire.ogg", "heart_stop.ogg", "death.ogg", "zap.ogg", "cut.ogg", "growl.ogg", "growl2.ogg" ] } ];
 			
 	this.callbackFunc = callback;
 	
@@ -127,7 +127,16 @@ Loader.prototype.loading = function()
 			{
 				var soundName = this.soundDirectories[i].files[j].substring( 0, this.soundDirectories[i].files[j].lastIndexOf( '.' ) );
 				if ( this.cachedSounds[ soundName ].isLoaded )
+				{
+					//déclanche son menu si l'asset à chargé
+					if ( soundName == "title" )
+					{
+						this.cachedSounds[ soundName ].loop = true;
+						this.cachedSounds[ soundName ].play();
+					}
+					
 					this.loadedSounds++;
+				}
 			}
 	}
 	

@@ -239,6 +239,13 @@ function Game()
 					fire.currentTime = 0.15;
 					fire.play();
 				break;
+				
+				case "lightning" :
+					//déclancher zap
+					var zap = soundLoader.cachedSounds[ "zap" ];
+					zap.currentTime = 0.5;
+					zap.play();
+				break;
 			}
 			
 		}

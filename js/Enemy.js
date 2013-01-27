@@ -107,6 +107,9 @@ function Enemy(parentObj)
 					target.damage();
 					--c;
 				}
+				
+				//déclanche son monstre hit
+				soundLoader.cachedSounds[ "growl" ].play();
 			}
 
 			// Déclanche son de shock si on voit l'ennemi pour la première fois.
@@ -127,8 +130,17 @@ function Enemy(parentObj)
 
 		for (var i = 0, c = this.enemies.length; i < c; i++) {
 			var e = this.enemies[i];
-			if(this.parentObj.player.isVisible(e) === false)
+			if(this.parentObj.player.isVisible(e) === false) {	
 				ctx.globalAlpha = e.opacity;
+			}
+			else
+			{
+				//declanche son de shock si on voit l'ennemi pour la première fois
+				if ( !e.isSpotted && Math.random() < 0.2 )
+					soundLoader.cachedSounds[ "heart_shock" ].play();
+			
+				e.isSpotted = true;
+			}
 			
 			IM.drawImage(ctx, e.sprite, e.x, e.y);
 			ctx.globalAlpha = 1;

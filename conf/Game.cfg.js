@@ -67,7 +67,7 @@ var GameConf =
 			color: 'rgba(255,255,0,1)',
 			effect : 'arrow',
 			sprite : 'img/parchemin_fire_arrow',
-			message : 'Unlish the power of sun !'
+			message : 'Unlish the power of the sun !'
 		},
 		bonus_2 : {
 			drop_rate : 0.2,
