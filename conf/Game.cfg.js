@@ -61,17 +61,20 @@ var GameConf =
 		bonus_1 : {
 			drop_rate : 0.1,
 			color: 'rgba(255,255,0,1)',
-			effect : 'arrow'
+			effect : 'arrow',
+			sprite : 'img/parchemin_fire_arrow'
 		},
 		bonus_2 : {
-			drop_rate : 0.05,
+			drop_rate : 0.2,
 			color: 'rgba(0,0,255,1)',
-			effect : 'explosion'
+			effect : 'explosion',
+			sprite : 'img/parchemin_explosion'
 		},
 		bonus_3 : {
-			drop_rate : 0.05,
+			drop_rate : 0.4,
 			color: 'rgba(0,255,0,1)',
-			effect : 'lightning'
+			effect : 'lightning',
+			sprite : 'img/parchemin_lightning'
 		}
 	}
 }
