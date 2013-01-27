@@ -49,11 +49,15 @@ function Bonus(parentObj)
 		for (var i = 0, c = this.bonus.length; i < c; i++) {
 			var e = this.bonus[i];
 			if (interval(e.pop,e.interval)) {
-				this.disappear(i,true);
+				if(this.disappear(i,true) === true) {
+					c --;
+				}
 			}
 			if(collide(e, this.parentObj.player)) {
 				this.parentObj.player.changeWeapon(e.effect);
-				this.disappear(i);
+				if(this.disappear(i) === true) {
+					c --;
+				}
 				
 				//déclanche son collection bonus
 				soundLoader.cachedSounds[ "powerup" ].play();

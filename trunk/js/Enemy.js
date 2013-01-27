@@ -31,9 +31,18 @@ function Enemy(parentObj)
 		}
 
 		var spriteNames = ['img/ennemi_vert', 'img/ennemi_marron'],
-			chosenSprite = spriteNames.pickup(),
+			chosenSprite = (game.bossMode === true)  
+							? 'img/ennemi_vert' 
+							: (game.bossMode === false) 
+								? 'img/ennemi_vert'
+								:spriteNames.pickup(),
 			conf = GameConf.enemies[chosenSprite],
-			sprite;
+			sprite, target = undefined;
+
+		if(this.parentObj.bossMode === true) {
+			spawn.x = this.parentObj.boss.x + this.parentObj.boss.w/2;
+			spawn.y = this.parentObj.boss.y + this.parentObj.boss.h/2;
+		}
 
 		sprite = IM.getInstance(chosenSprite);
 		sprite.animation = new IIG.Animation(conf.animation);
@@ -47,7 +56,8 @@ function Enemy(parentObj)
 			score : conf.SCORE_BASE,
 			opacity : 0.3,
 			isSpotted : false, //test si l'ennemi à déjà été repéré
-			spriteName: chosenSprite
+			spriteName: chosenSprite,
+			target : target
 		};
 		this.enemies.push(enemy);
 
@@ -64,7 +74,7 @@ function Enemy(parentObj)
 
 			var target = this.parentObj.player;
 
-			if(typeof e.target === "undefined") {
+			if(typeof e.target === "undefined" || e.target === undefined) {
 				var heart = this.parentObj.heart;
 				if (heart.alive) {
 					if (lineDistance({x:e.x,y:e.y},{x:heart.x,y:heart.y}) < lineDistance({x:e.x,y:e.y},{x:target.x,y:target.y}))
@@ -88,24 +98,32 @@ function Enemy(parentObj)
 				// Test la direction de l'ennemi
 				if(Math.cos(angle) <= 0) {
 					// gauche
-					e.sprite.animation.sy = e.h * 3;
+					if(e.sprite.spriteName !== "img/boss_projectile"){
+						e.sprite.animation.sy = e.h * 3;
+					}
 					e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 				}
 				else if(Math.cos(angle) > 0) {
 					// droite
-					e.sprite.animation.sy = e.h;
+					if(e.sprite.spriteName !== "img/boss_projectile"){
+						e.sprite.animation.sy = e.h;
+					}
 					e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 				}
 			}
 			else {
 				if(Math.sin(angle) <= 0) {
 					// haut
-					e.sprite.animation.sy = 0;
+					if(e.sprite.spriteName !== "img/boss_projectile"){
+						e.sprite.animation.sy = 0;
+					}
 					e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 				}
 				else if(Math.sin(angle) > 0) {
 					// bas
-					e.sprite.animation.sy = e.h * 2;
+					if(e.sprite.spriteName !== "img/boss_projectile"){
+						e.sprite.animation.sy = e.h * 2;
+					}
 					e.sprite.pauseAnimation = false; // Comme le joueur bouge, on remet l'animation en marche
 				}
 			}
@@ -115,6 +133,14 @@ function Enemy(parentObj)
 				if(this.kill(i, false)) {
 					if(typeof target.damage !== "undefined") {
 						target.damage();
+					}
+					this.parentObj.MTache.add(e);
+					--c;
+				}
+			} else if(collide(e, this.parentObj.player)) {
+				if(this.kill(i, false)) {
+					if(typeof this.parentObj.player.damage !== "undefined") {
+						this.parentObj.player.damage();
 					}
 					this.parentObj.MTache.add(e);
 					--c;
@@ -143,6 +169,7 @@ function Enemy(parentObj)
 		} else if(game.bossMode === false && this.enemies.length === 0) {
 			game.boss = new Boss(game);
 			game.boss.init();
+			game.bossMode = true;
 		}
 
 	};
@@ -272,6 +299,8 @@ function Enemy(parentObj)
 
 		if(this.vanishMode === true) {
 			return 0;
+		} else if(game.bossMode === true) {
+			return 100;
 		}
 
 		return Math.ceil(((this.parentObj.player.score + GameConf.DIFFICULTY_COEF) / (TIME / 1000)) / 2) * 

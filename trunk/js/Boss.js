@@ -12,6 +12,7 @@ function Boss(parentObj)
 	this.opacity = 0.3;
 	this.parentObj = parentObj;
 	this.life = GameConf.boss.LIFE;
+	this.score = 5432;
 
 	/**
 	 * Initialization
@@ -57,5 +58,40 @@ function Boss(parentObj)
 		// ctx.strokeRect(this.x, this.y, this.w, this.h);
 
 	};
+
+	this.damage = function() {
+		// Ajout d'une tâche de sang à l'endroit de la collision (pke c gorre, mdrrr)
+		this.parentObj.MTache.add(this);
+		if(--this.life <= 0) {
+			this.parentObj.MTache.add(this);			
+			//Let's kill it, he deserved to be !
+			this.kill();
+		}
+	};
+
+	this.kill = function() {
+		this.parentObj.MTache.add(this);
+		this.parentObj.MTache.add(this);
+		this.parentObj.MTache.add(this);
+
+		var score = this.parentObj.score(this);
+		if(score > 0) {
+			this.parentObj.MScore.add({
+					score : score,
+					x : this.x + this.w/2,
+					y : this.y,
+					speed : 3,
+					decrementOpacity : 0.04
+			});
+		}
+
+		//if enemy mort déclanche son destruction 
+		soundLoader.cachedSounds[ "destroy" ].play();
+
+		GameConf.boss.SPAWN = Math.ceil(GameConf.boss.SPAWN * 1.5);
+		GameConf.DIFFICULTY_COEF += 10;
+
+		this.parentObj.bossMode = undefined;
+	}
 
 }
