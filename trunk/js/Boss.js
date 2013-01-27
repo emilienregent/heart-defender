@@ -29,6 +29,8 @@ function Boss(parentObj)
 			sHeight : 128,
 			animByFrame : 8
 		});
+
+		this.score = GameConf.boss.SCORE_BASE;
 	};
 
 	/**

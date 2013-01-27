@@ -145,7 +145,6 @@ function Enemy(parentObj)
 					this.parentObj.MTache.add(e);
 					--c;
 				}
-
 				//déclanche son monstre hit
 				if ( ( typeof ( this.parentObj.bossMode ) === "undefined" ) )
 					soundLoader.cachedSounds[ "growl" ].play();
@@ -279,6 +278,10 @@ function Enemy(parentObj)
 		for(e in enemiesInGame) {
 			averageInGame += enemiesInGame[e];
 			enemiesInGameLen ++;
+		}
+
+		if(enemiesInGameLen <= 0) {
+			enemiesInGameLen = 1;
 		}
 
 		return Math.ceil(averageInGame / enemiesInGameLen);
