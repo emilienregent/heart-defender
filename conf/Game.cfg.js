@@ -50,7 +50,7 @@ var GameConf =
 		/*Bloc HTML de gameover*/
 		GAMEOVER_DISPLAY : '<h2>The team "I"</h2>'+
 							'<div class="devs left">'+
-								'<h3>Développeur</h3>'+
+								'<h3>Developers</h3>'+
 								'<ul>'+
 									'<li class="first">Jean-Marie (JMPP) Cléry</li>'+
 									'<li class="second">Gaëtan (Tweek) Régent</li>'+

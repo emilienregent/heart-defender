@@ -108,9 +108,9 @@ function Game()
 		this.heart = new Heart(this.that);
 
 		// BOSS
-		this.boss = new Boss(this.that);
-		this.boss.init();
-		this.bossMode = false;
+		// this.boss = new Boss(this.that);
+		// this.boss.init();
+		// this.bossMode = false;
 	};
 	
 	/**
@@ -135,8 +135,13 @@ function Game()
 		// On anime le coeur
 		this.heart.animate();
 
-		if (!this.player.shot || interval(this.player.shot, ProjectileConf[this.player.projectileType].interval)) {
-			this.player.shot = +new Date();
+		if (this.player.shot != false ) {
+	 		if (interval(this.player.shot, ProjectileConf[this.player.projectileType].interval)) {
+				// Ecouteur pour créer un tir ?
+				this.listenProjectiles();
+			}
+		}
+		else {
 			// Ecouteur pour créer un tir ?
 			this.listenProjectiles();
 		}
@@ -147,7 +152,7 @@ function Game()
 		// On anime les ennemis
 		this.MEnemy.animate();
 		// On anime le boss
-		this.boss.animate();
+		// this.boss.animate();
 		// On anime le coeur
 		this.MBonus.animate();
 		// On anime les messages
@@ -217,6 +222,7 @@ function Game()
 				destination.x,
 				destination.y
 			);
+			this.player.shot = +new Date();
 			
 			switch ( this.player.weapon )
 			{
@@ -262,7 +268,8 @@ function Game()
 		this.shadow.y = (this.player.y + this.player.h/2) - this.shadow.sprite.height/2;
 
 		// Si on passe en bossMode, activer cette ligne :
-		this.shadow.alpha = (this.shadow.alpha > 0) ? this.shadow.alpha - .02 : 0;
+		if (this.bossMode)
+			this.shadow.alpha = (this.shadow.alpha > 0) ? this.shadow.alpha - .02 : 0;
 
 		console.log(this.shadow.alpha);
 
@@ -289,7 +296,7 @@ function Game()
 		// On affiche les ennemis
 		this.MEnemy.render();
 		// On affiche le boss
-		this.boss.render();
+		// this.boss.render();
 		// On affiche les projectiles
 		this.MProjectile.render();
 		// On affiche les taches
