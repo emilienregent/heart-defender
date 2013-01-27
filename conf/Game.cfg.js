@@ -48,10 +48,31 @@ var GameConf =
 	},
 	menu : {
 		/*Bloc HTML de gameover*/
-		GAMEOVER_DISPLAY : '<h2>Game Over</h2>'+
-							'<h3>Darkness overkilled you !</h3>'+
-							'<p>Your score is %SCORE%.</p>'+
-							'<button onclick="restartGame()">Try to defeat the darkness ... again</button>'
+		GAMEOVER_DISPLAY : '<h2>The team "I"</h2>'+
+							'<div class="devs left">'+
+								'<h3>Développeur</h3>'+
+								'<ul>'+
+									'<li class="first">Jean-Marie (JMPP) Cléry</li>'+
+									'<li class="second">Gaëtan (Tweek) Régent</li>'+
+									'<li class="third">Emilien (Flex) Régent</li>'+
+								'</ul>'+
+							'</div>'+
+							'<div class="right">'+
+								'<div class="sound">'+
+									'<h3>Sound Designer</h3>'+
+									'<ul>'+
+										'<li class="first">Vincentiu Dioanca-Adam Septimiu</li>'+
+									'</ul>'+
+								'</div>'+
+								'<div class="art">'+
+									'<h3>Art</h3>'+
+									'<ul>'+
+										'<li class="first">Lionel Jabre</li>'+
+									'</ul>'+
+								'</div>'+
+							'</div>'+
+							'<p class="score">Your score is : <span id="score_value"></span></p>'+
+							'<a id="button_retry" href="#" onclick="restartGame(); return false;"></a>'
 	},
 	heart : {
 		SPAWN_TIME : 5, /*Délai de génération du bonus*/

@@ -135,8 +135,11 @@ function Game()
 		// On anime le coeur
 		this.heart.animate();
 
-		// Ecouteur pour créer un tir ?
-		this.listenProjectiles();
+		if (!this.player.shot || interval(this.player.shot, ProjectileConf[this.player.projectileType].interval)) {
+			this.player.shot = +new Date();
+			// Ecouteur pour créer un tir ?
+			this.listenProjectiles();
+		}
 		// On anime les projectiles
 		this.MProjectile.animate();
 		// On anime les taches
@@ -156,19 +159,8 @@ function Game()
 
 	this.listenProjectiles = function() {
 
-		// this.player.weapon = 'lightning';
 		var conf = ProjectileConf[this.player.weapon];
 		if (input.mouse.click) {
-			
-			// this.MMessage.add({
-			// 	message : 'Salut',
-			// 	x : input.mouse.x,
-			// 	y : input.mouse.y,
-			// 	speed : rand(1, 3),
-			// 	decrementOpacity : .01,
-			// 	fontSize : rand(25,50),
-			// 	color : ['red', 'blue', 'orange', 'pink'].pickup()
-			// });
 
 			/*Détermine le type de destination selon la catégorie du projectile*/
 			// Initialise l'origine et la destination au centre du joueur
@@ -351,7 +343,7 @@ function Game()
 		{
 			this.generateEnemies();
 		}
-		debug(spawnInterval + " - " + maximumInGame);
+		// debug(spawnInterval + " - " + maximumInGame);
 
 		if(interval(this.heart.lastPop, GameConf.heart.SPAWN_TIME) === true &&
 			!this.heart.alive )
@@ -359,8 +351,10 @@ function Game()
 			this.heart.generate();
 		}
 
-		this.animate();
-		this.render();
+		if (!this.stop) {
+			this.animate();
+			this.render();
+		}
 	};
 
 	/**
@@ -430,12 +424,18 @@ function Game()
 	this.showGameover = function() {
 		this.shadow.sprite = this.sprites['img/full_shadow'];
 		$$("#gameover").innerHTML = GameConf.menu.GAMEOVER_DISPLAY.replace(/%SCORE%/, this.player.score);
+		$$("#score_value").innerHTML = this.player.score;
+		$$('#gameArea').className = "gameover";
+		$$('#gameCanvas').style.display = "none";
 		$$("#gameover").style.display = "block";
 		$$('#score').style.display = 'none';
 		$$('body').style.cursor = 'default';
 	}
 
 	this.hideGameover = function() {
+		this.shadow.sprite = this.sprites['img/shadow'];
+		$$('#gameArea').className = "loaded";
+		$$('#gameCanvas').style.display = "block";
 		$$('#gameover').style.display = 'none';
 		$$('#score').style.display = 'block';
 		$$('body').style.cursor = 'none';
