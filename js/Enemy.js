@@ -172,7 +172,13 @@ function Enemy(parentObj)
 		var enemy = this.enemies[index];
 		// Si la mort de l'ennemi doit générer du score
 		if(withScore === true) {
-			this.parentObj.score(enemy);
+			this.parentObj.MScore.add({
+					score : this.parentObj.score(enemy),
+					x : enemy.x + enemy.w/2,
+					y : enemy.y,
+					speed : 3,
+					decrementOpacity : 0.04
+			});
 			this.drop(enemy);
 		}
 		var enemiesLen = this.enemies.length;

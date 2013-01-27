@@ -50,12 +50,12 @@ var GameConf =
 							'<button onclick="restartGame()">Try to defeat the darkness ... again</button>'
 	},
 	heart : {
-		SPAWN_TIME : 2, /*Délai de génération du bonus*/
+		SPAWN_TIME : 5, /*Délai de génération du bonus*/
 		MAX : 1, /*Nombre maximum de bonus*/
 		WIDTH : 48, /*Largeur du bonus*/
 		HEIGHT : 48, /*Hauteur du bonus*/
-		HEALTH : 10, /*Santé du bonus*/
-		LIFE_TIME : 20 /*Durée de vie du bonus*/
+		HEALTH : 5, /*Santé du bonus*/
+		LIFE_TIME : 10 /*Durée de vie du bonus*/
 	},
 	bonus : {
 		bonus_1 : {

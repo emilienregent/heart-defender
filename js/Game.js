@@ -33,6 +33,9 @@ function Game()
 	// Manager de messages
 	this.MMessage = null;
 
+	// Manager de scores
+	this.MScore = null;
+
 	// Coeur (bonus)
 	this.heart = null;
 
@@ -83,6 +86,7 @@ function Game()
 		
 		// On stocke une instance unique de la shadow dans le tableau qui référence toutes les instances de sprites du jeu
 		this.sprites['img/shadow'] = IM.getInstance('img/shadow');
+		this.sprites['img/full_shadow'] = IM.getInstance('img/full_shadow');
 		this.shadow.sprite = this.sprites['img/shadow'];
 
 		this.MEnemy = new Enemy(this.that);
@@ -90,6 +94,7 @@ function Game()
 		this.MBonus = new Bonus(this.that);
 		this.MTache = new Tache(this.that);
 		this.MMessage = new Message(this.that);
+		this.MScore = new Score(this.that);
 		this.heart = new Heart(this.that);
 	};
 	
@@ -123,6 +128,8 @@ function Game()
 		this.MBonus.animate();
 		// On anime les messages
 		this.MMessage.animate();
+		// On anime les scores
+		this.MScore.animate();
 
 	};
 
@@ -132,15 +139,15 @@ function Game()
 		var conf = ProjectileConf[this.player.weapon];
 		if (input.mouse.click) {
 			
-			this.MMessage.add({
-				message : 'Salut',
-				x : input.mouse.x,
-				y : input.mouse.y,
-				speed : rand(1, 3),
-				decrementOpacity : .01,
-				fontSize : rand(25,50),
-				color : ['red', 'blue', 'orange', 'pink'].pickup()
-			});
+			// this.MMessage.add({
+			// 	message : 'Salut',
+			// 	x : input.mouse.x,
+			// 	y : input.mouse.y,
+			// 	speed : rand(1, 3),
+			// 	decrementOpacity : .01,
+			// 	fontSize : rand(25,50),
+			// 	color : ['red', 'blue', 'orange', 'pink'].pickup()
+			// });
 
 			/*Détermine le type de destination selon la catégorie du projectile*/
 			// Initialise l'origine et la destination au centre du joueur
@@ -264,6 +271,8 @@ function Game()
 		this.renderShadow();
 		// On affiche les messages
 		this.MMessage.render();
+		// On affiche les scores
+		this.MScore.render();
 		// On affiche la cible
 		this.renderTarget();
 
@@ -352,8 +361,11 @@ function Game()
 	}
 
 	this.score = function(enemy) {
-		this.player.score += Math.ceil(enemy.score * (this.MEnemy.enemies.length / this.player.life));
+		var score = Math.ceil(enemy.score * (this.MEnemy.enemies.length / this.player.life))
+		this.player.score += score;
 		this.player.display();
+
+		return score;
 	}
 
 	/**
@@ -365,6 +377,7 @@ function Game()
 	}
 
 	this.showGameover = function() {
+		this.shadow.sprite = this.sprites['img/full_shadow'];
 		$$("#gameover").innerHTML = GameConf.menu.GAMEOVER_DISPLAY.replace(/%SCORE%/, this.player.score);
 		$$("#gameover").style.display = "block";
 		$$('#score').style.display = 'none';
