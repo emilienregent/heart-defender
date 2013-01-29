@@ -7,7 +7,7 @@ var ProjectileConf = {
 		height : 49,
 		category : 'toCoords',
 		interval : .75,
-		colors : ["#f8f810", "#c88000"]
+		aura : "img/fire_arrow_circle"
 	},
 	explosion : {
 		speed :8,
@@ -17,7 +17,7 @@ var ProjectileConf = {
 		height : 79,
 		category : 'toCoords',
 		interval : 1,
-		colors : ["#f8f810", "#c88000"]
+		aura : "img/explosion_circle"
 	},
 	lightning : {
 		speed :5,
@@ -27,6 +27,6 @@ var ProjectileConf = {
 		height : 130,
 		category : 'toTarget',
 		interval : 1.25,
-		colors : ["#f8f810", "#c88000"]
+		aura : "img/lightning_circle"
 	}
 };

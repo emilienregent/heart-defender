@@ -17,6 +17,8 @@ function Player(parentObj)
 	this.weapon = 'arrow';
 	this.shot = false;
 
+	this.auraRotation = 0;
+
 	this.haveSaySomething = false;
 
 	/**
@@ -41,6 +43,12 @@ function Player(parentObj)
 		// On prépare aussi une instance du joueur mort pour le futur game over
 		this.parentObj.sprites['img/player_dead'] = IM.getInstance('img/player_dead');
 
+		// On prépare aussi une instance d'aura pour chaque type de sortilège
+		for(p in ProjectileConf) {
+			var aura = ProjectileConf[p].aura;
+			this.parentObj.sprites[aura] = IM.getInstance(aura);
+		}
+
 		// Affiche le nombre de coeurs
 		this.display();
 	};
@@ -52,6 +60,9 @@ function Player(parentObj)
 
 		deltaTime = ( Date.now() - deltaTime ) / 1000;
 		var p = this;
+
+		// Animate aura
+		p.auraRotation -= 0.1 * deltaTime;
 
 		// bas
 		if (input.keyboard.down) {
@@ -95,34 +106,26 @@ function Player(parentObj)
 	 **/
 	this.render = function() {
 
-		/*ctx.fillStyle = 'white';
-		ctx.shadowColor = 'white';
-		ctx.shadowBlur = 20;
-		ctx.beginPath();
-		ctx.arc(this.x + this.w/2, this.y + this.h/2, 5, 0, Math.PI*2, true);
-		ctx.fill();
-		ctx.closePath();*/
-
-		// Show player radius
-		for(var i = 0, c = ProjectileConf[this.weapon].colors.length; i < c; i++) {
-			ctx.strokeStyle = ProjectileConf[this.weapon].colors[i];
-			ctx.beginPath();
-			ctx.arc(this.x + this.w/2, this.y + this.h/2, GameConf.player.RADIUS - (5 * i), 0, Math.PI*2, true);
-			ctx.stroke();
-			ctx.closePath();
-		}
+		this.renderAura();
 
 		IM.drawImage(ctx, this.sprite, this.x, this.y);
-		
-		// DEBUG : Show player rectangle
-		// ctx.strokeStyle = 'lime';
-		// ctx.lineWidth = 2;
-		// ctx.strokeRect(this.x, this.y, this.w, this.h);
-
-		/*ctx.shadowColor = '';
-		ctx.shadowBlur = 0;*/
 
 	};
+
+	// Show player aura
+	this.renderAura = function() {
+		var aura = ProjectileConf[this.weapon].aura;
+		ctx.globalAlpha = 0.4;
+		ctx.save();
+		ctx.translate(this.x + this.w/2, this.y + this.h/2);
+		ctx.rotate(this.auraRotation);
+		IM.drawImage(ctx, 
+			this.parentObj.sprites[aura], 
+			- this.parentObj.sprites[aura].width/2, 
+			- this.parentObj.sprites[aura].height/2);
+		ctx.restore();
+		ctx.globalAlpha = 1;
+	}
 
 	/**
 	 * Affiche les éléments de HUD du joueur
