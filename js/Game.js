@@ -147,13 +147,13 @@ function Game()
 		this.heart.animate();
 
 		if (this.player.shot != false ) {
-	 		if (interval(this.player.shot, ProjectileConf[this.player.projectileType].interval)) {
-				// Ecouteur pour créer un tir ?
+	 		if (interval(this.player.shot, ProjectileConf[this.player.weapon].interval) === true) {
+				// Ecouteur pour créer un tir 
 				this.listenProjectiles();
 			}
 		}
 		else {
-			// Ecouteur pour créer un tir ?
+			// Ecouteur pour créer un tir 
 			this.listenProjectiles();
 		}
 		// On anime les projectiles
@@ -283,7 +283,7 @@ function Game()
 		this.shadow.y = (this.player.y + this.player.h/2) - this.shadow.sprite.height/2;
 
 
-		if(this.bossMode === false) {
+		if(this.MEnemy.vanishMode === true) {
 			// Si on passe en bossMode, activer cette ligne :
 			this.shadow.alpha = (this.shadow.alpha > 0) ? this.shadow.alpha - .02 : 0;
 		} else if(this.bossMode === undefined) {

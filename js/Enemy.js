@@ -363,16 +363,16 @@ function Enemy(parentObj)
 			// Définis une nouvelle cible de déplacement
 			var target = {};
 			switch(iSpawn) {
-				case 0 : spawn = {x: (-GameConf.arena.SPAWN_PADDING/2)*iPaddingSpawn, y:HEIGHT/2};
+				case 0 : spawn = {x: (-GameConf.arena.SPAWN_PADDING)*iPaddingSpawn, y:HEIGHT/2};
 						target = {x: (WIDTH/2) + 45/2, y: (HEIGHT / 2)-45};
 				break;
-				case 1 : spawn = {x: WIDTH/2 - 45, y:(-GameConf.arena.SPAWN_PADDING/2)*iPaddingSpawn - 200};
+				case 1 : spawn = {x: WIDTH/2 - 45, y:(-GameConf.arena.SPAWN_PADDING)*iPaddingSpawn - 200};
 						target = {x: (WIDTH/2) - (45*2), y: (HEIGHT / 2)};
 				break;
-				case 2 : spawn = {x: WIDTH + (GameConf.arena.SPAWN_PADDING/2)*iPaddingSpawn, y:HEIGHT/2 - 45};
+				case 2 : spawn = {x: WIDTH + (GameConf.arena.SPAWN_PADDING)*iPaddingSpawn, y:HEIGHT/2 - 45};
 						target = {x: (WIDTH/2) - (45*2), y: (HEIGHT / 2) - 45};
 				break;
-				case 3 : spawn = {x: WIDTH/2, y:HEIGHT + (GameConf.arena.SPAWN_PADDING/2)*iPaddingSpawn + 200};
+				case 3 : spawn = {x: WIDTH/2, y:HEIGHT + (GameConf.arena.SPAWN_PADDING)*iPaddingSpawn + 200};
 						target = {x: (WIDTH/2) - (45*2), y: (HEIGHT / 2)-(45*3)};
 				break;
 			}
@@ -383,7 +383,7 @@ function Enemy(parentObj)
 			var enemy = this.add(spawn);
 			// Modifie leur cible
 			enemy.target = target;
-			enemy.speed = GameConf.enemies['img/ennemi_vert'].speed * 6;
+			enemy.speed = GameConf.enemies['img/ennemi_vert'].speed * 4;
 
 			iSpawn++;
 		}

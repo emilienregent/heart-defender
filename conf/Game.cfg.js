@@ -7,8 +7,8 @@ var GameConf =
 	arena : {
 		SPAWN_PADDING : 50,	/*Coefficient pour décaler le point de spawn des murs*/	
 		SPAWN_TIME : 3,	/*Délai de génération des éléments de l'arène*/
-		INTERVAL_MIN : 1, /*Délai minimum de génération de base pour les ennemis*/
-		INTERVAL_MAX : 3, /*Délai maximum de génération de base pour les ennemis*/
+		INTERVAL_MIN : .5, /*Délai minimum de génération de base pour les ennemis*/
+		INTERVAL_MAX : 2, /*Délai maximum de génération de base pour les ennemis*/
 	},
 	player : {
 		LIFE : 3,			/*Points de vie du joueur en début de partie*/
@@ -32,7 +32,7 @@ var GameConf =
 			},
 			width : 45,
 			height : 41,
-			speed : 1,
+			speed : 1.5,
 			SCORE_BASE : 20
 		},
 		'img/ennemi_marron' : {
@@ -45,7 +45,7 @@ var GameConf =
 			},
 			width : 47,
 			height : 52,
-			speed : 0.5,
+			speed : 1,
 			SCORE_BASE : 10
 		},
 		'img/boss_projectile' : {
@@ -57,7 +57,7 @@ var GameConf =
 			},
 			width : 64,
 			height : 64,
-			speed : 0.5,
+			speed : 1,
 			SCORE_BASE : 10
 		}
 	},
@@ -123,6 +123,6 @@ var GameConf =
 			interval : 5
 		}
 	},
-	DIFFICULTY_COEF : 5, // Coefficient pour calculer les courbes de difficultés
-	DIFFICULTY_COEF_MIN : 5
+	DIFFICULTY_COEF : 10, // Coefficient pour calculer les courbes de difficultés
+	DIFFICULTY_COEF_MIN : 10
 }
