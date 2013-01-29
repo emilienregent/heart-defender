@@ -9,7 +9,7 @@ function Player(parentObj)
 	this.y = 300 - (64/2);
 	this.w = 48;
 	this.h = 64;
-	this.speed = 80;
+	this.speed = 100;
 	this.projectileType = 'explosion'; // ('fleche', ...)
 	this.parentObj = parentObj;
 	this.life = GameConf.player.LIFE;
@@ -103,12 +103,15 @@ function Player(parentObj)
 		ctx.fill();
 		ctx.closePath();*/
 
-		// Debug : Show player radius 
-		// ctx.strokeStyle = "#FFF";
-		// ctx.beginPath();
-		// ctx.arc(this.x + this.w/2, this.y + this.h/2, GameConf.player.RADIUS, 0, Math.PI*2, true);
-		// ctx.stroke();
-		// ctx.closePath();
+		// Show player radius
+		for(var i = 0, c = ProjectileConf[this.weapon].colors.length; i < c; i++) {
+			ctx.strokeStyle = ProjectileConf[this.weapon].colors[i];
+			ctx.beginPath();
+			ctx.arc(this.x + this.w/2, this.y + this.h/2, GameConf.player.RADIUS - (5 * i), 0, Math.PI*2, true);
+			ctx.stroke();
+			ctx.closePath();
+		}
+
 		IM.drawImage(ctx, this.sprite, this.x, this.y);
 		
 		// DEBUG : Show player rectangle
@@ -140,7 +143,7 @@ function Player(parentObj)
 	 * Test si l'ennemi doit être visible ou non
 	 **/
 	this.isVisible = function(e) {
-		if(game.bossMode !== undefined) {
+		if(this.parentObj.bossMode !== undefined || this.parentObj.MEnemy.vanishMode === true) {
 			return true;
 		}
 		return distance(e, this) <= GameConf.player.RADIUS;
