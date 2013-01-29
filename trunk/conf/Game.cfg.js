@@ -7,8 +7,8 @@ var GameConf =
 	arena : {
 		SPAWN_PADDING : 50,	/*Coefficient pour décaler le point de spawn des murs*/	
 		SPAWN_TIME : 3,	/*Délai de génération des éléments de l'arène*/
-		INTERVAL_MIN : .5, /*Délai minimum de génération de base pour les ennemis*/
-		INTERVAL_MAX : 2, /*Délai maximum de génération de base pour les ennemis*/
+		INTERVAL_MIN : 1, /*Délai minimum de génération de base pour les ennemis*/
+		INTERVAL_MAX : 3, /*Délai maximum de génération de base pour les ennemis*/
 	},
 	player : {
 		LIFE : 3,			/*Points de vie du joueur en début de partie*/
@@ -17,7 +17,7 @@ var GameConf =
 	},
 	boss : {
 		LIFE : 10, /*Points de vie du boss (correspond aux nb de fois qu'il peut être touché avt de crever)*/
-		SPAWN : 4,
+		SPAWN : 2,
 		SPAWN_MIN : 4,
 		SCORE_BASE : 250
 	},
