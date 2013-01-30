@@ -82,6 +82,7 @@ function Game()
 		};
 		// On stocke une instance unique de la cible dans le tableau qui référence toutes les instances de sprites du jeu
 		this.sprites['img/target'] = IM.getInstance('img/target');
+		this.sprites['img/aura'] = IM.getInstance('img/aura');
 		this.cible.sprite = this.sprites['img/target'];
 		this.cible.sprite.animation = new IIG.Animation({
 			sWidth : 48,
@@ -305,6 +306,14 @@ function Game()
 
 		ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
+		if (this.bossMode !== true) {
+			// On affiche la shadow box
+			this.renderShadow();
+		}
+
+		// Dessine tous les autres éléments en dessous du canvas actuel
+		ctx.globalCompositeOperation = 'destination-over';
+
 		// On affiche le coeur
 		this.heart.render();
 		// On affiche les bonus
@@ -323,10 +332,9 @@ function Game()
 		// On affiche les taches
 		this.MTache.render();
 
-		if (this.bossMode !== true) {
-			// On affiche la shadow box
-			this.renderShadow();
-		}
+		// Dessine tous les autres éléments au dessus du canvas actuel
+		ctx.globalCompositeOperation = "source-over";
+
 
 		// On affiche les messages
 		this.MMessage.render();
@@ -350,27 +358,31 @@ function Game()
 	};
 
 	this.renderShadow = function() {
-
 		ctx.globalAlpha = this.shadow.alpha;
-		// ctx.drawImage(this.shadow.sprite.data, this.shadow.x, this.shadow.y);
-		drawRect(ctx,'rgba(0,0,0,.90)',0,0,WIDTH,HEIGHT);
-		ctx.save();
-		// ctx.arc(this.player.x + this.player.w/2, this.player.y + this.player.h/2, 0, 0 , 2 * Math.PI, false);
-		if (this.heart.alive && distance(this.player,this.heart) > GameConf.player.RADIUS ) {
-			ctx.arc(this.heart.x + this.heart.w/2, this.heart.y + this.heart.h/2, 70, 0 , 2 * Math.PI, false);
-		}
-		else {
-			// ctx.arc(this.heart.x + this.heart.w/2, this.heart.y + this.heart.h/2, 70 , 0 , 2 * Math.PI, false);
-		}
-		ctx.clip();
-		ctx.clearRect(0,0,WIDTH,HEIGHT);
-		ctx.restore();
-
+		drawRect(ctx,'rgba(0,0,0,.9)',0,0,WIDTH,HEIGHT);
 		ctx.globalAlpha = 1;
 
-		this.heart.render();
-		this.player.render();
+		this.renderAura(this.player);
 	};
+
+	this.renderAura = function() {
+		ctx.globalCompositeOperation = "destination-out";
+		// Player
+		ctx.drawImage(
+			this.sprites['img/aura'].data, 
+			this.player.x - this.sprites['img/aura'].width/2 + this.player.w/2, 
+			this.player.y - this.sprites['img/aura'].height/2 + this.player.h/2);
+
+		// Heart
+		if (this.heart.alive && collide(this.player,this.heart) === false) {
+			ctx.drawImage(
+			this.sprites['img/aura'].data, 
+			this.heart.x - this.sprites['img/aura'].width/2 + this.heart.w/2, 
+			this.heart.y - this.sprites['img/aura'].height/2 + this.heart.h/2);
+		}
+
+		ctx.globalCompositeOperation = "source-over";
+	}
 
 	/**
 	 * LOOP update

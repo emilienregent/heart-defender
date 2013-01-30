@@ -17,8 +17,8 @@ var GameConf =
 	},
 	boss : {
 		LIFE : 10, /*Points de vie du boss (correspond aux nb de fois qu'il peut être touché avt de crever)*/
-		SPAWN : 2,
-		SPAWN_MIN : 4,
+		SPAWN : 5,
+		SPAWN_MIN : 5,
 		SCORE_BASE : 250
 	},
 	enemies : {
