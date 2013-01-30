@@ -352,10 +352,24 @@ function Game()
 	this.renderShadow = function() {
 
 		ctx.globalAlpha = this.shadow.alpha;
-		ctx.drawImage(this.shadow.sprite.data, this.shadow.x, this.shadow.y);
+		// ctx.drawImage(this.shadow.sprite.data, this.shadow.x, this.shadow.y);
+		drawRect(ctx,'rgba(0,0,0,.90)',0,0,WIDTH,HEIGHT);
+		ctx.save();
+		// ctx.arc(this.player.x + this.player.w/2, this.player.y + this.player.h/2, 0, 0 , 2 * Math.PI, false);
+		if (this.heart.alive && distance(this.player,this.heart) > GameConf.player.RADIUS ) {
+			ctx.arc(this.heart.x + this.heart.w/2, this.heart.y + this.heart.h/2, 70, 0 , 2 * Math.PI, false);
+		}
+		else {
+			// ctx.arc(this.heart.x + this.heart.w/2, this.heart.y + this.heart.h/2, 70 , 0 , 2 * Math.PI, false);
+		}
+		ctx.clip();
+		ctx.clearRect(0,0,WIDTH,HEIGHT);
+		ctx.restore();
 
 		ctx.globalAlpha = 1;
 
+		this.heart.render();
+		this.player.render();
 	};
 
 	/**

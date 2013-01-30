@@ -90,7 +90,7 @@ var GameConf =
 							'<a id="button_retry" href="#" onclick="restartGame(); return false;"></a>'
 	},
 	heart : {
-		SPAWN_TIME : 10, /*Délai de génération du bonus*/
+		SPAWN_TIME : 1, /*Délai de génération du bonus*/
 		MAX : 1, /*Nombre maximum de bonus*/
 		WIDTH : 48, /*Largeur du bonus*/
 		HEIGHT : 48, /*Hauteur du bonus*/
